@@ -1,0 +1,11 @@
+<svg id="Icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="8" height="8" viewBox="0 0 8 8">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="_Icon_Color" data-name="🎨 Icon Color" d="M6.039.429A1.111,1.111,0,0,1,7.556.2,1.025,1.025,0,0,1,7.79,1.668L4.431,6.1a1,1,0,0,1-1.493.115L.317,3.677a1.023,1.023,0,0,1,0-1.483,1.113,1.113,0,0,1,1.535,0L3.5,3.785Z" transform="translate(0 0)" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <rect id="_5_Checkbox_5_Icon_Setup_Checkmark_background" data-name=" 5) Checkbox/5) Icon [Setup]/Checkmark background" width="8" height="8" fill="none"/>
+  <g id="Group_1" data-name="Group 1" transform="translate(0 1)">
+    <path id="_Icon_Color-2" data-name="🎨 Icon Color" d="M6.039.429A1.111,1.111,0,0,1,7.556.2,1.025,1.025,0,0,1,7.79,1.668L4.431,6.1a1,1,0,0,1-1.493.115L.317,3.677a1.023,1.023,0,0,1,0-1.483,1.113,1.113,0,0,1,1.535,0L3.5,3.785Z" transform="translate(0 0)" fill="#fff"/>
+  </g>
+</svg>
