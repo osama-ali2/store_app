@@ -5,6 +5,7 @@ import 'package:yagot_app/models/purchase.dart';
 import 'package:yagot_app/screens/purchases/order_tracking.dart';
 import 'package:yagot_app/screens/shared/app_button.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OrderDetails extends StatelessWidget {
   final Purchase purchase;
@@ -70,7 +71,7 @@ class OrderDetails extends StatelessWidget {
                     getTranslated(context, "payment_details"),
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                     ),
                   ),
                   Row(
@@ -112,13 +113,13 @@ class OrderDetails extends StatelessWidget {
                     getTranslated(context, "shipping_details"),
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                     ),
                   ),
                   Text(
                     "شركة ألماس للشحن السريع",
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 12.sp,
                     ),
                   ),
                 ],
@@ -152,14 +153,14 @@ class OrderDetails extends StatelessWidget {
                     getTranslated(context, "delivery_address"),
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                     ),
                   ),
                   Text(
                     "مجمود قمر",
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
-                      fontSize: 12,
+                      fontSize: 12.sp
                     ),
                   ),
                   Text("جدة، حي السلام، شارع الرحمة، منزل رقم 20"),

@@ -7,7 +7,7 @@ import 'package:yagot_app/models/product/product.dart';
 import 'package:yagot_app/screens/conversations/single_conversation.dart';
 import 'package:yagot_app/utilities/custom_icons.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ConversationsScreen extends StatefulWidget {
   @override
@@ -178,7 +178,7 @@ class _ConversationsScreenState extends State<ConversationsScreen>
                     Text(
                       "محمد أحمد ",
                       style: TextStyle(
-                        fontSize: 12.ssp,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w100,
 
                       ),
@@ -186,7 +186,7 @@ class _ConversationsScreenState extends State<ConversationsScreen>
                     Text(
                       '22/01/2019',
                       style: TextStyle(
-                          fontSize: 8.ssp,
+                          fontSize: 8.sp,
                           fontWeight: FontWeight.w100,
 
                           color: grey2),
@@ -201,7 +201,7 @@ class _ConversationsScreenState extends State<ConversationsScreen>
                     // (conversation.isOpened)
                     //     ? Color(0xFF595B67)
                     //     : Color(0xFF00041D),
-                    fontSize: 12.ssp,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w100,
                     // (conversation.isOpened)
                     //     ? FontWeight.w100
@@ -224,7 +224,7 @@ class _ConversationsScreenState extends State<ConversationsScreen>
                   "2",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 12.ssp,
+                    fontSize: 12.sp,
                   ),
                 ),
               ),
@@ -248,7 +248,7 @@ class _ConversationsScreenState extends State<ConversationsScreen>
           Text(
             getTranslated(context, "no_conversations_currently"),
             style: TextStyle(
-                fontSize: 16.ssp,
+                fontSize: 16.sp,
 
                 fontWeight: FontWeight.w600,
                 color: accent),

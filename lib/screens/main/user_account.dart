@@ -8,16 +8,17 @@ import 'package:yagot_app/screens/others/edit_profile.dart';
 import 'package:yagot_app/screens/others/info_page.dart';
 import 'package:yagot_app/screens/purchases/purchases.dart';
 import 'package:yagot_app/screens/shipping_address/addresses.dart';
-import 'package:yagot_app/screens/sign_login/login.dart';
+import 'package:yagot_app/screens/auth/login.dart';
 import 'package:yagot_app/screens/user_ads/empty.dart';
 import 'package:yagot_app/screens/user_ads/user_ads.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
 import 'package:provider/provider.dart';
 import 'package:yagot_app/providers/general_provider.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/providers/language_provider.dart';
+
 class UserAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class UserAccount extends StatelessWidget {
                 SliverList(
                   delegate: SliverChildListDelegate(
                     [
-                      if (provider.isLogin) _buildAuthOptions(context),
+                      // if (provider.isLogin) _buildAuthOptions(context),
                       _optionCard(
                           context, "assets/icons/global.svg", "language", null),
                       _optionCard(
@@ -41,8 +42,9 @@ class UserAccount extends StatelessWidget {
                           "assets/icons/information.svg",
                           "about_app",
                           InfoPage(
-                              title: "about_app",
-                              information: "FakeProvider.getLongString()")),
+                              info: (provider.settingsModel != null)
+                                  ? provider.settingsModel.aboutUs
+                                  : null)),
                       _optionCard(context, "assets/icons/phone_call.svg",
                           "call_us", EditProfile()),
                       _optionCard(
@@ -50,8 +52,9 @@ class UserAccount extends StatelessWidget {
                           "assets/icons/shield.svg",
                           "privacy_policy",
                           InfoPage(
-                              title: "privacy_policy",
-                              information: "FakeProvider.getLongString()")),
+                              info: (provider.settingsModel != null)
+                                  ? provider.settingsModel.policyPrivacy
+                                  : null)),
                       SizedBox(height: 50.h),
                       _optionCard(
                         context,
@@ -93,7 +96,7 @@ class UserAccount extends StatelessWidget {
         getTranslated(context, "my_account"),
         style: TextStyle(
           color: white,
-          fontSize: 18.ssp,
+          fontSize: 18.sp,
           fontFamily: "NeoSansArabic",
           fontWeight: FontWeight.bold,
         ),
@@ -188,8 +191,10 @@ class UserAccount extends StatelessWidget {
       child: ClipOval(
         child: FadeInImage.assetNetwork(
           placeholder: 'assets/images/place_holder.png',
-          image: 'imageUrl',
+          image: 'http/www.google.com',
           fit: BoxFit.cover,
+          imageErrorBuilder: (context, error, stackTrace) =>
+              Image.asset('assets/images/place_holder.png'),
         ),
       ),
     );
@@ -314,7 +319,8 @@ class _LangDialogState extends State<LangDialog> {
                     String langCode = languages.firstWhere((language) {
                       return language.id == _selectedLangId;
                     }).code;
-                    Provider.of<LanguageProvider>(context , listen: false).setLanguageCode(langCode);
+                    Provider.of<LanguageProvider>(context, listen: false)
+                        .setLanguageCode(langCode);
                     Navigator.pop(context);
                   },
                   child: Text(getTranslated(context, "yes")),
@@ -323,7 +329,8 @@ class _LangDialogState extends State<LangDialog> {
                 FlatButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    SharedPreferences.getInstance().then((value) => print(value.getString('language')));
+                    SharedPreferences.getInstance()
+                        .then((value) => print(value.getString('language')));
                   },
                   child: Text(getTranslated(context, "cancel")),
                   color: white,

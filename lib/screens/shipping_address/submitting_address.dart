@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yagot_app/lang/app_locale.dart';
+import 'package:yagot_app/utilities/helper_functions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SubmittingAddress extends StatefulWidget {
   @override
@@ -21,7 +22,7 @@ class _SubmittingAddressState extends State<SubmittingAddress> {
     return AppBar(
       backgroundColor: Colors.white,
       title:
-          Text(AppLocalization.of(context).getTranslated("add_new_address")),
+          Text(getTranslated(context,"add_new_address")),
       centerTitle: true,
       leading: IconButton(
         onPressed: () {
@@ -45,11 +46,10 @@ class _SubmittingAddressState extends State<SubmittingAddress> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            AppLocalization.of(context)
-                .getTranslated("determine_location_on_map"),
+            getTranslated(context,"determine_location_on_map"),
             style: TextStyle(
                 color: Color(0xFF00041D),
-                fontSize: 12,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.normal),
           ),
           SizedBox(height: 24),
@@ -63,7 +63,7 @@ class _SubmittingAddressState extends State<SubmittingAddress> {
                 Text(
                   "شارع الرحمة-حي السلام\nجدة",
                   style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 12.sp,
                       color: Color(0xFF00041D),
                       fontWeight: FontWeight.normal,
                       height: 2.5),
@@ -90,10 +90,10 @@ class _SubmittingAddressState extends State<SubmittingAddress> {
                           bottomLeft: Radius.circular(6)),
                     ),
                     child: Text(
-                      AppLocalization.of(context).getTranslated("edit"),
+                      getTranslated(context,"edit"),
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 12,
+                        fontSize: 12.sp,
                       ),
                     ),
                   ),
@@ -109,7 +109,7 @@ class _SubmittingAddressState extends State<SubmittingAddress> {
           ),
           SizedBox(height: 30),
           Text(
-            AppLocalization.of(context).getTranslated("choose_address"),
+            getTranslated(context,"choose_address"),
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Color(0xFF00041D),
@@ -117,10 +117,10 @@ class _SubmittingAddressState extends State<SubmittingAddress> {
           ),
           SizedBox(height: 30),
           Text(
-            AppLocalization.of(context).getTranslated("block"),
+            getTranslated(context,"block"),
             style: TextStyle(
                 color: Color(0xFF10131D),
-                fontSize: 12,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.normal),
           ),
           SizedBox(height: 16),
@@ -132,15 +132,15 @@ class _SubmittingAddressState extends State<SubmittingAddress> {
                     color: Color(0xFF00041D).withOpacity(.16),
                     width: 1,
                   ),),
-              hintText: AppLocalization.of(context).getTranslated("block"),
+              hintText: getTranslated(context,"block"),
             ),
           ),
           SizedBox(height: 26),
           Text(
-            AppLocalization.of(context).getTranslated("street"),
+            getTranslated(context,"street"),
             style: TextStyle(
                 color: Color(0xFF10131D),
-                fontSize: 12,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.normal),
           ),
           SizedBox(height: 16),
@@ -152,15 +152,15 @@ class _SubmittingAddressState extends State<SubmittingAddress> {
                   color: Color(0xFF00041D).withOpacity(.16),
                   width: 1,
                 ),),
-              hintText: AppLocalization.of(context).getTranslated("street"),
+              hintText: getTranslated(context,"street"),
             ),
           ),
           SizedBox(height: 26),
           Text(
-            AppLocalization.of(context).getTranslated("home_number_office"),
+            getTranslated(context,"home_number_office"),
             style: TextStyle(
                 color: Color(0xFF10131D),
-                fontSize: 12,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.normal),
           ),
           SizedBox(height: 16),
@@ -182,7 +182,7 @@ class _SubmittingAddressState extends State<SubmittingAddress> {
             child: RaisedButton(
               onPressed: () {},
               child: Text(
-                AppLocalization.of(context).getTranslated("save_address"),
+                getTranslated(context,"save_address"),
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,

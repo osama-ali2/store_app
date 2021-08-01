@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yagot_app/constants/constants.dart';
 import 'package:yagot_app/models/home/category_model.dart';
-import 'package:yagot_app/models/home/home_section_model.dart';
+import 'package:yagot_app/models/home/home_part_model.dart';
 import 'package:yagot_app/models/home/slider_model.dart';
 import 'package:yagot_app/models/product/product.dart';
 import 'package:yagot_app/models/LoginRegister/login_details_model.dart';
@@ -14,13 +14,13 @@ import 'package:yagot_app/models/settings/settings_model.dart';
 class GeneralProvider extends ChangeNotifier {
   List<SliderModel> _banners = [];
 
-  HomeSectionModel _homeCategories;
+  HomePartModel _homeCategories;
 
   List<ProductDetails> _categoryProducts;
 
-  List<HomeSectionModel> _homeSections;
+  List<HomePartModel> _homeSections;
 
-  List<HomeSectionModel> _homeProducts = [];
+  List<HomePartModel> _homeProducts = [];
 
   List<CategoryModel> _categories = [];
   ProductModel _product;
@@ -37,13 +37,13 @@ class GeneralProvider extends ChangeNotifier {
 
   List<SliderModel> get banners => _banners;
 
-  HomeSectionModel get homeCategories => _homeCategories;
+  HomePartModel get homeCategories => _homeCategories;
 
   List<ProductDetails> get categoryProducts => _categoryProducts;
 
-  List<HomeSectionModel> get homeSections => _homeSections;
+  List<HomePartModel> get homeSections => _homeSections;
 
-  List<HomeSectionModel> get homeProducts => _homeProducts;
+  List<HomePartModel> get homeProducts => _homeProducts;
 
   List<CategoryModel> get categories => _categories;
 
@@ -175,7 +175,6 @@ class GeneralProvider extends ChangeNotifier {
   }
   clearCategoryProducts() {
     _categoryProducts = null;
-    notifyListeners();
   }
 
   clear() {

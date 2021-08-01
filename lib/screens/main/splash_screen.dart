@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_screenutil/size_extension.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
@@ -26,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   popSplash() {
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return  MainPages();
+      return MainPages();
     }));
   }
 
@@ -43,25 +42,19 @@ class _SplashScreenState extends State<SplashScreen> {
           ],
         ),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+      child: Stack(
         children: [
-          SvgPicture.asset(
-            "assets/icons/full_logo.svg",
-            color: white,
-            height: 120.h,
+          Center(
+            child: SvgPicture.asset(
+              "assets/icons/full_logo.svg",
+              color: white,
+              height: 120.h,
+            ),
           ),
-          SizedBox(
-            height: 110.h,
-          ),
-          Container(
-            height: 240.h,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                image: const DecorationImage(
-              image: ExactAssetImage("assets/images/splash_.png"),
-              fit: BoxFit.fill,
-            )),
+          Positioned(
+            right: 0,
+            bottom: -250.h,
+            child: SvgPicture.asset('assets/icons/logo_splash.svg',),
           ),
         ],
       ),

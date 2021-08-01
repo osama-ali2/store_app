@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:yagot_app/lang/app_locale.dart';
+import 'package:yagot_app/models/settings/InformationModel.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
 
 class InfoPage extends StatelessWidget {
+  final InformationModel info;
 
-  final String title , information ;
-  InfoPage({@required this.title, @required this.information});
+  InfoPage({@required this.info});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text(
-            getTranslated(context , title)
-        ),
+        title: Text((info != null) ? info.title : ''),
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
@@ -26,7 +27,9 @@ class InfoPage extends StatelessWidget {
           ),
         ),
       ),
-      body: _bodyContent(context),
+      body: (info != null)
+          ? _bodyContent(context)
+          : Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -35,9 +38,10 @@ class InfoPage extends StatelessWidget {
       behavior: NoneGlowScrollBehavior(),
       child: SingleChildScrollView(
         padding: EdgeInsets.all(30),
-        child: Text(information ,softWrap: true,style: Theme.of(context).textTheme.headline3,),
+        child: Html(
+          data: info.details ?? '',
+        ),
       ),
     );
   }
-
 }

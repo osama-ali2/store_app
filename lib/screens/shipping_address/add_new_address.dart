@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:search_map_place/search_map_place.dart';
-import 'package:yagot_app/lang/app_locale.dart';
 import 'package:yagot_app/utilities/custom_icons.dart';
+import 'package:yagot_app/utilities/helper_functions.dart';
 
 class AddNewAddress extends StatefulWidget {
   @override
@@ -61,8 +61,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
               SearchMapPlaceWidget(
                 hasClearButton: true,
                 placeType: PlaceType.address,
-                placeholder: AppLocalization.of(context)
-                    .getTranslated("look_for_your_location"),
+                placeholder: getTranslated(context,"look_for_your_location"),
                 icon: CustomIcons.search,
                 iconColor: Color(0xFF00041D),
                 apiKey: 'AIzaSyBUILBxCa5yyQZawAAOpD6HII48R3haimM',
@@ -120,8 +119,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                 child: RaisedButton(
                   onPressed: () {},
                   child: Text(
-                    AppLocalization.of(context)
-                        .getTranslated("submit_address"),
+                    getTranslated(context,"submit_address"),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -145,7 +143,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
     return AppBar(
       backgroundColor: Colors.white,
       title: Text(
-          AppLocalization.of(context).getTranslated("add_new_address")),
+          getTranslated(context,"add_new_address")),
       centerTitle: true,
       leading: IconButton(
         onPressed: () {

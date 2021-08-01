@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yagot_app/screens/add_product/using_policy.dart';
-import 'package:yagot_app/screens/sign_login/login.dart';
-import 'package:yagot_app/screens/sign_login/register.dart';
+import 'package:yagot_app/screens/auth/login.dart';
+import 'package:yagot_app/screens/auth/register.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Unregistered extends StatelessWidget {
   final Pages page;
@@ -52,7 +53,7 @@ class Unregistered extends StatelessWidget {
         Text(
           getTranslated(context, "you_are_not_registered"),
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 16.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -64,7 +65,7 @@ class Unregistered extends StatelessWidget {
                   ? "register_to_add_new_product"
                   : "register_to_see_notifications"),
           style: TextStyle(
-            fontSize: 12,
+            fontSize: 12.sp,
             fontWeight: FontWeight.normal,
           ),
         ),
@@ -130,7 +131,7 @@ class Unregistered extends StatelessWidget {
       child: Text(
         getTranslated(context, "create_new_account"),
         style: TextStyle(
-          fontSize: 14,
+          fontSize: 14.sp,
           fontWeight: FontWeight.bold,
         ),
         textAlign: TextAlign.center,
@@ -160,7 +161,7 @@ class Unregistered extends StatelessWidget {
           Text(
             getTranslated(context, "are_you"),
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 18.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -202,7 +203,7 @@ class Unregistered extends StatelessWidget {
                       Text(
                         getTranslated(context, "hobbyist"),
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -244,7 +245,7 @@ class Unregistered extends StatelessWidget {
                       Text(
                         getTranslated(context, "company"),
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF595B67),
                         ),

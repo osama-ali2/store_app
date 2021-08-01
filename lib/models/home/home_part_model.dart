@@ -3,7 +3,7 @@ import 'package:yagot_app/models/product/product.dart';
 import 'package:yagot_app/models/product/product_details.dart';
 import 'package:yagot_app/models/home/category_model.dart';
 
-class HomeSectionModel {
+class HomePartModel {
   int type;
 
   int id;
@@ -16,7 +16,7 @@ class HomeSectionModel {
 
   List<ProductDetails> products;
 
-  HomeSectionModel(
+  HomePartModel(
       {this.type,
       this.id,
       this.title,
@@ -24,7 +24,7 @@ class HomeSectionModel {
       this.category,
       this.products});
 
-  HomeSectionModel.fromJson(Map<String, dynamic> json) {
+  HomePartModel.fromJson(Map<String, dynamic> json) {
     this.type = json["type"];
     this.id = json["id"];
     this.title = json["title"];

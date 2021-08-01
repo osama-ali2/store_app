@@ -7,7 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/lang/app_locale.dart';
 import 'package:yagot_app/models/conversation.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yagot_app/screens/shipping_address/shipping_screen.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 
@@ -104,7 +104,7 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
                     'Owner name',
                     style: TextStyle(
                         color: accent,
-                        fontSize: 12.ssp,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.normal),
                   )
                 ],
@@ -139,7 +139,7 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
                   getTranslated(context, "buy"),
                   style: TextStyle(
                       color: white,
-                      fontSize: 12.ssp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.normal),
                 ),
                 shape: RoundedRectangleBorder(
@@ -204,7 +204,7 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
                   textAlign: TextAlign.end,
                   style: TextStyle(
                       color: accent,
-                      fontSize: 12.ssp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.normal),
                 ),
               ),
@@ -213,7 +213,7 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
                 '03:30 PM',
                 style: TextStyle(
                     color: accent,
-                    fontSize: 10.ssp,
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.normal),
               ),
               SizedBox(height: 16.h),
@@ -249,7 +249,7 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
                   textAlign: TextAlign.end,
                   style: TextStyle(
                       color: accent,
-                      fontSize: 12.ssp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.normal),
                 ),
               ),
@@ -258,7 +258,7 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
                 '03:30 PM',
                 style: TextStyle(
                     color: accent,
-                    fontSize: 10.ssp,
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.normal),
               ),
               SizedBox(height: 16.h),
@@ -292,7 +292,7 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
             AppLocalization.of(context)
                 .getTranslated("no_conversations_currently"),
             style: TextStyle(
-                fontSize: 16,
+                fontSize: 16.sp,
                 fontFamily: "NeoSansArabic",
                 fontWeight: FontWeight.w600,
                 color: Color(0xFF00041D)),
@@ -323,7 +323,7 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
               child: TextField(
                 style: TextStyle(
                     color: accent,
-                    fontSize: 16.ssp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.normal,
                     height: 1.5),
                 keyboardType: TextInputType.multiline,
@@ -336,7 +336,7 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
                       .getTranslated("send_field_hint"),
                   hintStyle: TextStyle(
                       color: grey1,
-                      fontSize: 12.ssp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.normal),
                   border: InputBorder.none,
                 ),

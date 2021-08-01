@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
+// import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/lang/app_locale.dart';
 import 'package:yagot_app/singleton/AppSP.dart';
@@ -16,9 +16,9 @@ import 'package:yagot_app/singleton/dio.dart' as dio;
 import 'package:yagot_app/providers/language_provider.dart';
 
 //Sentry is for detect and track all the bugs and errors that arrived when it is in live mode and is used by customers
-final sentry = SentryClient(SentryOptions(
-    dsn:
-        "https://d6295b7f79044ec9b02bec955b78889e@o505988.ingest.sentry.io/5595224")); // change dsn with your own
+// final sentry = SentryClient(SentryOptions(
+//     dsn:
+//         "https://d6295b7f79044ec9b02bec955b78889e@o505988.ingest.sentry.io/5595224")); // change dsn with your own
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,7 +57,6 @@ class _YagotAppState extends State<YagotApp> {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return ScreenUtilInit(
-      allowFontScaling: false,
       designSize: Size(375, 812),
       builder: () {
         return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -71,7 +70,8 @@ class _YagotAppState extends State<YagotApp> {
                 theme: ThemeData(
                   fontFamily: "NeoSansArabic",
                   primaryColor: primary,
-                  accentColor: accent,
+                  primaryColorLight: primary,
+                  primaryColorDark: primary,
                   hintColor: blue1.withOpacity(.5),
                   scaffoldBackgroundColor: white,
                   appBarTheme: AppBarTheme(
@@ -120,7 +120,7 @@ class _YagotAppState extends State<YagotApp> {
     return TextTheme(
       headline6: TextStyle(
         color: blue1,
-        fontSize: 18,
+        fontSize: 18.sp,
         fontFamily: "NeoSansArabic",
         fontWeight: FontWeight.w600,
       ),
@@ -133,22 +133,22 @@ class _YagotAppState extends State<YagotApp> {
           color: blue1,
           fontFamily: "NeoSansArabic",
           fontWeight: FontWeight.bold,
-          fontSize: 16.ssp,
+          fontSize: 16.sp,
         ),
         headline2: TextStyle(
           color: grey2,
-          fontSize: 12.ssp,
+          fontSize: 12.sp,
           fontFamily: "NeoSansArabic",
           fontWeight: FontWeight.normal,
         ),
         headline3: TextStyle(
             color: blue1,
-            fontSize: 14.ssp,
+            fontSize: 14.sp,
             fontFamily: "NeoSansArabic",
             fontWeight: FontWeight.normal),
         bodyText1: TextStyle(
             color: grey1,
-            fontSize: 12.ssp,
+            fontSize: 12.sp,
             fontFamily: "NeoSansArabic",
             fontWeight: FontWeight.normal));
   }

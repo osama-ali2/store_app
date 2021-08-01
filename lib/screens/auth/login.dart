@@ -3,9 +3,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yagot_app/constants/colors.dart';
-import 'package:yagot_app/screens/sign_login/register.dart';
+import 'package:yagot_app/screens/auth/register.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:yagot_app/providers/general_provider.dart';
 import 'package:yagot_app/models/LoginRegister/login_details_model.dart';
@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
             color: blue1,
             fontFamily: "NeoSansArabic",
             fontWeight: FontWeight.bold,
-            fontSize: 16.ssp,
+            fontSize: 16.sp,
           ),
         ),
         centerTitle: true,
@@ -134,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
       title,
       style: TextStyle(
           color: blue1,
-          fontSize: 14.ssp,
+          fontSize: 14.sp,
           fontFamily: "NeoSansArabic",
           fontWeight: FontWeight.normal),
     );
@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
       hintText: hint,
       hintStyle: TextStyle(
-          color: grey1, fontSize: 12.ssp, fontWeight: FontWeight.normal),
+          color: grey1, fontSize: 12.sp, fontWeight: FontWeight.normal),
     );
   }
 
@@ -208,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: Text(getTranslated(context, "forget_password"),
           style: TextStyle(
-            fontSize: 12.ssp,
+            fontSize: 12.sp,
           ),
           textAlign: TextAlign.end),
     );

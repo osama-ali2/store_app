@@ -9,7 +9,7 @@ import 'package:yagot_app/screens/shipping_address/edit_address.dart';
 import 'package:yagot_app/screens/shipping_address/shipping_screen.dart';
 import 'package:yagot_app/utilities/custom_icons.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BuyingScreen extends StatelessWidget {
   @override
@@ -163,14 +163,14 @@ class BuyingScreen extends StatelessWidget {
               Text(
                 'Seller name',
                 style: TextStyle(
-                    fontSize: 12.ssp,
+                    fontSize: 12.sp,
                     color: grey5,
                     fontWeight: FontWeight.normal),
               ),
               Text(
                 '160\$',
                 style: TextStyle(
-                    fontSize: 12.ssp,
+                    fontSize: 12.sp,
                     color: blue6,
                     fontWeight: FontWeight.w600),
               )
@@ -212,7 +212,7 @@ class BuyingScreen extends StatelessWidget {
                             getTranslated(context,"shipping_details") +
                         "\n",
                     style: TextStyle(
-                      fontSize: 16.ssp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                       color: accent,
                     ),
@@ -220,7 +220,7 @@ class BuyingScreen extends StatelessWidget {
                       TextSpan(
                         text: "شركة الماس للشحن السريع",
                         style: TextStyle(
-                            fontSize: 12.ssp,
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.normal,
                             color: grey2,
                             height: 3),
@@ -274,7 +274,7 @@ class BuyingScreen extends StatelessWidget {
                             getTranslated(context,"delivery_address") +
                         "\n",
                     style: TextStyle(
-                      fontSize: 16.ssp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                       color: accent,
                     ),
@@ -282,7 +282,7 @@ class BuyingScreen extends StatelessWidget {
                       TextSpan(
                         text: "محمود قمر" + "\n",
                         style: TextStyle(
-                            fontSize: 12.ssp,
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.bold,
                             color: accent,
                             height: 3),
@@ -290,7 +290,7 @@ class BuyingScreen extends StatelessWidget {
                       TextSpan(
                         text: "جدة.حي السلام.شارع الرحمة.منزل رقم 20",
                         style: TextStyle(
-                            fontSize: 12.ssp,
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.normal,
                             color:grey2,
                             height: 3),

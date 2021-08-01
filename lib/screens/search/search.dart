@@ -5,7 +5,7 @@ import 'package:yagot_app/models/product/product.dart';
 import 'package:yagot_app/models/product/product_details.dart';
 import 'package:yagot_app/utilities/custom_icons.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -63,7 +63,7 @@ class _SearchScreenState extends State<SearchScreen> {
             getTranslated(context, "what_product_are_you_search_for"),
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 16.ssp,
+              fontSize: 16.sp,
             ),
           ),
           SizedBox(height: 20.h),
@@ -129,7 +129,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         color: accent,
                         fontFamily: "NeoSansArabic",
                         fontWeight: FontWeight.bold,
-                        fontSize: 14.ssp,
+                        fontSize: 14.sp,
                       ),
                     ),
                     SizedBox(height: 12.h),
@@ -146,7 +146,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     color: grey2,
                     fontFamily: "NeoSansArabic",
                     fontWeight: FontWeight.w500,
-                    fontSize: 14.ssp,
+                    fontSize: 14.sp,
                   ),
                 ),
                 Spacer(flex: 1),
@@ -202,7 +202,7 @@ class _SearchScreenState extends State<SearchScreen> {
             Text(
               getTranslated(context, "no_similar_search_results"),
               style: TextStyle(
-                fontSize: 16.ssp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
               ),
             ),

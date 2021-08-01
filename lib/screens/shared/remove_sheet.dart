@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class RemoveSheet extends StatelessWidget {
   final String title, description;
   final Function onPressedYes ;
@@ -36,7 +36,7 @@ class RemoveSheet extends StatelessWidget {
               style: TextStyle(
                 color: accent,
                 fontWeight: FontWeight.bold,
-                fontSize: 18.ssp,
+                fontSize: 18.sp,
                 decoration: TextDecoration.none,
                 fontFamily: "NeoSansArabic",
               ),
@@ -57,7 +57,7 @@ class RemoveSheet extends StatelessWidget {
               getTranslated(context, description),
               style: TextStyle(
                   color: accent, fontWeight: FontWeight.normal,
-              fontSize: 14,
+              fontSize: 14.sp,
               decoration: TextDecoration.none,
               fontFamily: "NeoSansArabic",
               ),

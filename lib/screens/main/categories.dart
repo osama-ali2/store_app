@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:yagot_app/screens/main/single_section.dart';
 import 'package:yagot_app/utilities/custom_icons.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/providers/general_provider.dart';
 import 'package:provider/provider.dart';
@@ -86,7 +86,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               category.name,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 14.ssp,
+                fontSize: 14.sp,
                 color: white,
                 fontWeight: FontWeight.bold,
               ),

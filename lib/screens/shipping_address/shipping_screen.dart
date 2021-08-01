@@ -1,4 +1,4 @@
-import 'package:circular_check_box/circular_check_box.dart';
+// import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,7 +10,7 @@ import 'package:yagot_app/screens/shared/app_button.dart';
 import 'package:yagot_app/screens/shipping_address/addresses.dart';
 import 'package:yagot_app/utilities/custom_icons.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ShippingScreen extends StatefulWidget {
   @override
@@ -73,7 +73,7 @@ class _ShippingScreenState extends State<ShippingScreen>
             style: TextStyle(
               color: accent,
               fontWeight: FontWeight.w600,
-              fontSize: 16.ssp,
+              fontSize: 16.sp,
             ),
           ),
         ),
@@ -83,7 +83,7 @@ class _ShippingScreenState extends State<ShippingScreen>
           child: TabBar(
             labelStyle: TextStyle(
               color: white,
-              fontSize: 12.ssp,
+              fontSize: 12.sp,
             ),
             controller: _tabController,
             unselectedLabelColor: grey2,
@@ -162,15 +162,15 @@ class _ShippingScreenState extends State<ShippingScreen>
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CircularCheckBox(
-            onChanged: (value) {
-              setState(() {
-                _sPosition = position;
-              });
-            },
-            value: _sPosition == position,
-            activeColor: primary,
-          ),
+          // CircularCheckBox(
+          //   onChanged: (value) {
+          //     setState(() {
+          //       _sPosition = position;
+          //     });
+          //   },
+          //   value: _sPosition == position,
+          //   activeColor: primary,
+          // ),
           Spacer(flex: 1),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -188,7 +188,7 @@ class _ShippingScreenState extends State<ShippingScreen>
                 style: TextStyle(
                   color: grey2,
                   fontWeight: FontWeight.w200,
-                  fontSize: 11.ssp,
+                  fontSize: 11.sp,
                 ),
               ),
             ],
@@ -221,7 +221,7 @@ class _ShippingScreenState extends State<ShippingScreen>
                 style: TextStyle(
                   color: accent,
                   fontWeight: FontWeight.w600,
-                  fontSize: 16.ssp,
+                  fontSize: 16.sp,
                 ),
               ),
             ),

@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yagot_app/screens/buying_product/payment_methods.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Bundles extends StatefulWidget {
   @override
@@ -70,7 +71,7 @@ class _BundlesState extends State<Bundles> {
     return Text(
       getTranslated(context, textKey),
       style: TextStyle(
-        fontSize: 16,
+        fontSize: 16.sp,
         fontWeight: FontWeight.bold,
       ),
     );

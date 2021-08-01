@@ -2,6 +2,7 @@ import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:yagot_app/models/product/product.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserAds extends StatefulWidget {
   @override
@@ -96,7 +97,7 @@ class _UserAdsState extends State<UserAds> with SingleTickerProviderStateMixin {
                       color: Color(0xFF00041D),
                       fontFamily: "NeoSansArabic",
                       fontWeight: FontWeight.bold,
-                      fontSize: 14,
+                      fontSize: 14.sp,
                     ),
                   ),
                   SizedBox(height: 12),
@@ -113,7 +114,7 @@ class _UserAdsState extends State<UserAds> with SingleTickerProviderStateMixin {
                   color: Color(0xFF595B67),
                   fontFamily: "NeoSansArabic",
                   fontWeight: FontWeight.w500,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                 ),
               ),
               Spacer(flex: 1),
@@ -158,7 +159,7 @@ class _UserAdsState extends State<UserAds> with SingleTickerProviderStateMixin {
         controller: _tabController,
         labelStyle: TextStyle(
             color: Colors.white,
-            fontSize: 14,
+            fontSize: 14.sp,
             fontFamily: "NeoSansArabic",
             fontWeight: FontWeight.bold),
         unselectedLabelStyle: Theme.of(context).textTheme.headline3,

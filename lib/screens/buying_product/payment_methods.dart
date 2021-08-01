@@ -6,7 +6,7 @@ import 'package:yagot_app/screens/buying_product/add_credit_card.dart';
 import 'package:yagot_app/screens/buying_product/bank_transfer.dart';
 import 'package:yagot_app/screens/buying_product/pay_cash.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PaymentMethodsScreen extends StatelessWidget {
   @override
@@ -37,7 +37,7 @@ class PaymentMethodsScreen extends StatelessWidget {
               getTranslated(context, "choose_payment_method"),
               style: TextStyle(
                 color: accent,
-                fontSize: 16.ssp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),

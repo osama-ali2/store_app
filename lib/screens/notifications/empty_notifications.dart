@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EmptyNotifications extends StatelessWidget {
   @override
@@ -43,7 +44,7 @@ class EmptyNotifications extends StatelessWidget {
           Text(
             getTranslated(context, "no_notifications_currently"),
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w400,
             ),
           )

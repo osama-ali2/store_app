@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yagot_app/constants/colors.dart';
 
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 class PhoneVerify extends StatefulWidget {
   @override
@@ -76,7 +76,7 @@ class _PhoneVerifyState extends State<PhoneVerify> {
             focusedBorderColor: Colors.black,
             borderRadius: BorderRadius.circular(10),
             showFieldAsBox: true,
-            textStyle: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+            textStyle: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w400),
             decoration: InputDecoration(),
             onCodeChanged: (String code) {
             },
@@ -106,7 +106,7 @@ class _PhoneVerifyState extends State<PhoneVerify> {
                   getTranslated(context,"resend"),
                   style: TextStyle(
                       color: grey1,
-                      fontSize: 12.ssp,
+                      fontSize: 12.sp,
                       fontFamily: "NeoSansArabic",
                       fontWeight: FontWeight.normal),
                 ),

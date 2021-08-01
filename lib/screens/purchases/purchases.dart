@@ -7,6 +7,7 @@ import 'package:yagot_app/screens/add_product/bundles.dart';
 import 'package:yagot_app/screens/purchases/order_details.dart';
 import 'package:yagot_app/screens/shared/app_button.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PurchasesScreen extends StatefulWidget {
   @override
@@ -85,11 +86,11 @@ class UserPurchases extends StatelessWidget {
   Widget _itemCard(BuildContext context, Purchase purchase) {
     TextStyle _lightText = TextStyle(
       fontWeight: FontWeight.normal,
-      fontSize: 10,
+      fontSize: 10.sp,
     );
     TextStyle _boldText = TextStyle(
       fontWeight: FontWeight.w700,
-      fontSize: 12,
+      fontSize: 12.sp,
     );
     return GestureDetector(
       onTap: (){
@@ -136,7 +137,7 @@ class UserPurchases extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: getTranslated(context, "order_number") + ":",
-                        style: _lightText.copyWith(fontSize: 12),
+                        style: _lightText.copyWith(fontSize: 12.sp),
                       ),
                       TextSpan(
                         text: purchase.orderNo,
@@ -178,7 +179,7 @@ class UserPurchases extends StatelessWidget {
         purchase.status.toString(),
         style: TextStyle(
           color: Theme.of(context).primaryColor,
-          fontSize: 10,
+          fontSize: 10.sp,
         ),
       ),
     );
@@ -218,7 +219,7 @@ class UserPurchases extends StatelessWidget {
       child: TabBar(
         labelStyle: TextStyle(
             color: Colors.white,
-            fontSize: 14,
+            fontSize: 14.sp,
             fontFamily: "NeoSansArabic",
             fontWeight: FontWeight.bold),
         unselectedLabelStyle: Theme.of(context).textTheme.headline3,
@@ -253,7 +254,7 @@ class EmptyPurchases extends StatelessWidget {
         Text(
           getTranslated(context, "no_purchases_currently"),
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 16.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -261,7 +262,7 @@ class EmptyPurchases extends StatelessWidget {
         Text(
           getTranslated(context, "you_can_start_shopping"),
           style: TextStyle(
-            fontSize: 12,
+            fontSize: 12.sp,
             fontWeight: FontWeight.normal,
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:yagot_app/screens/add_product/bundles.dart';
 import 'package:yagot_app/screens/shipping_address/edit_address.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddCompany extends StatefulWidget {
   @override
@@ -133,7 +134,7 @@ class _AddCompanyState extends State<AddCompany> {
     return Text(
       getTranslated(context, titleKey),
       style: TextStyle(
-        fontSize: 16,
+        fontSize: 16.sp,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -193,7 +194,7 @@ class _AddCompanyState extends State<AddCompany> {
           Text(
             "شارع الرحمة-حي السلام\nجدة",
             style: TextStyle(
-                fontSize: 12,
+                fontSize: 12.sp,
                 color: Color(0xFF00041D),
                 fontWeight: FontWeight.normal,
                 height: 2.5),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:yagot_app/models/purchase.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OrderTracking extends StatelessWidget {
   final Purchase purchase;
@@ -92,7 +93,7 @@ class OrderTracking extends StatelessWidget {
 
   Widget _productCard(BuildContext context) {
     TextStyle _semiBoldText =
-        TextStyle(fontWeight: FontWeight.w600, fontSize: 12, height: 1.7);
+        TextStyle(fontWeight: FontWeight.w600, fontSize: 12.sp, height: 1.7);
     return Container(
       height: 120,
       decoration: BoxDecoration(
@@ -137,7 +138,7 @@ class OrderTracking extends StatelessWidget {
               ),
               TextSpan(
                   text: purchase.dateTime,
-                  style: _dateStyle.copyWith(fontSize: 10)),
+                  style: _dateStyle.copyWith(fontSize: 10.sp)),
             ],
             style: _semiBoldText,
           )),
@@ -152,8 +153,8 @@ class OrderTracking extends StatelessWidget {
   }
 
   final TextStyle _dateStyle = TextStyle(
-      fontSize: 12, color: Color(0xFF595B67), fontWeight: FontWeight.w100);
-  final TextStyle _titleStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.w600);
+      fontSize: 12.sp, color: Color(0xFF595B67), fontWeight: FontWeight.w100);
+  final TextStyle _titleStyle = TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600);
 
   Widget _statusRow(
       BuildContext context, String iconPath, String titleKey, String date) {

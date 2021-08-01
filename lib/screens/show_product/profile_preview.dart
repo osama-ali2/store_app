@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:yagot_app/lang/app_locale.dart';
+import 'package:yagot_app/models/home/client.dart';
 import 'package:yagot_app/models/product/product.dart';
-import 'package:yagot_app/models/seller.dart';
+import 'package:yagot_app/utilities/helper_functions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfilePreview extends StatefulWidget {
+  final Client client;
+
+  ProfilePreview({@required this.client});
+
   @override
   _ProfilePreviewState createState() => _ProfilePreviewState();
 }
 
 class _ProfilePreviewState extends State<ProfilePreview> {
-  Seller seller = Seller(image: '', description: '', name: 'd' ,email: 'le') ;
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -37,10 +40,10 @@ class _ProfilePreviewState extends State<ProfilePreview> {
       backgroundColor: Colors.transparent,
       elevation: 0,
       title: Text(
-        AppLocalization.of(context).getTranslated("seller_profile"),
+        getTranslated(context, "seller_profile"),
         style: TextStyle(
           color: Colors.white,
-          fontSize: 18,
+          fontSize: 18.sp,
           fontFamily: "NeoSansArabic",
           fontWeight: FontWeight.bold,
         ),
@@ -73,11 +76,11 @@ class _ProfilePreviewState extends State<ProfilePreview> {
           children: [
             Spacer(),
             _contactButton(
-              AppLocalization.of(context).getTranslated("send_message"),
+              getTranslated(context,"send_message"),
               "assets/icons/message.svg",
             ),
             SizedBox(width: 20),
-            _contactButton(AppLocalization.of(context).getTranslated("call"),
+            _contactButton(getTranslated(context,"call"),
                 "assets/icons/phone_call.svg"),
             Spacer(),
           ],
@@ -97,74 +100,74 @@ class _ProfilePreviewState extends State<ProfilePreview> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AppLocalization.of(context).getTranslated("ads"),
+                  getTranslated(context,"ads"),
                   style: TextStyle(
                     fontFamily: "NeoSansArabic",
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF00041D),
-                    fontSize: 14,
+                    fontSize: 14.sp,
                     decoration: TextDecoration.none,
                   ),
                 ),
-                Expanded(
-                  child: ListView.builder(
-                    itemBuilder: (context, position) {
-                      ProductModel currentProduct = seller.products[position];
-                      return Card(
-                        clipBehavior: Clip.antiAlias,
-                        elevation: 2.5,
-                        margin: EdgeInsets.symmetric(vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Image.asset(
-                              currentProduct.details.image,
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            ),
-                            Spacer(flex: 1),
-                            Column(
-                              children: [
-                                Text(
-                                  currentProduct.details.title,
-                                  style: TextStyle(
-                                    color: Color(0xFF00041D),
-                                    fontFamily: "NeoSansArabic",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                SizedBox(height: 12),
-                                // Text(
-                                //   currentProduct.dateTime,
-                                //   style: Theme.of(context).textTheme.headline2,
-                                // ),
-                              ],
-                            ),
-                            Spacer(flex: 4),
-                            Text(
-                              currentProduct.details.price,
-                              style: TextStyle(
-                                color: Color(0xFF595B67),
-                                fontFamily: "NeoSansArabic",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                              ),
-                            ),
-                            Spacer(flex: 1),
-                          ],
-                        ),
-                      );
-                    },
-                    itemCount: 5,
-                    physics: BouncingScrollPhysics(),
-                    padding: EdgeInsets.symmetric(vertical: 40),
-                  ),
-                ),
+                // Expanded(
+                //   child: ListView.builder(
+                //     itemBuilder: (context, position) {
+                //       ProductModel currentProduct ;
+                //       return Card(
+                //         clipBehavior: Clip.antiAlias,
+                //         elevation: 2.5,
+                //         margin: EdgeInsets.symmetric(vertical: 10),
+                //         shape: RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.circular(8),
+                //         ),
+                //         child: Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             Image.asset(
+                //               currentProduct.details.image,
+                //               width: 80,
+                //               height: 80,
+                //               fit: BoxFit.cover,
+                //             ),
+                //             Spacer(flex: 1),
+                //             Column(
+                //               children: [
+                //                 Text(
+                //                   currentProduct.details.title,
+                //                   style: TextStyle(
+                //                     color: Color(0xFF00041D),
+                //                     fontFamily: "NeoSansArabic",
+                //                     fontWeight: FontWeight.bold,
+                //                     fontSize: 14,
+                //                   ),
+                //                 ),
+                //                 SizedBox(height: 12),
+                //                 // Text(
+                //                 //   currentProduct.dateTime,
+                //                 //   style: Theme.of(context).textTheme.headline2,
+                //                 // ),
+                //               ],
+                //             ),
+                //             Spacer(flex: 4),
+                //             Text(
+                //               currentProduct.details.price,
+                //               style: TextStyle(
+                //                 color: Color(0xFF595B67),
+                //                 fontFamily: "NeoSansArabic",
+                //                 fontWeight: FontWeight.w500,
+                //                 fontSize: 14,
+                //               ),
+                //             ),
+                //             Spacer(flex: 1),
+                //           ],
+                //         ),
+                //       );
+                //     },
+                //     itemCount: 5,
+                //     physics: BouncingScrollPhysics(),
+                //     padding: EdgeInsets.symmetric(vertical: 40),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -185,29 +188,29 @@ class _ProfilePreviewState extends State<ProfilePreview> {
             SvgPicture.asset("assets/icons/white_check_in.svg")
           ],
         ),
-        SizedBox(width: 15),
+        SizedBox(width: 15.w),
         SizedBox(
-          height: 70,
+          height: 70.h,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                seller.name,
+                widget.client.name,
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: "NeoSansArabic",
                   fontWeight: FontWeight.w600,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   decoration: TextDecoration.none,
                 ),
               ),
-              Text(seller.email,
+              Text(widget.client.email,
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: "NeoSansArabic",
                     fontWeight: FontWeight.w600,
-                    fontSize: 14,
+                    fontSize: 14.sp,
                     decoration: TextDecoration.none,
                   )),
             ],
@@ -219,12 +222,11 @@ class _ProfilePreviewState extends State<ProfilePreview> {
 
   Widget _userImage() {
     return Container(
-      width: 70,
-      height: 70,
+      width: 70.r,
+      height: 70.r,
       decoration: BoxDecoration(
           shape: BoxShape.circle,
-          image: DecorationImage(
-              image: NetworkImage(''), fit: BoxFit.cover)),
+          image: DecorationImage(image: NetworkImage(widget.client.image), fit: BoxFit.cover)),
     );
   }
 
@@ -248,7 +250,7 @@ class _ProfilePreviewState extends State<ProfilePreview> {
           Text(
             type,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w100,
               fontFamily: "NeoSansArabic",
               color: Color(0xFF00041D),

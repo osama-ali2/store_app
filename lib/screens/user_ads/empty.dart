@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:yagot_app/lang/app_locale.dart';
+import 'package:yagot_app/utilities/helper_functions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EmptyAds extends StatelessWidget {
   @override
@@ -17,7 +18,7 @@ class EmptyAds extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             title: Text(
-              AppLocalization.of(context).getTranslated("my_ads"),
+              getTranslated(context,"my_ads"),
               style: Theme.of(context).textTheme.headline1,
             ),
             centerTitle: true,
@@ -45,15 +46,15 @@ class EmptyAds extends StatelessWidget {
         Spacer(flex: 6),
         SvgPicture.asset("assets/icons/empty_ads.svg"),
         Spacer(flex: 2),
-        Text(AppLocalization.of(context).getTranslated("no_ads_currently"),style: TextStyle(
+        Text(getTranslated(context,"no_ads_currently"),style: TextStyle(
             color: Color(0xFF00041D),
-            fontSize: 14,
+            fontSize: 14.sp,
             fontFamily: "NeoSansArabic",
             fontWeight: FontWeight.bold),),
         Spacer(flex: 1),
-        Text(AppLocalization.of(context).getTranslated("you_can_add_new_ad"),style: TextStyle(
+        Text(getTranslated(context,"you_can_add_new_ad"),style: TextStyle(
             color: Color(0xFF00041D),
-            fontSize: 12,
+            fontSize: 12.sp,
             fontFamily: "NeoSansArabic",
             fontWeight: FontWeight.w100),),
         Spacer(flex: 3),
@@ -78,7 +79,7 @@ class EmptyAds extends StatelessWidget {
           },
           color: Theme.of(context).primaryColor,
           child: Text(
-            AppLocalization.of(context).getTranslated("add_new_ad"),
+            getTranslated(context,"add_new_ad"),
             style: TextStyle(color: Colors.white, fontFamily: "NeoSansArabic"),
           ),
           shape: RoundedRectangleBorder(

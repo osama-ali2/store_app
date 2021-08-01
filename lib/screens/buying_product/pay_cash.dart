@@ -4,7 +4,7 @@ import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/screens/main/main_page_view.dart';
 import 'package:yagot_app/screens/shared/app_button.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PayCash extends StatelessWidget {
   @override
@@ -41,7 +41,7 @@ class PayCash extends StatelessWidget {
           getTranslated(context, "order_process_done_successfully"),
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 18.ssp,
+            fontSize: 18.sp,
             color: accent,
           ),
         ),

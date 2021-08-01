@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yagot_app/models/product/product_details.dart';
 import 'package:yagot_app/providers/general_provider.dart';
 import 'package:yagot_app/constants/colors.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yagot_app/screens/shared/product_card.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 
@@ -21,6 +21,9 @@ class SectionScreen extends StatefulWidget {
 class _SectionScreenState extends State<SectionScreen> {
   @override
   void initState() {
+    Provider.of<GeneralProvider>(context, listen: false)
+        .clearCategoryProducts();
+    Provider.of<GeneralProvider>(context,listen: false).getCategoryById(widget.id);
     super.initState();
   }
 

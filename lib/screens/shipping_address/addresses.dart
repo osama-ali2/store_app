@@ -16,7 +16,7 @@ import 'package:yagot_app/screens/shipping_address/add_new_address.dart';
 import 'package:yagot_app/screens/shipping_address/edit_address.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddressesScreen extends StatefulWidget {
   @override
@@ -177,7 +177,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
               Text(
                 'Username',
                 style: TextStyle(
-                  fontSize: 12.ssp,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -185,7 +185,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                 '888859966',
                 style: TextStyle(
                   color: grey2,
-                  fontSize: 12.ssp,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.normal,
                 ),
                 textDirection: TextDirection.ltr,
@@ -194,7 +194,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                 '${address.city},${address.bloc},${address.street},${address.homeNumber}',
                 style: TextStyle(
                   color: grey2,
-                  fontSize: 12.ssp,
+                  fontSize: 12.sp,
                 ),
               ),
               SizedBox(height: 2),
@@ -221,7 +221,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
       child: Text(
         getTranslated(context, "edit"),
         style: TextStyle(
-          fontSize: 12.ssp,
+          fontSize: 12.sp,
           fontWeight: FontWeight.bold,
           color: primary,
         ),
@@ -342,7 +342,7 @@ class EmptyAddresses extends StatelessWidget {
         Text(
           getTranslated(context, "no_addresses_currently"),
           style: TextStyle(
-            fontSize: 16.ssp,
+            fontSize: 16.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -350,7 +350,7 @@ class EmptyAddresses extends StatelessWidget {
         Text(
           getTranslated(context, "you_can_add_new_address"),
           style: TextStyle(
-            fontSize: 12.ssp,
+            fontSize: 12.sp,
             fontWeight: FontWeight.normal,
           ),
         ),

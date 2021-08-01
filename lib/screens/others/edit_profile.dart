@@ -11,7 +11,7 @@ import 'package:yagot_app/screens/shared/app_button.dart';
 
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class EditProfile extends StatefulWidget {
   @override
   _EditProfileState createState() => _EditProfileState();

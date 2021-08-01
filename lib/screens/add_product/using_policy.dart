@@ -6,6 +6,7 @@ import 'package:yagot_app/screens/add_product/add_company.dart';
 import 'package:yagot_app/screens/add_product/add_product.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UsingPolicy extends StatefulWidget {
   final bool isCompany;
@@ -74,7 +75,7 @@ class _UsingPolicyState extends State<UsingPolicy> {
       ),
       style: TextStyle(
         fontWeight: FontWeight.bold,
-        fontSize: 16,
+        fontSize: 16.sp,
       ),
     );
   }

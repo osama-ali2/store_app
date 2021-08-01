@@ -5,13 +5,13 @@ import 'package:yagot_app/screens/conversations/conversation_screen.dart';
 import 'package:yagot_app/screens/main/home.dart';
 import 'package:yagot_app/screens/main/user_account.dart';
 import 'package:yagot_app/screens/notifications/notifications.dart';
-import 'package:yagot_app/screens/sign_login/login.dart';
+import 'package:yagot_app/screens/auth/login.dart';
 import 'package:yagot_app/utilities/custom_icons.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:provider/provider.dart';
 import 'package:yagot_app/providers/general_provider.dart';
 import 'package:yagot_app/screens/others/edit_profile.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class MainPages extends StatefulWidget {
   @override
   _MainPagesState createState() => _MainPagesState();
@@ -75,6 +75,9 @@ class _MainPagesState extends State<MainPages> {
         type: BottomNavigationBarType.fixed,
         currentIndex: bottomBarIndex,
         onTap: (index) {
+          if(index == 3){
+            Provider.of<GeneralProvider>(context, listen: false).getSettings(() {});
+          }
           setState(() {
                   bottomBarIndex = index;
                 });
@@ -85,15 +88,16 @@ class _MainPagesState extends State<MainPages> {
           color: primary,
           size: 20,
         ),
+        selectedItemColor: primary,
         selectedLabelStyle: TextStyle(
           color: primary,
-          fontSize: 12.ssp,
+          fontSize: 12.sp,
         ),
         showUnselectedLabels: true,
         unselectedItemColor:accent,
         unselectedLabelStyle: TextStyle(
           color: accent,
-          fontSize: 12.ssp,
+          fontSize: 12.sp,
         ),
         iconSize: 24,
       ),

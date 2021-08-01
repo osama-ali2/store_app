@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AddCreditCard extends StatefulWidget {
   @override
   _AddCreditCardState createState() => _AddCreditCardState();
@@ -86,7 +86,7 @@ class _AddCreditCardState extends State<AddCreditCard> {
             Text(
               getTranslated(context,"card_details"),
               style: TextStyle(
-                fontSize: 18.ssp,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
                 color: accent,
               ),
@@ -124,7 +124,7 @@ class _AddCreditCardState extends State<AddCreditCard> {
       hintText: hint,
       hintStyle: TextStyle(
           color: grey1,
-          fontSize: 12.ssp,
+          fontSize: 12.sp,
           fontFamily: "NeoSansArabic",
           fontWeight: FontWeight.normal),
     );

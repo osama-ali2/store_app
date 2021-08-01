@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:yagot_app/models/product/product.dart';
+import 'package:yagot_app/models/settings/InformationModel.dart';
 import 'package:yagot_app/models/settings/settings_model.dart';
 import 'package:yagot_app/screens/shared/app_button.dart';
-import 'package:yagot_app/screens/sign_login/phone_verify.dart';
+import 'package:yagot_app/screens/auth/phone_verify.dart';
 import 'package:yagot_app/screens/others/info_page.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
@@ -36,7 +37,6 @@ class _RegisterState extends State<Register> {
   @override
   void initState() {
     super.initState();
-    Provider.of<GeneralProvider>(context, listen: false).getSettings(() {});
     userNameCtr = TextEditingController();
     emailCtr = TextEditingController();
     phoneCtr = TextEditingController();
@@ -130,7 +130,7 @@ class _RegisterState extends State<Register> {
                     confirmPasswordCtr, Fields.CONFIRM_PASSWORD, node7, null),
                 SizedBox(height: 40.h),
                 _text(context),
-                _pressedText(context),
+                _pressedText(context, provider.settingsModel.policyPrivacy),
                 SizedBox(height: 40.h),
                 AppButton(
                   title: "create_new_account",
@@ -149,7 +149,7 @@ class _RegisterState extends State<Register> {
                     if (_formKey.currentState.validate()) {
                       Map<String, String> data = {
                         'name': userName,
-                        'country_id': countryId.toString() ,
+                        'country_id': countryId.toString(),
                         'zone_id': zoneId.toString(),
                         'mobile': phone,
                         'password': password,
@@ -160,7 +160,7 @@ class _RegisterState extends State<Register> {
                       };
                       print(data);
                       LoginDataModel loginData = provider.singUp(data);
-                      if(loginData != null){
+                      if (loginData != null) {
                         print(loginData.token);
                       }
                     }
@@ -323,28 +323,26 @@ class _RegisterState extends State<Register> {
           getTranslated(context, "by_using_yagot"),
           style: TextStyle(
             color: accent,
-            fontSize: 12.ssp,
+            fontSize: 12.sp,
             fontWeight: FontWeight.w100,
           ),
         ));
   }
 
-  Widget _pressedText(BuildContext context) {
+  Widget _pressedText(BuildContext context, InformationModel info) {
     return Align(
       alignment: Alignment.center,
       child: InkWell(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return InfoPage(
-                title: "privacy_policy",
-                information: 'FakeProvider.getLongString()');
+            return InfoPage(info: info);
           }));
         },
         child: Text(
           getTranslated(context, "content_security_policy"),
           style: TextStyle(
               color: blue5,
-              fontSize: 11.ssp,
+              fontSize: 11.sp,
               fontFamily: "NeoSansArabic",
               decoration: TextDecoration.underline),
         ),

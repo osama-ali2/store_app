@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:yagot_app/lang/app_locale.dart';
 import 'package:yagot_app/models/product/product.dart';
 import 'package:yagot_app/screens/favourite/empty_favourites.dart';
 import 'package:yagot_app/screens/shared/remove_sheet.dart';
+import 'package:yagot_app/utilities/helper_functions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FavouriteScreen extends StatefulWidget {
   @override
@@ -12,23 +13,26 @@ class FavouriteScreen extends StatefulWidget {
 }
 
 class _FavouriteScreenState extends State<FavouriteScreen> {
-  List<ProductModel> products ;
+  List<ProductModel> products;
 
-  SlidableController _slidableController ;
+  SlidableController _slidableController;
+
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
 
   @override
   void initState() {
     super.initState();
     _slidableController = SlidableController();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       appBar: _appBar(),
-      body: (products == null || products.isEmpty)?EmptyFavourites() : _containFavourites(context),
+      body: (products == null || products.isEmpty)
+          ? EmptyFavourites()
+          : _containFavourites(context),
     );
   }
 
@@ -36,7 +40,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     return AppBar(
       backgroundColor: Colors.transparent,
       title: Text(
-        AppLocalization.of(context).getTranslated("favourite"),
+        getTranslated(context, "favourite"),
         style: Theme.of(context).textTheme.headline1,
       ),
       centerTitle: true,
@@ -55,7 +59,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   Widget _containFavourites(BuildContext context) {
     return ListView.builder(
       itemBuilder: (context, position) {
-        return _productCard(products[position] , position );
+        return _productCard(products[position], position);
       },
       itemCount: products.length,
       padding: EdgeInsets.all(30),
@@ -63,19 +67,17 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     );
   }
 
-  Widget _productCard(ProductModel product , int position) {
+  Widget _productCard(ProductModel product, int position) {
     return Slidable(
       // key: Key(product.id),
       actionPane: SlidableDrawerActionPane(),
       controller: _slidableController,
-      actions: [
-        _removeAction(context, position)
-      ],
+      actions: [_removeAction(context, position)],
       closeOnScroll: false,
       dismissal: SlidableDismissal(
         child: SlidableDrawerDismissal(),
         dragDismissible: false,
-        onDismissed: (actionType){
+        onDismissed: (actionType) {
           setState(() {
             products.removeAt(position);
           });
@@ -102,7 +104,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
               width: 80,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: ExactAssetImage(product.details.image), fit: BoxFit.cover),
+                    image: ExactAssetImage(product.details.image),
+                    fit: BoxFit.cover),
               ),
             ),
             SizedBox(width: 20),
@@ -115,7 +118,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                     color: Color(0xFF00041D),
                     fontFamily: "NeoSansArabic",
                     fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                    fontSize: 14.sp,
                   ),
                 ),
                 SizedBox(height: 12),
@@ -125,7 +128,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                     color: Color(0xFF595B67),
                     fontFamily: "NeoSansArabic",
                     fontWeight: FontWeight.w500,
-                    fontSize: 14,
+                    fontSize: 14.sp,
                   ),
                 ),
               ],
@@ -146,9 +149,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         width: 80,
         height: 80,
         decoration: BoxDecoration(
-          color: Color(0xFFE1251B),
-          borderRadius: BorderRadiusDirectional.horizontal(end: Radius.circular(8))
-        ),
+            color: Color(0xFFE1251B),
+            borderRadius:
+                BorderRadiusDirectional.horizontal(end: Radius.circular(8))),
         child: Align(
           child: SvgPicture.asset(
             "assets/icons/remove.svg",
@@ -163,14 +166,17 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   }
 
   _showRemoveSheet(BuildContext context, int position) {
-    showDialog(context: context,builder: (context){
-      return RemoveSheet("delete_from_favourite", "delete_from_favourite_confirm", () {
-        _slidableController.activeState.dismiss();
-        Navigator.pop(context);
-      }) ;
-    },
+    showDialog(
+      context: context,
+      builder: (context) {
+        return RemoveSheet(
+            "delete_from_favourite", "delete_from_favourite_confirm", () {
+          _slidableController.activeState.dismiss();
+          Navigator.pop(context);
+        });
+      },
       barrierColor: Colors.black.withOpacity(.35),
-      barrierDismissible: true ,
+      barrierDismissible: true,
     );
   }
 }

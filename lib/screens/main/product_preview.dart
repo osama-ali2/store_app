@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_statusbar_manager/flutter_statusbar_manager.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -55,41 +54,11 @@ class _ProductPreviewState extends State<ProductPreview> {
         body: ScrollConfiguration(
           behavior: NoneGlowScrollBehavior(),
           child: Consumer<GeneralProvider>(builder: (context, provider, child) {
-            ProductModel _product = provider.product;
-            List<String> _images = provider.productImages;
-            return SmartRefresher(
-              enablePullDown: true,
-              enablePullUp: true,
-              header: MaterialClassicHeader(),
-              footer: CustomFooter(
-                builder: (BuildContext context, LoadStatus mode) {
-                  Widget body;
-                  if (mode == LoadStatus.idle) {
-                    body = Text("");
-                  } else if (mode == LoadStatus.loading) {
-                    body = Text("loading");
-                  } else if (mode == LoadStatus.failed) {
-                    body = Text("");
-                  } else if (mode == LoadStatus.canLoading) {
-                    body = Text("");
-                  } else {
-                    body = Text("No more data");
-                  }
-                  return Container(
-                    height: 30.0,
-                    child: Center(child: body),
+            return provider.product != null
+                ? buildBodyContent(provider.product, provider.productImages)
+                : Center(
+                    child: CircularProgressIndicator(),
                   );
-                },
-              ),
-              controller: refreshController,
-              onRefresh: onRefresh,
-              onLoading: onLoading,
-              child: provider.product != null
-                  ? buildBodyContent(provider.product, provider.productImages)
-                  : Center(
-                      child: CircularProgressIndicator(),
-                    ),
-            );
           }),
         ));
   }
@@ -131,13 +100,13 @@ class _ProductPreviewState extends State<ProductPreview> {
                           color: blue1,
                           fontFamily: "NeoSansArabic",
                           fontWeight: FontWeight.bold,
-                          fontSize: 20.ssp,
+                          fontSize: 20.sp,
                         ),
                       ),
                       Text(
                         details.price + " " + details.currencyName,
                         style: TextStyle(
-                          fontSize: 16.ssp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                           color: primary,
                         ),
@@ -152,7 +121,7 @@ class _ProductPreviewState extends State<ProductPreview> {
                   Text(getDate(details.dateTime),
                       style: TextStyle(
                           color: grey1,
-                          fontSize: 12.ssp,
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.normal)),
                   Text(
                     details.details,
@@ -365,7 +334,7 @@ class _ProductPreviewState extends State<ProductPreview> {
         color: blue1,
         fontFamily: "NeoSansArabic",
         fontWeight: FontWeight.bold,
-        fontSize: 16.ssp,
+        fontSize: 16.sp,
       ),
     );
   }
@@ -374,14 +343,14 @@ class _ProductPreviewState extends State<ProductPreview> {
     return GestureDetector(
       onTap: () {
         print(client.image);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return ProfilePreview();
-            },
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) {
+        //       return ProfilePreview(client: client);
+        //     },
+        //   ),
+        // );
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -402,7 +371,7 @@ class _ProductPreviewState extends State<ProductPreview> {
                         color: accent,
                         fontFamily: "NeoSansArabic",
                         fontWeight: FontWeight.w600,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         decoration: TextDecoration.none,
                       ),
                     ),
@@ -421,7 +390,7 @@ class _ProductPreviewState extends State<ProductPreview> {
                     color: grey2,
                     fontFamily: "NeoSansArabic",
                     fontWeight: FontWeight.w100,
-                    fontSize: 12.ssp,
+                    fontSize: 12.sp,
                     decoration: TextDecoration.none,
                   ),
                 ),
@@ -447,6 +416,7 @@ class _ProductPreviewState extends State<ProductPreview> {
           image: imageUrl,
           fit: BoxFit.cover,
           alignment: Alignment.center,
+          imageErrorBuilder: (context, error, stackTrace) => Image.asset('assets/images/place_holder.png'),
         ),
       ),
     );
@@ -524,222 +494,3 @@ class _ProductPreviewState extends State<ProductPreview> {
     );
   }
 }
-
-// u(){
-//   return
-//     Stack(
-//     children: [
-//       Image.asset(
-//         widget.product.image,
-//         fit: BoxFit.cover,
-//         width: double.infinity,
-//         height: MediaQuery.of(context).size.height * .4 + 50,
-//       ),
-//       CustomScrollView(
-//         slivers: [
-//           SliverAppBar(
-//             backgroundColor: Colors.transparent,
-//             expandedHeight: MediaQuery.of(context).size.height * .4,
-//             elevation: 0,
-//             floating: true,
-//             pinned: true,
-//             leading: IconButton(
-//               onPressed: () {
-//                 Navigator.pop(context);
-//               },
-//               icon: Icon(
-//                 Icons.arrow_back,
-//               ),
-//             ),
-//             actions: [
-//               IconButton(
-//                 onPressed: () {},
-//                 icon: Icon(Icons.share),
-//               ),
-//             ],
-//           ),
-//           SliverList(
-//             delegate: SliverChildListDelegate(
-//               [
-//                 Container(
-//                   padding: const EdgeInsets.symmetric(
-//                       horizontal: 20, vertical: 40),
-//                   decoration: BoxDecoration(
-//                     color: Colors.white,
-//                     borderRadius: BorderRadius.only(
-//                       topLeft: Radius.circular(30),
-//                       topRight: Radius.circular(30),
-//                     ),
-//                   ),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Text(
-//                             widget.product.name,
-//                             style: Theme.of(context)
-//                                 .textTheme
-//                                 .headline1
-//                                 .copyWith(fontSize: 20),
-//                           ),
-//                           Text(
-//                             widget.product.price,
-//                             style: TextStyle(
-//                                 fontSize: 16,
-//                                 fontFamily: "NeoSansArabic",
-//                                 fontWeight: FontWeight.w400,
-//                                 color: Color(0xFF1F4282),
-//                                 decoration: TextDecoration.none),
-//                           ),
-//                         ],
-//                       ),
-//                       SizedBox(height: 30),
-//                       _divider(),
-//                       SizedBox(height: 30),
-//                       _subtitle(StringLocalization.of(context)
-//                           .getTranslated("product_details")),
-//                       SizedBox(height: 20),
-//                       Text(
-//                         widget.product.dateTime,
-//                         style: Theme.of(context).textTheme.bodyText1,
-//                       ),
-//                       // Text(
-//                       //   widget.product.details,
-//                       //   style: TextStyle(
-//                       //     color: Color(0xFF595B67),
-//                       //     fontSize: 14,
-//                       //     fontFamily: "NeoSansArabic",
-//                       //     decoration: TextDecoration.none,
-//                       //     height: 2,
-//                       //     fontWeight: FontWeight.w100,
-//                       //     letterSpacing: 2,
-//                       //   ),
-//                       // ),
-//                       SizedBox(height: 30),
-//                       _divider(),
-//                       SizedBox(height: 30),
-//                       _subtitle(StringLocalization.of(context)
-//                           .getTranslated("about_product_owner")),
-//                       SizedBox(height: 20),
-//                       // _aboutOwnerRow(),
-//                       SizedBox(height: 20),
-//                       Text(
-//                         StringLocalization.of(context)
-//                             .getTranslated("communication_data"),
-//                         style: TextStyle(
-//                           color: Color(0xFF00041D),
-//                           fontSize: 14,
-//                           fontFamily: "NeoSansArabic",
-//                           decoration: TextDecoration.none,
-//                           fontWeight: FontWeight.w100,
-//                         ),
-//                       ),
-//                       SizedBox(height: 20),
-//                       Row(
-//                         children: [
-//                           Spacer(),
-//                           _contactButton(
-//                             StringLocalization.of(context)
-//                                 .getTranslated("send_message"),
-//                             "assets/icons/message.svg",
-//                           ),
-//                           SizedBox(width: 20),
-//                           _contactButton(
-//                               StringLocalization.of(context)
-//                                   .getTranslated("call"),
-//                               "assets/icons/phone_call.svg"),
-//                           Spacer(),
-//                         ],
-//                       ),
-//                       SizedBox(height: 40),
-//                       _buyButton(),
-//                       SizedBox(height: 45),
-//                       Text(
-//                         StringLocalization.of(context)
-//                             .getTranslated("similar_products"),
-//                         style: TextStyle(
-//                             fontSize: 14,
-//                             fontWeight: FontWeight.w600,
-//                             fontFamily: "NeoSansArabic",
-//                             color: Color(0xFF00041D),
-//                             decoration: TextDecoration.none),
-//                       ),
-//                       SizedBox(height: 20),
-//                       _productsCardsList(),
-//                     ],
-//                   ),
-//                 ),
-//
-//               ],
-//             ),
-//           )
-//         ],
-//       ),
-//     ],
-//   );
-// }
-//GestureDetector(
-//             onTap: () {
-//               Navigator.push(
-//                 context,
-//                 MaterialPageRoute(
-//                   builder: (context) {
-//                     return ProductPreview(currentProduct.id);
-//                   },
-//                 ),
-//               );
-//             },
-//             child: Card(
-//               margin: EdgeInsets.only(right: 10, left: 10, bottom: 10),
-//               shadowColor: Color(0xFF00041D),
-//               elevation: 1,
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.all(Radius.circular(8)),
-//               ),
-//               clipBehavior: Clip.hardEdge,
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Stack(
-//                     alignment:
-//                         (Localizations.localeOf(context).languageCode == "en")
-//                             ? Alignment.topRight
-//                             : Alignment.topLeft,
-//                     children: [
-//                       Image.asset(
-//                         currentProduct.image,
-//                         width: 150,
-//                         height: 170,
-//                         fit: BoxFit.cover,
-//                       ),
-//                       IconButton(
-//                         icon: Icon(
-//                           Icons.favorite_border,
-//                           size: 20,
-//                         ),
-//                         onPressed: () {},
-//                       ),
-//                     ],
-//                   ),
-//                   Padding(
-//                     padding:
-//                         const EdgeInsets.only(top: 10, right: 20, left: 20),
-//                     child: Text(
-//                       currentProduct.title,
-//                       style: Theme.of(context).textTheme.headline1,
-//                     ),
-//                   ),
-//                   Padding(
-//                     padding:
-//                         const EdgeInsets.only(top: 10, right: 20, left: 20),
-//                     // child: Text(
-//                     //   currentProduct.dateTime,
-//                     //   style: Theme.of(context).textTheme.headline2,
-//                     // ),
-//                   )
-//                 ],
-//               ),
-//             ),
-//           );

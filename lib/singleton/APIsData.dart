@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:yagot_app/models/home/category_model.dart';
-import 'package:yagot_app/models/home/home_section_model.dart';
+import 'package:yagot_app/models/home/home_part_model.dart';
 import 'package:yagot_app/models/LoginRegister/login_details_model.dart';
 import 'package:yagot_app/models/product/product.dart';
 import 'package:yagot_app/models/product/product_details.dart';
@@ -36,15 +36,15 @@ class APIsData {
   //   }
   // }
   // ignore: missing_return
-  Future<List<HomeSectionModel>> getHomeSections() async {
+  Future<List<HomePartModel>> getHomeSections() async {
     final response = await client.get('$url/api/home');
 
     if (response != null && response.data != null) {
-      List<HomeSectionModel> homeSections = <HomeSectionModel>[];
+      List<HomePartModel> homeSections = <HomePartModel>[];
       Map<String, dynamic> jsonData = jsonDecode(response.toString());
       List dataList = jsonData['data'];
       dataList.forEach((element) {
-        homeSections.add(HomeSectionModel.fromJson(element));
+        homeSections.add(HomePartModel.fromJson(element));
       });
       return homeSections;
     }

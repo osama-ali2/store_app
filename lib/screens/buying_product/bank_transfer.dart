@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class BankTransfer extends StatefulWidget {
   @override
   _BankTransferState createState() => _BankTransferState();
@@ -103,7 +103,7 @@ class _BankTransferState extends State<BankTransfer> {
             Text(
               getTranslated(context,"bank_transfer_details"),
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w600,
                 color: Color(0xFF00041D),
               ),
@@ -155,7 +155,7 @@ class _BankTransferState extends State<BankTransfer> {
       hintText: hint,
       hintStyle: TextStyle(
           color: grey1,
-          fontSize: 12.ssp,
+          fontSize: 12.sp,
           fontFamily: "NeoSansArabic",
           fontWeight: FontWeight.normal),
     );
