@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:yagot_app/lang/app_locale.dart';
+import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/models/settings/InformationModel.dart';
-import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class InfoPage extends StatelessWidget {
   final InformationModel info;
 
@@ -14,7 +13,7 @@ class InfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: transparent,
         title: Text((info != null) ? info.title : ''),
         centerTitle: true,
         leading: IconButton(
@@ -23,7 +22,7 @@ class InfoPage extends StatelessWidget {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: black,
           ),
         ),
       ),
@@ -37,7 +36,7 @@ class InfoPage extends StatelessWidget {
     return ScrollConfiguration(
       behavior: NoneGlowScrollBehavior(),
       child: SingleChildScrollView(
-        padding: EdgeInsets.all(30),
+        padding: EdgeInsets.all(30.r),
         child: Html(
           data: info.details ?? '',
         ),

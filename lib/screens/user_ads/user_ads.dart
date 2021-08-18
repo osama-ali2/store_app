@@ -1,5 +1,6 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/models/product/product.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +24,7 @@ class _UserAdsState extends State<UserAds> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: transparent,
         title: Text(getTranslated(context, "my_ads")),
         centerTitle: true,
         leading: IconButton(
@@ -32,7 +33,7 @@ class _UserAdsState extends State<UserAds> with SingleTickerProviderStateMixin {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: black,
           ),
         ),
       ),
@@ -64,13 +65,13 @@ class _UserAdsState extends State<UserAds> with SingleTickerProviderStateMixin {
       itemBuilder: (context, position) {
         ProductModel currentProduct = products[position];
         return Container(
-          margin: EdgeInsets.symmetric(vertical: 10),
+          margin: EdgeInsets.symmetric(vertical: 10.h),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.r),
+              color: white,
               boxShadow: [
                 BoxShadow(
-                    color: Color(0xFF00041D).withOpacity(.06),
+                    color: accent.withOpacity(.06),
                     offset: Offset(0, 3),
                     blurRadius: 6,
                     spreadRadius: 2)
@@ -94,8 +95,7 @@ class _UserAdsState extends State<UserAds> with SingleTickerProviderStateMixin {
                   Text(
                     currentProduct.details.title,
                     style: TextStyle(
-                      color: Color(0xFF00041D),
-                      fontFamily: "NeoSansArabic",
+                      color: accent,
                       fontWeight: FontWeight.bold,
                       fontSize: 14.sp,
                     ),
@@ -103,7 +103,11 @@ class _UserAdsState extends State<UserAds> with SingleTickerProviderStateMixin {
                   SizedBox(height: 12),
                   // Text(
                   //   currentProduct.dateTime,
-                  //   style: Theme.of(context).textTheme.headline2,
+                  //   style: TextStyle(
+                  //           color: grey2,
+                  //           fontSize: 12.sp,
+                  //           fontWeight: FontWeight.normal,
+                  //         ),,
                   // ),
                 ],
               ),
@@ -111,8 +115,7 @@ class _UserAdsState extends State<UserAds> with SingleTickerProviderStateMixin {
               Text(
                 currentProduct.details.price,
                 style: TextStyle(
-                  color: Color(0xFF595B67),
-                  fontFamily: "NeoSansArabic",
+                  color: grey2,
                   fontWeight: FontWeight.w500,
                   fontSize: 14.sp,
                 ),
@@ -123,8 +126,7 @@ class _UserAdsState extends State<UserAds> with SingleTickerProviderStateMixin {
         );
       },
       itemCount: products.length,
-      physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.all(30),
+      padding: EdgeInsets.all(30.r),
     );
   }
 
@@ -143,9 +145,9 @@ class _UserAdsState extends State<UserAds> with SingleTickerProviderStateMixin {
       width: 315,
       height: 50,
       decoration: BoxDecoration(
-          color: Color(0xFFD6DCE9), borderRadius: BorderRadius.circular(25),
+          color: grey8, borderRadius: BorderRadius.circular(25.r),
       boxShadow: [BoxShadow(
-        color: Color(0xFF1F4282).withOpacity(.16),
+        color: primary.withOpacity(.16),
         offset: Offset(0, 2),
         blurRadius: 4,
       ),],),
@@ -158,12 +160,14 @@ class _UserAdsState extends State<UserAds> with SingleTickerProviderStateMixin {
       child: TabBar(
         controller: _tabController,
         labelStyle: TextStyle(
-            color: Colors.white,
+            color: white,
             fontSize: 14.sp,
-            fontFamily: "NeoSansArabic",
             fontWeight: FontWeight.bold),
-        unselectedLabelStyle: Theme.of(context).textTheme.headline3,
-        unselectedLabelColor: Color(0xFF00041D),
+        unselectedLabelStyle: TextStyle(
+            color: accent,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.normal),
+        unselectedLabelColor: accent,
         tabs: [
           Text(getTranslated(context, "enabled")),
           Text(getTranslated(context, "pending")),
@@ -171,7 +175,7 @@ class _UserAdsState extends State<UserAds> with SingleTickerProviderStateMixin {
         ],
         indicatorSize: TabBarIndicatorSize.tab,
         indicator: BubbleTabIndicator(
-          indicatorColor: Theme.of(context).primaryColor,
+          indicatorColor: primary,
           indicatorHeight: 50,
           indicatorRadius: 25,
           tabBarIndicatorSize: TabBarIndicatorSize.tab,

@@ -2,29 +2,41 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yagot_app/models/home/client.dart';
 
-class AppSharedPreferences {
+class AppShPref {
   final SharedPreferences preferences;
 
-  AppSharedPreferences({@required this.preferences});
+  AppShPref({@required this.preferences});
 
   static const USER = 'user';
 
   static const TOKEN = 'token';
+  static const USERNAME = 'username';
 
-  static const  LANGUAGE = 'language';
+  static const LANGUAGE = 'language';
 
   static setUser(Client user) {}
 
   Future<void> setToken(String token) async {
     await preferences.setString(TOKEN, token);
   }
-  String getToken(){
-   return  preferences.getString(TOKEN) ;
+
+  String getToken() {
+    return preferences.getString(TOKEN);
   }
-  Future<void> setLang(String code) async{
+
+  Future<void> setUsername(String username) async {
+    await preferences.setString(USERNAME, username);
+  }
+
+  String getUsername() {
+    return preferences.getString(USERNAME);
+  }
+
+  Future<void> setLang(String code) async {
     await preferences.setString(LANGUAGE, code);
   }
-  String getLang(){
+
+  String getLang() {
     return preferences.getString(LANGUAGE);
   }
 }

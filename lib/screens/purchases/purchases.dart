@@ -1,13 +1,13 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:yagot_app/models/product/product.dart';
+import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/models/purchase.dart';
 import 'package:yagot_app/screens/add_product/bundles.dart';
 import 'package:yagot_app/screens/purchases/order_details.dart';
-import 'package:yagot_app/screens/shared/app_button.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PurchasesScreen extends StatefulWidget {
   @override
@@ -21,7 +21,7 @@ class _PurchasesScreenState extends State<PurchasesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: transparent,
         title: Text(getTranslated(context, "my_purchases")),
         centerTitle: true,
         leading: IconButton(
@@ -30,7 +30,7 @@ class _PurchasesScreenState extends State<PurchasesScreen> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: black,
           ),
         ),
       ),
@@ -77,8 +77,7 @@ class UserPurchases extends StatelessWidget {
         Purchase currentPurchase = purchases[position];
         return _itemCard(context, currentPurchase);
       },
-      physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.symmetric(vertical: 40 ,horizontal: 14),
+      padding: EdgeInsets.symmetric(vertical: 40.h ,horizontal: 14.w),
       itemCount: purchases.length,
     );
   }
@@ -100,14 +99,14 @@ class UserPurchases extends StatelessWidget {
       },
       child: Container(
         height: 130,
-        margin: EdgeInsets.symmetric(vertical: 10),
-        padding: const EdgeInsets.only(right: 16,left: 16 , top: 32 , bottom: 18),
+        margin: EdgeInsets.symmetric(vertical: 10.h),
+        padding:  EdgeInsets.only(right: 16.w,left: 16.w , top: 32.h , bottom: 18.h),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
+          color: white,
+          borderRadius: BorderRadius.circular(8.r),
           boxShadow: [
             BoxShadow(
-              color: Color(0XFF00041D).withOpacity(.06),
+              color: accent.withOpacity(.06),
               offset: Offset(0, 0),
               blurRadius: 16,
               spreadRadius: 2,
@@ -172,13 +171,13 @@ class UserPurchases extends StatelessWidget {
         width: 54,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(.2),
-          borderRadius: BorderRadius.circular(5),
+          color: primary.withOpacity(.2),
+          borderRadius: BorderRadius.circular(5.r),
         ),
       child: Text(
         purchase.status.toString(),
         style: TextStyle(
-          color: Theme.of(context).primaryColor,
+          color: primary,
           fontSize: 10.sp,
         ),
       ),
@@ -200,11 +199,11 @@ class UserPurchases extends StatelessWidget {
       width: 315,
       height: 50,
       decoration: BoxDecoration(
-        color: Color(0xFFD6DCE9),
-        borderRadius: BorderRadius.circular(25),
+        color: grey8,
+        borderRadius: BorderRadius.circular(25.r),
         boxShadow: [
           BoxShadow(
-            color: Color(0xFF1F4282).withOpacity(.16),
+            color: primary.withOpacity(.16),
             offset: Offset(0, 2),
             blurRadius: 4,
           ),
@@ -218,19 +217,21 @@ class UserPurchases extends StatelessWidget {
       width: 322,
       child: TabBar(
         labelStyle: TextStyle(
-            color: Colors.white,
+            color: white,
             fontSize: 14.sp,
-            fontFamily: "NeoSansArabic",
             fontWeight: FontWeight.bold),
-        unselectedLabelStyle: Theme.of(context).textTheme.headline3,
-        unselectedLabelColor: Color(0xFF00041D),
+        unselectedLabelStyle: TextStyle(
+            color: accent,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.normal),
+        unselectedLabelColor: accent,
         tabs: [
           Text(getTranslated(context, "enabled")),
           Text(getTranslated(context, "closed")),
         ],
         indicatorSize: TabBarIndicatorSize.tab,
         indicator: BubbleTabIndicator(
-          indicatorColor: Theme.of(context).primaryColor,
+          indicatorColor: primary,
           indicatorHeight: 50,
           indicatorRadius: 25,
           tabBarIndicatorSize: TabBarIndicatorSize.tab,
@@ -268,7 +269,7 @@ class EmptyPurchases extends StatelessWidget {
         ),
         Spacer(flex: 1),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
+          padding:  EdgeInsets.symmetric(horizontal: 30.w),
           child: AppButton(title: "start_shopping",onPressed: (){
             Navigator.push(
               context,

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/models/product/product.dart';
 import 'package:yagot_app/screens/favourite/empty_favourites.dart';
-import 'package:yagot_app/screens/shared/remove_sheet.dart';
+import 'package:yagot_app/screens/common/widgets/remove_sheet.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -38,10 +39,14 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
 
   Widget _appBar() {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: transparent,
       title: Text(
         getTranslated(context, "favourite"),
-        style: Theme.of(context).textTheme.headline1,
+        style: TextStyle(
+          color: accent,
+          fontWeight: FontWeight.bold,
+          fontSize: 16.sp,
+        ),
       ),
       centerTitle: true,
       leading: IconButton(
@@ -50,7 +55,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         },
         icon: Icon(
           Icons.arrow_back,
-          color: Colors.black,
+          color: black,
         ),
       ),
     );
@@ -62,8 +67,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         return _productCard(products[position], position);
       },
       itemCount: products.length,
-      padding: EdgeInsets.all(30),
-      physics: BouncingScrollPhysics(),
+      padding: EdgeInsets.all(30.r),
     );
   }
 
@@ -84,13 +88,13 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         },
       ),
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
+        margin: EdgeInsets.symmetric(vertical: 10.h),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: Colors.white,
+            borderRadius: BorderRadius.circular(8.r),
+            color: white,
             boxShadow: [
               BoxShadow(
-                  color: Color(0xFF00041D).withOpacity(.06),
+                  color: accent.withOpacity(.06),
                   offset: Offset(0, 3),
                   blurRadius: 6,
                   spreadRadius: 2)
@@ -115,8 +119,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                 Text(
                   product.details.title,
                   style: TextStyle(
-                    color: Color(0xFF00041D),
-                    fontFamily: "NeoSansArabic",
+                    color: accent,
                     fontWeight: FontWeight.bold,
                     fontSize: 14.sp,
                   ),
@@ -125,8 +128,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                 Text(
                   product.details.price,
                   style: TextStyle(
-                    color: Color(0xFF595B67),
-                    fontFamily: "NeoSansArabic",
+                    color: grey2,
                     fontWeight: FontWeight.w500,
                     fontSize: 14.sp,
                   ),
@@ -149,9 +151,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         width: 80,
         height: 80,
         decoration: BoxDecoration(
-            color: Color(0xFFE1251B),
+            color: red1,
             borderRadius:
-                BorderRadiusDirectional.horizontal(end: Radius.circular(8))),
+                BorderRadiusDirectional.horizontal(end: Radius.circular(8.r))),
         child: Align(
           child: SvgPicture.asset(
             "assets/icons/remove.svg",
@@ -175,7 +177,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           Navigator.pop(context);
         });
       },
-      barrierColor: Colors.black.withOpacity(.35),
+      barrierColor: black.withOpacity(.35),
       barrierDismissible: true,
     );
   }

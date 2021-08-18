@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:yagot_app/constants/colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomDropdownButton extends StatefulWidget {
   final double height;
@@ -104,7 +106,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton>
 
             },
             dense: true,
-            contentPadding: EdgeInsets.symmetric(horizontal: 20),
+            contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
             title: Text(
               _title,
               style: widget.titleStyle,
@@ -135,9 +137,9 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton>
             showWhenUnlinked: false,
             offset: Offset(3, size.height + 5),
             child: Material(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(8.r),
               borderOnForeground: true,
-              color: Colors.white,
+              color: white,
               elevation: 8,
               child: ListView(
                 children: [

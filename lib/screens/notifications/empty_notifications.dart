@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,7 +15,7 @@ class EmptyNotifications extends StatelessWidget {
 
   Widget _appBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: white,
       title: Text(
         getTranslated(context, "adding_company"),
       ),
@@ -25,7 +26,7 @@ class EmptyNotifications extends StatelessWidget {
         },
         icon: Icon(
           Icons.arrow_back,
-          color: Color(0xFF00041D),
+          color: accent,
         ),
       ),
     );

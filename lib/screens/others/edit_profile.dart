@@ -1,31 +1,31 @@
 import 'dart:io';
 
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:yagot_app/constants/colors.dart';
-import 'package:yagot_app/screens/shared/app_button.dart';
-
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
+import 'package:yagot_app/screens/common/widgets/app_text_field.dart';
+import 'package:yagot_app/utilities/field_decoration.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class EditProfile extends StatefulWidget {
   @override
   _EditProfileState createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
-  TextEditingController userNameCtr,
-      emailCtr,
-      phoneCtr,
-      passwordCtr,
-      confirmPasswordCtr;
-  String userName, email, phone, password, confirmPassword;
-  FocusNode node1, node2, node3, node4, node5;
+  TextEditingController username,
+      email,
+      phone,
+      password,
+      cPassword;
+  FocusNode node1, node2, node3, node4, node5 ,  node6 , node7;
   bool obscurePassword = true;
+  bool obscureCPassword = true;
   final _formKey = GlobalKey<FormState>();
   int countryValue, cityValue;
   String countryError, cityError;
@@ -38,16 +38,18 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     super.initState();
-    userNameCtr = TextEditingController();
-    emailCtr = TextEditingController();
-    phoneCtr = TextEditingController();
-    passwordCtr = TextEditingController();
-    confirmPasswordCtr = TextEditingController();
+    username = TextEditingController();
+    email = TextEditingController();
+    phone = TextEditingController();
+    password = TextEditingController();
+    cPassword = TextEditingController();
     node1 = FocusNode();
     node2 = FocusNode();
     node3 = FocusNode();
     node4 = FocusNode();
     node5 = FocusNode();
+    node6 = FocusNode();
+    node7 = FocusNode();
     countryItems = _buildDropDownItems(countries);
     cityItems = _buildDropDownItems(cities);
   }
@@ -55,11 +57,11 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void dispose() {
     super.dispose();
-    userNameCtr.dispose();
-    emailCtr.dispose();
-    phoneCtr.dispose();
-    passwordCtr.dispose();
-    confirmPasswordCtr.dispose();
+    username.dispose();
+    email.dispose();
+    phone.dispose();
+    password.dispose();
+    cPassword.dispose();
   }
 
   @override
@@ -94,58 +96,81 @@ class _EditProfileState extends State<EditProfile> {
       behavior: NoneGlowScrollBehavior(),
       child: Form(
         key: _formKey,
-        child: ListView(
-          children: [
-            _userImage(),
-            SizedBox(height: 30.h),
-            _subtitle('user_name'),
-            SizedBox(height: 10.h),
-            _textField("user_name", "user_name_error_message", userNameCtr,
-                Fields.USER_NAME, node1, node2),
-            SizedBox(height: 20.h),
-            _subtitle('email'),
-            SizedBox(height: 10.h),
-            _textField("email", "empty_email_error_message", emailCtr,
-                Fields.EMAIL, node2, node3),
-            SizedBox(height: 20.h),
-            _subtitle('phone'),
-            SizedBox(height: 10.h),
-            _phoneField(),
-            SizedBox(height: 20.h),
-            _subtitle("country"),
-            SizedBox(height: 10.h),
-            _dropDownButton(countryItems, "choose_country", true),
-            SizedBox(height: 20.h),
-            _subtitle("city"),
-            SizedBox(height: 10.h),
-            _dropDownButton(cityItems, "choose_city", false),
-            SizedBox(height: 20.h),
-            _subtitle('password'),
-            SizedBox(height: 10.h),
-            _textField("password", "password_error_message", passwordCtr,
-                Fields.PASSWORD, node4, node5),
-            SizedBox(height: 20.h),
-            _subtitle('confirm_password'),
-            SizedBox(height: 10.h),
-            _textField("confirm_password", "password_error_message",
-                confirmPasswordCtr, Fields.CONFIRM_PASSWORD, node5, null),
-            SizedBox(height: 60.h),
-            AppButton(
-              title: "save",
-              onPressed: () {
-                userName = userNameCtr.text;
-                email = emailCtr.text;
-                phone = phoneCtr.text.trim();
-                password = passwordCtr.text;
-                confirmPassword = confirmPasswordCtr.text;
-                print(phone);
-                if (_formKey.currentState.validate()) {
-                  Navigator.pop(context);
-                }
-              },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(
+                top: 30.h, bottom: 80.h, right: 30.w, left: 30.w),
+            child: Column(
+              children: [
+                _userImage(),
+                SizedBox(height: 30.h),
+                _subtitle('user_name'),
+                SizedBox(height: 10.h),
+                AppTextField(
+                  hintKey: 'user_name',
+                  errorKey: 'user_name_error_message',
+                  controller: username,
+                  node: node1,
+                  nextNode: node2,
+                ),
+                SizedBox(height: 20.h),
+                _subtitle('email'),
+                SizedBox(height: 10.h),
+                AppTextField(
+                  hintKey: 'email',
+                  errorKey: 'empty_email_error_message',
+                  controller: email,
+                  node: node2,
+                  nextNode: node3,
+                ),
+                SizedBox(height: 20.h),
+                _subtitle('phone'),
+                SizedBox(height: 10.h),
+                _phoneField(),
+                SizedBox(height: 20.h),
+                _subtitle("country"),
+                SizedBox(height: 10.h),
+                _dropDownButton(countryItems, "choose_country", true),
+                SizedBox(height: 20.h),
+                _subtitle("city"),
+                SizedBox(height: 10.h),
+                _dropDownButton(cityItems, "choose_city", false),
+                SizedBox(height: 20.h),
+                _subtitle('password'),
+                SizedBox(height: 10.h),
+                AppTextField(
+                  hintKey: 'password',
+                  errorKey: 'password_error_message',
+                  controller: password,
+                  node: node6,
+                  nextNode: node7,
+                  isObscured: obscurePassword,
+                ),
+                SizedBox(height: 20.h),
+                _subtitle('confirm_password'),
+                SizedBox(height: 10.h),
+                AppTextField(
+                  hintKey: 'confirm_password',
+                  errorKey: 'password_error_message',
+                  controller: cPassword,
+                  node: node7,
+                  nextNode: null,
+                  isObscured: obscureCPassword,
+                ),
+                SizedBox(height: 60.h),
+                AppButton(
+                  title: "save",
+                  onPressed: () {
+                    print(phone);
+                    if (_formKey.currentState.validate()) {
+                      Navigator.pop(context);
+                    }
+                  },
+                ),
+              ],
+
             ),
-          ],
-          padding: EdgeInsets.only(top: 30.h, bottom: 80.h, right: 30.w, left: 30.w),
+          ),
         ),
       ),
     );
@@ -154,9 +179,11 @@ class _EditProfileState extends State<EditProfile> {
   InternationalPhoneNumberInput _phoneField() {
     return InternationalPhoneNumberInput(
       onInputChanged: null,
-      textFieldController: phoneCtr,
+      textFieldController: phone,
       validator: (input) {
-        if (input.isEmpty || input.trim().length < 9) {
+        if (input.isEmpty || input
+            .trim()
+            .length < 9) {
           return getTranslated(context, "phone_error_message");
         }
         return null;
@@ -164,7 +191,7 @@ class _EditProfileState extends State<EditProfile> {
       focusNode: node3,
       formatInput: true,
       ignoreBlank: true,
-      inputDecoration: _decoration("phone_hint"),
+      inputDecoration: FieldDecoration(hint: getTranslated(context, 'phone_hint')),
       maxLength: 11,
       countries: ["SA"],
     );
@@ -202,10 +229,10 @@ class _EditProfileState extends State<EditProfile> {
         height: 30.h,
         width: 30.h,
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          color: primary,
           shape: BoxShape.circle,
         ),
-        padding: EdgeInsets.all(7.h),
+        padding: EdgeInsets.all(7.r),
         child: SvgPicture.asset("assets/icons/pencil.svg"),
       ),
     );
@@ -223,82 +250,11 @@ class _EditProfileState extends State<EditProfile> {
   Widget _subtitle(String textKey) {
     return Text(getTranslated(context, textKey));
   }
-
-  InputDecoration _decoration(String hintKey) {
-    return InputDecoration(
-      hintText: getTranslated(context, hintKey),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.h),
-        borderSide:
-            BorderSide(color: accent.withOpacity(.2), width: 1),
-      ),
-    );
-  }
-
-  _textField(String hintKey, String errorKey, TextEditingController controller,
-      Fields field, FocusNode node, FocusNode nextNode) {
-    return Stack(
-      alignment: AlignmentDirectional.topEnd,
-      children: [
-        TextFormField(
-          controller: controller,
-          obscureText:
-              (field == Fields.PASSWORD || field == Fields.CONFIRM_PASSWORD)
-                  ? obscurePassword
-                  : false,
-          decoration: _decoration(hintKey),
-          focusNode: node,
-          onFieldSubmitted: (input) {
-            if (field == Fields.CONFIRM_PASSWORD) {
-              FocusScope.of(context).unfocus();
-            } else {
-              FocusScope.of(context).requestFocus(nextNode);
-            }
-          },
-          textInputAction: (field == Fields.CONFIRM_PASSWORD)
-              ? TextInputAction.done
-              : TextInputAction.next,
-          keyboardType: (field == Fields.EMAIL)
-              ? TextInputType.emailAddress
-              : TextInputType.text,
-          validator: (input) {
-            if (input.isEmpty) {
-              return getTranslated(context, errorKey);
-            }
-            if (field == Fields.EMAIL &&
-                EmailValidator.validate(input)) {
-              return getTranslated(context, "invalid_email_error_message");
-            }
-            if (field == Fields.CONFIRM_PASSWORD &&
-                password != confirmPassword) {
-              return getTranslated(context, "password_is_not_identical");
-            }
-            return null;
-          },
-        ),
-        (field == Fields.PASSWORD || field == Fields.CONFIRM_PASSWORD)
-            ? IconButton(
-                splashRadius: 20,
-                onPressed: () {
-                  setState(() {
-                    obscurePassword = !obscurePassword;
-                  });
-                },
-                icon: Icon(
-                  (obscurePassword) ? Icons.visibility : Icons.visibility_off,
-                ),
-                padding: EdgeInsets.symmetric(vertical: 15.h),
-              )
-            : Container(),
-      ],
-    );
-  }
-
-  Widget _dropDownButton(
-      List<DropdownMenuItem> dropItems, String hintKey, bool isCountry) {
-    return DropdownButtonFormField(
-      items: dropItems,
-      onChanged: (value) {
+Widget _dropDownButton(List<DropdownMenuItem> dropItems, String hintKey,
+    bool isCountry) {
+  return DropdownButtonFormField(
+    items: dropItems,
+    onChanged: (value) {
         isCountry
             ? setState(() {
                 countryValue = value;
@@ -307,32 +263,26 @@ class _EditProfileState extends State<EditProfile> {
                 cityValue = value;
               });
       },
-      iconEnabledColor: primary,
-      value: isCountry ? countryValue : cityValue,
-      isExpanded: true,
-      decoration: _decoration(hintKey),
-      validator: (value) {
-        if (value == null) {
-          return getTranslated(context, hintKey);
-        }
-        return null;
-      },
+    iconEnabledColor: primary,
+    value: isCountry ? countryValue : cityValue,
+    isExpanded: true,
+    decoration: FieldDecoration(hint: getTranslated(context, hintKey)),
+    validator: (value) {
+      if (value == null) {
+        return getTranslated(context, hintKey);
+      }
+      return null;
+    },
+  );
+}
+
+List<DropdownMenuItem> _buildDropDownItems(List<String> choices) {
+  return choices.map((choice) {
+    return DropdownMenuItem(
+      child: Text(choice),
+      value: choices.indexOf(choice),
     );
-  }
-
-  List<DropdownMenuItem> _buildDropDownItems(List<String> choices) {
-    return choices.map((choice) {
-      return DropdownMenuItem(
-        child: Text(choice),
-        value: choices.indexOf(choice),
-      );
-    }).toList();
-  }
+  }).toList();
+}
 }
 
-enum Fields {
-  USER_NAME,
-  EMAIL,
-  PASSWORD,
-  CONFIRM_PASSWORD,
-}

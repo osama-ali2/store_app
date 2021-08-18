@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/models/purchase.dart';
 import 'package:yagot_app/screens/purchases/order_tracking.dart';
-import 'package:yagot_app/screens/shared/app_button.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -22,7 +23,7 @@ class OrderDetails extends StatelessWidget {
 
   Widget _appBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: transparent,
       title: Text(getTranslated(context, "order_details")),
       centerTitle: true,
       leading: IconButton(
@@ -31,7 +32,7 @@ class OrderDetails extends StatelessWidget {
         },
         icon: Icon(
           Icons.arrow_back,
-          color: Colors.black,
+          color: black,
         ),
       ),
     );
@@ -43,7 +44,7 @@ class OrderDetails extends StatelessWidget {
       children: [
         Spacer(flex: 5),
         Padding(
-          padding: const EdgeInsetsDirectional.only(start: 30),
+          padding:  EdgeInsetsDirectional.only(start: 30.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -57,7 +58,7 @@ class OrderDetails extends StatelessWidget {
         _divider(),
         Container(
           height: 100,
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.r),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -82,7 +83,7 @@ class OrderDetails extends StatelessWidget {
                       Text(
                         "1234  ****",
                         style: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                          color: primary,
                         ),
                       ),
                     ],
@@ -96,13 +97,13 @@ class OrderDetails extends StatelessWidget {
         Container(
           height: 100,
           padding: EdgeInsetsDirectional.only(
-              start: 20, end: 40, top: 20, bottom: 20),
+              start: 20.w, end: 40.w, top: 20.h, bottom: 20.h),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SvgPicture.asset(
                 "assets/icons/truck.svg",
-                color: Theme.of(context).primaryColor,
+                color: primary,
               ),
               SizedBox(width: 10),
               Column(
@@ -134,15 +135,15 @@ class OrderDetails extends StatelessWidget {
           ),
         ),
         Container(
-          height: 140,
+          height: 140.h,
           padding: EdgeInsetsDirectional.only(
-              start: 20, end: 40, top: 20, bottom: 20),
+              start: 20.w, end: 40.w, top: 20.h, bottom: 20.h),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SvgPicture.asset(
                 "assets/icons/box.svg",
-                color: Theme.of(context).primaryColor,
+                color: primary,
               ),
               SizedBox(width: 10),
               Column(
@@ -177,7 +178,7 @@ class OrderDetails extends StatelessWidget {
         ),
         Spacer(flex: 4),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
+          padding:  EdgeInsets.symmetric(horizontal: 30.w),
           child: AppButton(
             title: "order_tracking",
             onPressed: () {
@@ -198,9 +199,9 @@ class OrderDetails extends StatelessWidget {
 
   Widget _divider() {
     return Container(
-      color: Color(0xFFC5CAD4).withOpacity(.7),
+      color: grey3.withOpacity(.7),
       height: .5,
-      margin: EdgeInsets.symmetric(horizontal: 30),
+      margin: EdgeInsets.symmetric(horizontal: 30.w),
     );
   }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/screens/buying_product/payment_methods.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +25,7 @@ class _BundlesState extends State<Bundles> {
 
   Widget _appBar() {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: white,
       title: Text(
         getTranslated(context, "bundles"),
       ),
@@ -34,7 +36,7 @@ class _BundlesState extends State<Bundles> {
         },
         icon: Icon(
           Icons.arrow_back,
-          color: Color(0xFF00041D),
+          color: accent,
         ),
       ),
     );
@@ -42,7 +44,7 @@ class _BundlesState extends State<Bundles> {
 
   Widget _bodyContent() {
     return Padding(
-      padding: const EdgeInsets.all(30),
+      padding:  EdgeInsets.all(30.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -61,7 +63,17 @@ class _BundlesState extends State<Bundles> {
               ),
             ),
           ),
-          _subscribeButton(),
+          AppButton(title: 'subscribe',onPressed: (selectedIndex == -1)
+              ? null
+              : () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return PaymentMethodsScreen();
+                },
+              ),
+            );
+          },),
         ],
       ),
     );
@@ -88,14 +100,14 @@ class _BundlesState extends State<Bundles> {
     return Container(
       height: 70,
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 2),
+      margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 2.w),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: (selectedIndex == position) ? Theme.of(context).primaryColor:Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        color: (selectedIndex == position) ? primary:white,
+        borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Color(0xFF203152).withOpacity(.1),
+            color: blue6.withOpacity(.1),
             offset: Offset(0, 1),
             blurRadius: 6,
           ),
@@ -110,47 +122,6 @@ class _BundlesState extends State<Bundles> {
         leading: SvgPicture.asset("assets/icons/yagot_logo.svg"),
         title: _bodyText("اسم الباقة"),
         trailing: Text("50 ريال"),
-      ),
-    );
-  }
-
-  Widget _subscribeButton() {
-    return Container(
-      height: 50,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xFF00041D).withOpacity(.16),
-            offset: Offset(0, 3),
-            blurRadius: 6,
-          )
-        ],
-      ),
-      child: RaisedButton(
-        onPressed: (selectedIndex == -1)
-            ? null
-            : () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return PaymentMethodsScreen();
-                    },
-                  ),
-                );
-              },
-        disabledColor: Colors.grey.shade700,
-        child: Text(
-          getTranslated(context, "subscribe"),
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        color: Theme.of(context).primaryColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
       ),
     );
   }

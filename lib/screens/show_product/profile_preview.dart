@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/models/home/client.dart';
-import 'package:yagot_app/models/product/product.dart';
+import 'package:yagot_app/screens/common/widgets/contact_button.dart';
+import 'package:yagot_app/screens/conversations/single_conversation.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -27,7 +30,7 @@ class _ProfilePreviewState extends State<ProfilePreview> {
           alignment: Alignment.topCenter,
         ),
         Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: transparent,
           appBar: _appBar(context),
           body: _bodyContent(context),
         ),
@@ -37,14 +40,13 @@ class _ProfilePreviewState extends State<ProfilePreview> {
 
   AppBar _appBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: transparent,
       elevation: 0,
       title: Text(
         getTranslated(context, "seller_profile"),
         style: TextStyle(
-          color: Colors.white,
+          color: white,
           fontSize: 18.sp,
-          fontFamily: "NeoSansArabic",
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -69,31 +71,44 @@ class _ProfilePreviewState extends State<ProfilePreview> {
   Widget _bodyContent(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 40),
+        SizedBox(height: 40.h),
         _aboutOwnerRow(),
-        SizedBox(height: 30),
+        SizedBox(height: 30.h),
         Row(
           children: [
             Spacer(),
-            _contactButton(
-              getTranslated(context,"send_message"),
-              "assets/icons/message.svg",
+    ContactButton(
+    titleKey: 'send_message',
+    iconPath: 'message.svg',
+    color: white,
+    borderColor: white,
+    textColor: accent,
+    onPressed: _goToMessage(),
+    ),
+
+            SizedBox(width: 20.w),
+            ContactButton(
+              titleKey: 'call',
+              iconPath: 'phone_call.svg',
+              color: white,
+              borderColor: white,
+              textColor: accent,
+              onPressed: (){
+                _goToPhoneApp(widget.client.fullMobile);
+              },
             ),
-            SizedBox(width: 20),
-            _contactButton(getTranslated(context,"call"),
-                "assets/icons/phone_call.svg"),
             Spacer(),
           ],
         ),
-        SizedBox(height: 30),
+        SizedBox(height: 30.h),
         Expanded(
           child: Container(
-            padding: const EdgeInsets.only(top: 40, right: 40, left: 40),
+            padding:  EdgeInsets.only(top: 40.h, right: 40.w, left: 40.w),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: white,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
+                topLeft: Radius.circular(30.r),
+                topRight: Radius.circular(30.r),
               ),
             ),
             child: Column(
@@ -102,9 +117,8 @@ class _ProfilePreviewState extends State<ProfilePreview> {
                 Text(
                   getTranslated(context,"ads"),
                   style: TextStyle(
-                    fontFamily: "NeoSansArabic",
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF00041D),
+                    color: accent,
                     fontSize: 14.sp,
                     decoration: TextDecoration.none,
                   ),
@@ -116,7 +130,7 @@ class _ProfilePreviewState extends State<ProfilePreview> {
                 //       return Card(
                 //         clipBehavior: Clip.antiAlias,
                 //         elevation: 2.5,
-                //         margin: EdgeInsets.symmetric(vertical: 10),
+                //         margin: EdgeInsets.symmetric(vertical: 10.h),
                 //         shape: RoundedRectangleBorder(
                 //           borderRadius: BorderRadius.circular(8),
                 //         ),
@@ -136,7 +150,6 @@ class _ProfilePreviewState extends State<ProfilePreview> {
                 //                   currentProduct.details.title,
                 //                   style: TextStyle(
                 //                     color: Color(0xFF00041D),
-                //                     fontFamily: "NeoSansArabic",
                 //                     fontWeight: FontWeight.bold,
                 //                     fontSize: 14,
                 //                   ),
@@ -144,7 +157,11 @@ class _ProfilePreviewState extends State<ProfilePreview> {
                 //                 SizedBox(height: 12),
                 //                 // Text(
                 //                 //   currentProduct.dateTime,
-                //                 //   style: Theme.of(context).textTheme.headline2,
+                //                 //   style: TextStyle(
+                //           color: grey2,
+                //           fontSize: 12.sp,
+                //           fontWeight: FontWeight.normal,
+                //         ),,
                 //                 // ),
                 //               ],
                 //             ),
@@ -153,7 +170,6 @@ class _ProfilePreviewState extends State<ProfilePreview> {
                 //               currentProduct.details.price,
                 //               style: TextStyle(
                 //                 color: Color(0xFF595B67),
-                //                 fontFamily: "NeoSansArabic",
                 //                 fontWeight: FontWeight.w500,
                 //                 fontSize: 14,
                 //               ),
@@ -164,8 +180,7 @@ class _ProfilePreviewState extends State<ProfilePreview> {
                 //       );
                 //     },
                 //     itemCount: 5,
-                //     physics: BouncingScrollPhysics(),
-                //     padding: EdgeInsets.symmetric(vertical: 40),
+                //     padding: EdgeInsets.symmetric(vertical: 40.h),
                 //   ),
                 // ),
               ],
@@ -198,17 +213,15 @@ class _ProfilePreviewState extends State<ProfilePreview> {
               Text(
                 widget.client.name,
                 style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: "NeoSansArabic",
+                  color: white,
                   fontWeight: FontWeight.w600,
                   fontSize: 14.sp,
                   decoration: TextDecoration.none,
                 ),
               ),
-              Text(widget.client.email,
+              Text(widget.client.email??"email",
                   style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: "NeoSansArabic",
+                    color: white,
                     fontWeight: FontWeight.w600,
                     fontSize: 14.sp,
                     decoration: TextDecoration.none,
@@ -230,34 +243,13 @@ class _ProfilePreviewState extends State<ProfilePreview> {
     );
   }
 
-  Widget _contactButton(String type, String iconPath) {
-    return MaterialButton(
-      height: 50,
-      minWidth: 130,
-      elevation: 0,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25),
-      ),
-      onPressed: () {},
-      child: Row(
-        children: [
-          SvgPicture.asset(
-            iconPath,
-            color: Color(0xFF00014D),
-          ),
-          SizedBox(width: 10),
-          Text(
-            type,
-            style: TextStyle(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w100,
-              fontFamily: "NeoSansArabic",
-              color: Color(0xFF00041D),
-            ),
-          ),
-        ],
-      ),
-    );
+  _goToMessage() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => SingleConversationPage()));
+  }
+
+  _goToPhoneApp(String number) async {
+    var _url = 'tel:$number';
+    await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
   }
 }

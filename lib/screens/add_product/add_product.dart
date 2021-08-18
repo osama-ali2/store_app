@@ -1,9 +1,19 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:provider/provider.dart';
+import 'package:yagot_app/constants/colors.dart';
+import 'package:yagot_app/models/home/category_model.dart';
+import 'package:yagot_app/providers/general_provider.dart';
+import 'package:yagot_app/screens/common/unregistered.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
+import 'package:yagot_app/utilities/enums.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
 
@@ -14,19 +24,18 @@ class AddProduct extends StatefulWidget {
 
 class _AddProductState extends State<AddProduct> {
   FocusNode node1, node2, node3, node4;
-  TextEditingController addProductController,
-      priceController,
-      otherDetailsController;
+  TextEditingController productNameCtr, priceCtr, detailsCtr;
   int _sectionChoiceValue;
+  int _categoryId;
 
   String dropdownError = "";
-  List<String> _sections;
-
-  List<DropdownMenuItem> _dropItems;
+  Map<int, String> _currency = {1: 'ريال'};
 
   final _formKey = GlobalKey<FormState>();
-  ImagePicker picker;
   File mainImage;
+  File certificateImage;
+  List<File> subImages = [];
+  ProgressDialog _progDialog;
 
   @override
   void initState() {
@@ -36,18 +45,22 @@ class _AddProductState extends State<AddProduct> {
     node3 = FocusNode();
     node4 = FocusNode();
 
-    addProductController = TextEditingController();
-    priceController = TextEditingController();
-    otherDetailsController = TextEditingController();
-    picker = ImagePicker();
+    productNameCtr = TextEditingController();
+    priceCtr = TextEditingController();
+    detailsCtr = TextEditingController();
+    _progDialog = ProgressDialog(
+      context,
+      isDismissible: true,
+    );
+    Provider.of<GeneralProvider>(context, listen: false).getCategories();
   }
 
   @override
   void dispose() {
     super.dispose();
-    addProductController.dispose();
-    priceController.dispose();
-    otherDetailsController.dispose();
+    productNameCtr.dispose();
+    priceCtr.dispose();
+    detailsCtr.dispose();
     node1.dispose();
     node2.dispose();
     node3.dispose();
@@ -56,14 +69,6 @@ class _AddProductState extends State<AddProduct> {
 
   @override
   Widget build(BuildContext context) {
-    _sections = [
-      getTranslated(context, "gemstones"),
-      getTranslated(context, "jewelry_diamonds"),
-      getTranslated(context, "antiques_accessories"),
-      getTranslated(context, "other_products"),
-    ];
-    _dropItems = _buildDropDownItems(_sections);
-
     return Scaffold(
       appBar: _appBar(),
       body: _bodyContent(),
@@ -72,7 +77,7 @@ class _AddProductState extends State<AddProduct> {
 
   Widget _appBar() {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: white,
       brightness: Brightness.light,
       title: Text(
         getTranslated(context, "adding_product"),
@@ -84,7 +89,7 @@ class _AddProductState extends State<AddProduct> {
         },
         icon: Icon(
           Icons.arrow_back,
-          color: Color(0xFF00041D),
+          color: accent,
         ),
       ),
     );
@@ -95,295 +100,269 @@ class _AddProductState extends State<AddProduct> {
       behavior: NoneGlowScrollBehavior(),
       child: Form(
         key: _formKey,
-        child: ListView(
-          children: [
-            _subtitle("main_image"),
-            SizedBox(height: 20),
-            Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: _addImage(mainImage),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(30.r),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _subtitle("main_image"),
+                SizedBox(height: 20.h),
+                AddImageBtn(
+                  onChangeImage: (image) {
+                    mainImage = image;
+                  },
+                ),
+                SizedBox(height: 20.h),
+                _subtitle("sub_images"),
+                SizedBox(height: 15.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(
+                    4,
+                    (index) => AddImageBtn(
+                      onChangeImage: (image) {
+                        if (subImages.length > index) {
+                          subImages[index] = image;
+                        } else {
+                          subImages.add(image);
+                        }
+                      },
+                    ),
+                  ).toList(),
+                ),
+                SizedBox(height: 20.h),
+                _subtitle("product_name"),
+                SizedBox(height: 15.h),
+                _textField("product_name", "enter_product_name", productNameCtr,
+                    FieldType.addProduct, node1, node2),
+                SizedBox(height: 20.h),
+                _subtitle("section"),
+                SizedBox(height: 15.h),
+                _dropDownButton(),
+                SizedBox(height: 20.h),
+                _subtitle("price"),
+                SizedBox(height: 15.h),
+                _textField("price", "enter_price", priceCtr, FieldType.price,
+                    node3, node4),
+                SizedBox(height: 20.h),
+                _subtitle("certificate_registration_product"),
+                SizedBox(height: 20.h),
+                AddImageBtn(),
+                SizedBox(height: 20.h),
+                _subtitle("other_details"),
+                SizedBox(height: 15.h),
+                _textField("add_details_here", "enter_other_details",
+                    detailsCtr, FieldType.otherDetails, node4, node4),
+                SizedBox(height: 60.h),
+                AppButton(
+                  title: 'add',
+                  onPressed: onPressAddBtn,
+                ),
+              ],
             ),
-            SizedBox(height: 20),
-            _subtitle("sub_images"),
-            SizedBox(height: 15),
-            _addImage(mainImage),
-            SizedBox(height: 20),
-            _subtitle("product_name"),
-            SizedBox(height: 15),
-            _textField("product_name", "enter_product_name",
-                addProductController, Fields.addProduct, node1, node2),
-            SizedBox(height: 20),
-            _subtitle("section"),
-            SizedBox(height: 15),
-            _dropDownButton(_dropItems),
-            SizedBox(height: 20),
-            _subtitle("price"),
-            SizedBox(height: 15),
-            _textField("price", "enter_price", priceController, Fields.price,
-                node3, node4),
-            SizedBox(height: 20),
-            _subtitle("certificate_registration_product"),
-            SizedBox(height: 20),
-            _addImage(mainImage),
-            SizedBox(height: 20),
-            _subtitle("other_details"),
-            SizedBox(height: 15),
-            _textField("add_details_here", "", otherDetailsController,
-                Fields.otherDetails, node4, node4),
-            SizedBox(height: 60),
-            _addButton(),
-          ],
-          padding: EdgeInsets.all(30),
+          ),
         ),
       ),
     );
   }
+
+  //Todo: .............
+  // List<Widget> b() {
+  //   if (list.length <= 4) {
+  //     print("${list.length}  1");
+  //     var c = AddImageBtn();
+  //     c = AddImageBtn(
+  //       onChangeImage: (image) {
+  //         if (image != null) {
+  //           // subImages[index] = image;
+  //           // subImages.add(null);
+  //           b();
+  //           list.add(c);
+  //           // print(index.toString() + 'subImages1');
+  //         } else if (list.length != 1) {
+  //           // print(index.toString() + 'subImages2');
+  //           print(list);
+  //           list.remove(c);
+  //           // subImages.removeAt(index);
+  //         }
+  //       },
+  //     );
+  //     if(list.isEmpty){
+  //       list.add(c);
+  //     }
+  //   }
+  //   print("${list.length}   2");
+  //
+  //   setState(() {});
+  //   return list;
+  // }
 
   Widget _subtitle(String textKey) {
     return Text(getTranslated(context, textKey));
   }
 
-  Widget _addImage(File image) {
-    return (image != null)
-        ? _imageContainer(image)
-        : DottedBorder(
-            color: Color(0xFF203152).withOpacity(.2),
-            dashPattern: [3, 3],
-            strokeWidth: 1,
-            radius: Radius.circular(8),
-            strokeCap: StrokeCap.round,
-            borderType: BorderType.RRect,
-            padding: EdgeInsets.zero,
-            child: InkWell(
-              onTap: () {
-                _pickImage().then((image) {
-                  setState(() {
-                    mainImage = image;
-                  });
-                });
-              },
-              child: Container(
-                height: 80,
-                width: 80,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Icon(
-                      Icons.add,
-                      size: 50,
-                      color: Color(0xFF00041D).withOpacity(.5),
-                    ),
-                    Text(
-                      getTranslated(context, "image"),
-                      style: TextStyle(
-                        color: Color(0xFF00041D).withOpacity(.5),
-                      ),
-                    ),
-                    SizedBox(height: 6),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  color: Color(0xFF9EA1AF).withOpacity(.2),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-          );
-  }
-
-  // _showImage(File image) {
-  //   if (image != null) {
-  //     _imageContainer(image);
-  //   }
-  // }
-
-  Widget _imageContainer(File image) {
-    return Stack(
-      alignment: AlignmentDirectional.topEnd,
-      children: [
-        Padding(
-          padding: const EdgeInsetsDirectional.only(end: 12, top: 12),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.file(
-              image,
-              fit: BoxFit.cover,
-              height: 80,
-              width: 80,
-            ),
-          ),
-        ),
-        _exit(image),
-      ],
-    );
-  }
-
-  Widget _exit(File image) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          mainImage = null;
-        });
-      },
-      child: Container(
-        height: 24,
-        width: 24,
-        child: Icon(
-          Icons.close,
-          color: Colors.white,
-          size: 16,
-        ),
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-          shape: BoxShape.circle,
-        ),
-      ),
-    );
-  }
-
   _textField(String hintKey, String errorKey, TextEditingController controller,
-      Fields field, FocusNode node, FocusNode nextNode) {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: getTranslated(context, hintKey),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide:
-              BorderSide(color: Color(0xFF00041D).withOpacity(.2), width: 1),
-        ),
-        suffixText: (field == Fields.price) ? "ريال" : "",
-      ),
-      maxLines: (field == Fields.otherDetails) ? 3 : 1,
-      focusNode: node,
-      onFieldSubmitted: (input) {
-        print("sub");
-        if (field != Fields.otherDetails) {
-          FocusScope.of(context).requestFocus(nextNode);
-        } else {
-          FocusScope.of(context).unfocus();
-        }
-      },
-      textInputAction: (field == Fields.otherDetails)
-          ? TextInputAction.newline
-          : TextInputAction.next,
-      inputFormatters: (field == Fields.price)
-          ? [FilteringTextInputFormatter.digitsOnly]
-          : [],
-      keyboardType: (field == Fields.price)
-          ? TextInputType.number
-          : (field == Fields.otherDetails)
-              ? TextInputType.multiline
-              : TextInputType.text,
-      validator: (input) {
-        if (input.isEmpty && field != Fields.otherDetails) {
-          return getTranslated(context, errorKey);
-        }
-        return null;
-      },
-    );
-  }
-
-  Future<File> _pickImage() async {
-    PickedFile file = await picker.getImage(source: ImageSource.gallery);
-    File image;
-    if (file != null) {
-      image = File(file.path);
-    }
-    return image;
-  }
-
-  Widget _addButton() {
+      FieldType field, FocusNode node, FocusNode nextNode) {
     return Container(
-      height: 50,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xFF00041D).withOpacity(.16),
-            offset: Offset(0, 3),
-            blurRadius: 6,
-          )
-        ],
-      ),
-      child: RaisedButton(
-        onPressed: () {
-          if (_sectionChoiceValue == null) {
-            setState(() {
-              dropdownError = getTranslated(context, "choose_section");
-            });
-          } else {
-            setState(() {
-              dropdownError = "";
-            });
-          }
-          if (_formKey.currentState.validate()) {
-          } else {}
-        },
-        child: Text(
-          getTranslated(context, "add"),
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
+      height: (field == FieldType.otherDetails) ? null : 80.h,
+      alignment: Alignment.bottomCenter,
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: getTranslated(context, hintKey),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.r),
+            borderSide: BorderSide(color: accent.withOpacity(.2), width: 1),
           ),
+          suffixText: (field == FieldType.price) ? _currency.values.first : "",
         ),
-        color: Theme.of(context).primaryColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
+        maxLines: (field == FieldType.otherDetails) ? 3 : 1,
+        maxLength: (field == FieldType.otherDetails) ? 200 : 15,
+        focusNode: node,
+        onFieldSubmitted: (input) {
+          print("sub");
+          if (field != FieldType.otherDetails) {
+            FocusScope.of(context).requestFocus(nextNode);
+          } else {
+            FocusScope.of(context).unfocus();
+          }
+        },
+        textInputAction: (field == FieldType.otherDetails)
+            ? TextInputAction.newline
+            : TextInputAction.next,
+        inputFormatters: (field == FieldType.price)
+            ? [FilteringTextInputFormatter.digitsOnly]
+            : [],
+        keyboardType: (field == FieldType.price)
+            ? TextInputType.number
+            : (field == FieldType.otherDetails)
+                ? TextInputType.multiline
+                : TextInputType.text,
+        validator: (input) {
+          if (input.isEmpty) {
+            return getTranslated(context, errorKey);
+          }
+          return null;
+        },
       ),
     );
   }
 
-  List<DropdownMenuItem> _buildDropDownItems(List<String> sections) {
-    return sections.map((section) {
-      return DropdownMenuItem(
-        child: Text(section),
-        value: sections.indexOf(section),
-        onTap: () {
-          FocusScope.of(context).requestFocus(node3);
-        },
-      );
-    }).toList();
+  onPressAddBtn() async {
+    bool _isCompleted = _sectionChoiceValue != null &&
+        _formKey.currentState.validate() &&
+        mainImage != null;
+    if (_isCompleted) {
+      if (Provider.of<GeneralProvider>(context, listen: false).isAuth) {
+        _progDialog.show();
+        final _data = {
+          'title': productNameCtr.text,
+          'details': detailsCtr.text,
+          'price': priceCtr.text,
+          'category_id': _categoryId,
+          'currency_id': _currency.keys.first,
+          'main_image': await MultipartFile.fromFile(mainImage.path,
+              filename: mainImage.path.split('/').last),
+          'images':
+              subImages.where((element) => element != null).map((image) async {
+            await MultipartFile.fromFile(image.path,
+                filename: image.path.split('/').last);
+          }).toList(),
+          'certified_images': (certificateImage != null)
+              ? await MultipartFile.fromFile(certificateImage.path,
+                  filename: certificateImage.path.split('/').last)
+              : '',
+          'city_id': 5,
+        };
+        Provider.of<GeneralProvider>(context, listen: false)
+            .addProduct(context, _data, () {}, () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => Unregistered(page: Pages.addProducts)));
+        });
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Unregistered(
+                      page: Pages.addProducts,
+                    )));
+      }
+    } else {
+      _formKey.currentState.validate();
+      if (_sectionChoiceValue == null) {
+        setState(() {
+          dropdownError = getTranslated(context, "choose_section");
+        });
+      } else {
+        setState(() {
+          dropdownError = "";
+        });
+      }
+      if (mainImage == null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(getTranslated(context, 'add_main_image')),
+          duration: Duration(seconds: 2),
+        ));
+      }
+    }
   }
 
-  Widget _dropDownButton(List<DropdownMenuItem> dropItems) {
+  Widget _dropDownButton() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 60,
+          height: 60.h,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8.r),
             border: Border.all(
-              color: Color(0xFF00041D).withOpacity(.16),
+              color: accent.withOpacity(.16),
             ),
           ),
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: DropdownButton(
-            items: dropItems,
-            onChanged: (value) {
-              setState(() {
-                _sectionChoiceValue = value;
-              });
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Selector<GeneralProvider, List<CategoryModel>>(
+            selector: (context, provider) => provider.categories,
+            builder: (context, categories, child) {
+              return DropdownButton(
+                items: categories.map((category) {
+                  return DropdownMenuItem(
+                    child: Text(category.name),
+                    value: categories.indexOf(category),
+                    onTap: () {
+                      FocusScope.of(context).requestFocus(node3);
+                    },
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _categoryId = categories[value].id;
+                    _sectionChoiceValue = value;
+                  });
+                },
+                hint: Text(getTranslated(context, "choose_section")),
+                iconEnabledColor: blue6,
+                value: _sectionChoiceValue,
+                focusNode: node2,
+                isExpanded: true,
+                underline: Container(),
+                onTap: () {},
+              );
             },
-            hint: Text(getTranslated(context, "choose_section")),
-            iconEnabledColor: Color(0xFF203152),
-            value: _sectionChoiceValue,
-            focusNode: node2,
-            isExpanded: true,
-            underline: Container(),
-            onTap: () {},
           ),
         ),
-        Text(
-          dropdownError,
-          style: TextStyle(
-            color: Colors.red,
-            wordSpacing: 2,
-            height: 1.5,
+        Padding(
+          padding: EdgeInsetsDirectional.only(start: 14.w, top: 8.h),
+          child: Text(
+            dropdownError,
+            style: TextStyle(
+              color: red1,
+              wordSpacing: 2,
+              height: 1.5,
+              fontSize: 14.sp,
+            ),
           ),
         )
       ],
@@ -391,9 +370,132 @@ class _AddProductState extends State<AddProduct> {
   }
 }
 
-enum Fields {
-  addProduct,
-  section,
-  price,
-  otherDetails,
+class AddImageBtn extends StatefulWidget {
+  const AddImageBtn({Key key, this.onChangeImage}) : super(key: key);
+  final ValueChanged<File> onChangeImage;
+
+  @override
+  _AddImageBtnState createState() => _AddImageBtnState();
+}
+
+class _AddImageBtnState extends State<AddImageBtn> {
+  ImagePicker _picker;
+  File _image;
+
+  @override
+  void initState() {
+    _picker = ImagePicker();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: AlignmentDirectional.centerStart,
+      child: (_image != null) ? _imageDisplay() : _emptyImage(),
+    );
+  }
+
+  DottedBorder _emptyImage() {
+    return DottedBorder(
+      color: blue6.withOpacity(.2),
+      dashPattern: [3, 3],
+      strokeWidth: 1,
+      radius: Radius.circular(8.r),
+      strokeCap: StrokeCap.round,
+      borderType: BorderType.RRect,
+      padding: EdgeInsets.zero,
+      child: InkWell(
+        onTap: () {
+          _pickImage().then((image) {
+            setState(() {
+              _image = image;
+            });
+            widget.onChangeImage(_image);
+          }).onError((error, stackTrace) {
+            print('error...$error');
+          });
+        },
+        child: Container(
+          height: 90.r,
+          width: 90.r,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(
+                Icons.add,
+                size: 50,
+                color: accent.withOpacity(.5),
+              ),
+              Text(
+                getTranslated(context, "image"),
+                style: TextStyle(
+                  color: accent.withOpacity(.5),
+                ),
+              ),
+              SizedBox(height: 6.h),
+            ],
+          ),
+          decoration: BoxDecoration(
+            color: grey6.withOpacity(.2),
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _imageDisplay() {
+    return Stack(
+      alignment: AlignmentDirectional.topEnd,
+      children: [
+        Padding(
+          padding: EdgeInsetsDirectional.only(end: 10.w, top: 10.h),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8.r),
+            child: Image.file(
+              _image,
+              fit: BoxFit.cover,
+              height: 90.r,
+              width: 90.r,
+            ),
+          ),
+        ),
+        _cancelBtn(),
+      ],
+    );
+  }
+
+  Future<File> _pickImage() async {
+    PickedFile pFile = await _picker.getImage(source: ImageSource.gallery);
+    File image;
+    if (pFile != null) {
+      image = File(pFile.path);
+    }
+    return image;
+  }
+
+  Widget _cancelBtn() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _image = null;
+        });
+        widget.onChangeImage(_image);
+      },
+      child: Container(
+        height: 24.r,
+        width: 24.r,
+        child: Icon(
+          Icons.close,
+          color: white,
+          size: 14,
+        ),
+        decoration: BoxDecoration(
+          color: primary,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
 }

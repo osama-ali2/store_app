@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:yagot_app/constants/colors.dart';
-import 'package:yagot_app/models/product/product.dart';
 import 'package:yagot_app/models/product/product_details.dart';
 import 'package:yagot_app/screens/main/product_preview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,10 +29,10 @@ class _ProductCardState extends State<ProductCard> {
       },
       child: Align(
         child: Card(
-          shadowColor: blue1,
+          shadowColor: accent,
           elevation: 2,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderRadius: BorderRadius.all(Radius.circular(8.r)),
           ),
           clipBehavior: Clip.hardEdge,
           child: Column(
@@ -69,7 +68,7 @@ class _ProductCardState extends State<ProductCard> {
                   widget.productDetails.title,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: blue1,
+                    color: accent,
                     fontWeight: FontWeight.bold,
                     fontSize: 16.sp,
                   ),

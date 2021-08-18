@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/lang/app_locale.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,9 +20,8 @@ class EmptyFavourites extends StatelessWidget {
           Text(
             AppLocalization.of(context).getTranslated("no_products_currently"),
             style: TextStyle(
-                color: Color(0xFF00041D),
+                color: accent,
                 fontSize: 14.sp,
-                fontFamily: "NeoSansArabic",
                 fontWeight: FontWeight.bold),
           ),
           Spacer(flex: 10),

@@ -213,5 +213,12 @@
   "delivery_done": "Delivery done",
   "date": "Date",
   "click_again_to_continue": "Click again to continue",
-  "unsupported" : "Unsupported"
+  "unsupported" : "Unsupported",
+  "add_main_image": "Add main image to complete",
+  "product_added_successfully": "Product added successfully",
+  "close": "Close",
+  "enter_other_details": "Enter details",
+  "general_error_message": "Something went wrong. Try again",
+  "no_connection" : "There is no internet connection"
+
 }

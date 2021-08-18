@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:yagot_app/constants/colors.dart';
+import 'package:yagot_app/providers/general_provider.dart';
 import 'package:yagot_app/screens/add_product/add_product.dart';
 import 'package:yagot_app/screens/conversations/conversation_screen.dart';
 import 'package:yagot_app/screens/main/home.dart';
 import 'package:yagot_app/screens/main/user_account.dart';
 import 'package:yagot_app/screens/notifications/notifications.dart';
-import 'package:yagot_app/screens/auth/login.dart';
 import 'package:yagot_app/utilities/custom_icons.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:provider/provider.dart';
-import 'package:yagot_app/providers/general_provider.dart';
-import 'package:yagot_app/screens/others/edit_profile.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class MainPages extends StatefulWidget {
   @override
   _MainPagesState createState() => _MainPagesState();
@@ -61,7 +60,7 @@ class _MainPagesState extends State<MainPages> {
     );
   }
 
-  _bottomNB(){
+  _bottomNB() {
     return Container(
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
@@ -75,15 +74,15 @@ class _MainPagesState extends State<MainPages> {
         type: BottomNavigationBarType.fixed,
         currentIndex: bottomBarIndex,
         onTap: (index) {
-          if(index == 3){
-            Provider.of<GeneralProvider>(context, listen: false).getSettings(() {});
+          if (index == 3) {
+            //UserAccount
+              context.read<GeneralProvider>().getProfile(context, () {}, () {});
           }
           setState(() {
-                  bottomBarIndex = index;
-                });
-                _pageController.jumpToPage(index);
-        }
-          ,
+            bottomBarIndex = index;
+          });
+          _pageController.jumpToPage(index);
+        },
         selectedIconTheme: IconThemeData(
           color: primary,
           size: 20,
@@ -94,15 +93,16 @@ class _MainPagesState extends State<MainPages> {
           fontSize: 12.sp,
         ),
         showUnselectedLabels: true,
-        unselectedItemColor:accent,
+        unselectedItemColor: accent,
         unselectedLabelStyle: TextStyle(
           color: accent,
           fontSize: 12.sp,
         ),
         iconSize: 24,
       ),
-    ) ;
+    );
   }
+
   List<BottomNavigationBarItem> _bottomBarItems() {
     return [
       BottomNavigationBarItem(

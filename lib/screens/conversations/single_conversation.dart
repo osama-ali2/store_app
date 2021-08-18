@@ -3,13 +3,12 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/lang/app_locale.dart';
-import 'package:yagot_app/models/conversation.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
 import 'package:yagot_app/screens/shipping_address/shipping_screen.dart';
-import 'package:yagot_app/utilities/helper_functions.dart';
 
 class SingleConversationPage extends StatefulWidget {
   SingleConversationPage();
@@ -49,7 +48,7 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: Color(0xFF00041D),
+            color: accent,
           ),
         ),
       ),
@@ -76,7 +75,7 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
                   blurRadius: 12.w,
                   offset: Offset(0, 3))
             ],
-            color: Colors.white,
+            color: white,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -88,7 +87,7 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
                   image: DecorationImage(
                       image: ExactAssetImage('assets/images/product1.png'),
                       fit: BoxFit.cover),
-                  borderRadius: BorderRadius.circular(6),
+                  borderRadius: BorderRadius.circular(6.r),
                 ),
               ),
               Column(
@@ -116,7 +115,7 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
                   });
                 },
                 child: Container(
-                  padding: EdgeInsets.all(6),
+                  padding: EdgeInsets.all(6.r),
                   height: 20,
                   width: 20,
                   decoration: BoxDecoration(
@@ -126,24 +125,18 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
                   child: SvgPicture.asset("assets/icons/cancel.svg"),
                 ),
               ),
-              RaisedButton(
+              AppButton(
+                title: 'buy',
+                borderRad: 25.r,
+                width: 80.w,
+                height: 30.h,
+                fontSize: 12.sp,
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => ShippingScreen()));
                 },
-                color: primary,
-                elevation: 5,
-                child: Text(
-                  getTranslated(context, "buy"),
-                  style: TextStyle(
-                      color: white,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.normal),
-                ),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.w)),
               )
             ],
           ),
@@ -156,7 +149,6 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
       ],
     );
   }
-
   _messagesList() {
     return Expanded(
       child: ListView.builder(
@@ -190,14 +182,14 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
               SizedBox(height: 24.h),
               Container(
                 width: MediaQuery.of(context).size.width * .75,
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.all(20.r),
                 decoration: BoxDecoration(
                   color: white2,
                   borderRadius: BorderRadiusDirectional.only(
-                      topEnd: Radius.circular(15),
-                      topStart: Radius.circular(15),
-                      bottomEnd: Radius.circular(15),
-                      bottomStart: Radius.circular(2)),
+                      topEnd: Radius.circular(15.r),
+                      topStart: Radius.circular(15.r),
+                      bottomEnd: Radius.circular(15.r),
+                      bottomStart: Radius.circular(2.r)),
                 ),
                 child: Text(
                   'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى',
@@ -235,7 +227,7 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
               SizedBox(height: 24.h),
               Container(
                 width: MediaQuery.of(context).size.width * .75,
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.all(20.r),
                 decoration: BoxDecoration(
                   color: white3,
                   borderRadius: BorderRadiusDirectional.only(
@@ -293,9 +285,8 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
                 .getTranslated("no_conversations_currently"),
             style: TextStyle(
                 fontSize: 16.sp,
-                fontFamily: "NeoSansArabic",
                 fontWeight: FontWeight.w600,
-                color: Color(0xFF00041D)),
+                color: accent),
           ),
         ],
       ),
@@ -306,7 +297,7 @@ class _SingleConversationPageState extends State<SingleConversationPage> {
     return Column(
       children: [
         Container(
-          color: Colors.black.withOpacity(.7),
+          color: black.withOpacity(.7),
           width: double.infinity,
           height: .5,
         ),

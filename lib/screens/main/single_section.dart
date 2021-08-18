@@ -4,7 +4,7 @@ import 'package:yagot_app/models/product/product_details.dart';
 import 'package:yagot_app/providers/general_provider.dart';
 import 'package:yagot_app/constants/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yagot_app/screens/shared/product_card.dart';
+import 'package:yagot_app/screens/common/widgets/product_card.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 
 class SectionScreen extends StatefulWidget {
@@ -62,7 +62,7 @@ class _SectionScreenState extends State<SectionScreen> {
                     childAspectRatio: .82,
                     mainAxisSpacing: 14,
                   ),
-                  padding: EdgeInsets.all(20.w),
+                  padding: EdgeInsets.all(20.r),
                   itemCount: products.length,
                 );
     });

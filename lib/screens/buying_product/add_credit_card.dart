@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yagot_app/constants/colors.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class AddCreditCard extends StatefulWidget {
   @override
   _AddCreditCardState createState() => _AddCreditCardState();
@@ -54,9 +56,9 @@ class _AddCreditCardState extends State<AddCreditCard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: transparent,
         title: Text(
-          getTranslated(context,"add_credit_card"),
+          getTranslated(context, "add_credit_card"),
         ),
         centerTitle: true,
         leading: IconButton(
@@ -76,7 +78,6 @@ class _AddCreditCardState extends State<AddCreditCard> {
   _bodyContent() {
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 26.w, vertical: 40.h),
-      physics: BouncingScrollPhysics(),
       child: Form(
         key: _formKey,
         child: Column(
@@ -84,7 +85,7 @@ class _AddCreditCardState extends State<AddCreditCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              getTranslated(context,"card_details"),
+              getTranslated(context, "card_details"),
               style: TextStyle(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
@@ -92,26 +93,29 @@ class _AddCreditCardState extends State<AddCreditCard> {
               ),
             ),
             SizedBox(height: 26.h),
-            _fieldTitleText(
-                getTranslated(context,"card_number")),
+            _fieldTitleText(getTranslated(context, "card_number")),
             SizedBox(height: 18.h),
             _cardNumberField(),
             SizedBox(height: 26.h),
-            _fieldTitleText(getTranslated(context,"cardholder_name")),
+            _fieldTitleText(getTranslated(context, "cardholder_name")),
             SizedBox(height: 18.h),
             _nameField(),
             SizedBox(height: 26.h),
-            _fieldTitleText(
-                getTranslated(context,"end_date")),
+            _fieldTitleText(getTranslated(context, "end_date")),
             SizedBox(height: 18.h),
             _endDateField(),
             SizedBox(height: 26.h),
-            _fieldTitleText(
-                getTranslated(context,"cvv_code")),
+            _fieldTitleText(getTranslated(context, "cvv_code")),
             SizedBox(height: 18.h),
             _codeField(),
             SizedBox(height: 56.h),
-            _continueButton(),
+            AppButton(
+              title: 'continue',
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                } else {}
+              },
+            ),
           ],
         ),
       ),
@@ -120,23 +124,17 @@ class _AddCreditCardState extends State<AddCreditCard> {
 
   _fieldDecoration(String hint) {
     return InputDecoration(
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
       hintText: hint,
       hintStyle: TextStyle(
-          color: grey1,
-          fontSize: 12.sp,
-          fontFamily: "NeoSansArabic",
-          fontWeight: FontWeight.normal),
+          color: grey1, fontSize: 12.sp, fontWeight: FontWeight.normal),
     );
   }
 
   Widget _fieldTitleText(String title) {
     return Text(
       title,
-      style: TextStyle(
-          color: blue1,
-          fontFamily: "NeoSansArabic",
-          fontWeight: FontWeight.normal),
+      style: TextStyle(color: accent, fontWeight: FontWeight.normal),
     );
   }
 
@@ -156,7 +154,7 @@ class _AddCreditCardState extends State<AddCreditCard> {
             input.length < 16 ||
             !input.startsWith(RegExp(
                 r'^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$'))) {
-          return getTranslated(context,"card_number_error_message");
+          return getTranslated(context, "card_number_error_message");
         }
         return null;
       },
@@ -176,12 +174,11 @@ class _AddCreditCardState extends State<AddCreditCard> {
       focusNode: nodeTwo,
       validator: (input) {
         if (input.isEmpty) {
-          return getTranslated(context,"cardholder_name_error_message");
+          return getTranslated(context, "cardholder_name_error_message");
         }
         return null;
       },
-      decoration: _fieldDecoration(
-          getTranslated(context,"name")),
+      decoration: _fieldDecoration(getTranslated(context, "name")),
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (input) {
         FocusScope.of(context).requestFocus(nodeThree);
@@ -200,12 +197,11 @@ class _AddCreditCardState extends State<AddCreditCard> {
       ],
       validator: (input) {
         if (input.isEmpty) {
-          return getTranslated(context,"end_date_error_message");
+          return getTranslated(context, "end_date_error_message");
         }
         return null;
       },
-      decoration: _fieldDecoration(
-          getTranslated(context,"year_month")),
+      decoration: _fieldDecoration(getTranslated(context, "year_month")),
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (input) {
         FocusScope.of(context).requestFocus(nodeFour);
@@ -221,7 +217,7 @@ class _AddCreditCardState extends State<AddCreditCard> {
       focusNode: nodeFour,
       validator: (input) {
         if (input.isEmpty || input.length < 3) {
-          return getTranslated(context,"cvv_code_error_message");
+          return getTranslated(context, "cvv_code_error_message");
         }
         return null;
       },
@@ -231,39 +227,6 @@ class _AddCreditCardState extends State<AddCreditCard> {
         FocusScope.of(context).unfocus();
       },
       keyboardType: TextInputType.datetime,
-    );
-  }
-
-  Widget _continueButton() {
-    return Container(
-      height: 50.h,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: accent.withOpacity(.16),
-            offset: Offset(0, 3),
-            blurRadius: 6,
-          )
-        ],
-      ),
-      child: RaisedButton(
-        onPressed: () {
-          if (_formKey.currentState.validate()) {
-          } else {}
-        },
-        child: Text(
-          getTranslated(context,"continue"),
-          style: TextStyle(
-            color: white,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        color: primary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
-      ),
     );
   }
 }

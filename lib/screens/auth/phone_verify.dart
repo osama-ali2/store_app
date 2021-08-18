@@ -5,7 +5,9 @@ import 'package:yagot_app/constants/colors.dart';
 
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
+
 class PhoneVerify extends StatefulWidget {
   @override
   _PhoneVerifyState createState() => _PhoneVerifyState();
@@ -19,15 +21,19 @@ class _PhoneVerifyState extends State<PhoneVerify> {
         Container(
           height: double.infinity,
           width: double.infinity,
-          color: Colors.white,
+          color: white,
         ),
         Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: transparent,
           appBar: AppBar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: transparent,
             title: Text(
-              getTranslated(context,"verify_phone"),
-              style: Theme.of(context).textTheme.headline1,
+              getTranslated(context, "verify_phone"),
+              style: TextStyle(
+                color: accent,
+                fontWeight: FontWeight.bold,
+                fontSize: 16.sp,
+              ),
             ),
             centerTitle: true,
             leading: IconButton(
@@ -36,7 +42,7 @@ class _PhoneVerifyState extends State<PhoneVerify> {
               },
               icon: Icon(
                 Icons.arrow_back,
-                color: Colors.black,
+                color: black,
               ),
             ),
           ),
@@ -48,21 +54,24 @@ class _PhoneVerifyState extends State<PhoneVerify> {
 
   Widget _bodyContent(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 40),
+      padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 40.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            getTranslated(context,"enter_code"),
-            style: Theme.of(context).textTheme.headline3,
+            getTranslated(context, "enter_code"),
+            style: TextStyle(
+                color: accent,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.normal),
           ),
           SizedBox(height: 10),
           Text(
             "+9660000000",
             style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontFamily: "NeoSansArabic"),
+              color: black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           SizedBox(height: 35),
           SvgPicture.asset("assets/icons/phone_verify.svg"),
@@ -71,15 +80,14 @@ class _PhoneVerifyState extends State<PhoneVerify> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             fieldWidth: 65,
             numberOfFields: 4,
-            enabledBorderColor: Colors.grey,
+            enabledBorderColor: grey1,
             borderWidth: 1,
-            focusedBorderColor: Colors.black,
-            borderRadius: BorderRadius.circular(10),
+            focusedBorderColor: black,
+            borderRadius: BorderRadius.circular(10.r),
             showFieldAsBox: true,
             textStyle: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w400),
             decoration: InputDecoration(),
-            onCodeChanged: (String code) {
-            },
+            onCodeChanged: (String code) {},
             onSubmit: (String verificationCode) {
               showDialog(
                   context: context,
@@ -96,18 +104,20 @@ class _PhoneVerifyState extends State<PhoneVerify> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                getTranslated(context,"did_not_receive"),
-                style: Theme.of(context).textTheme.headline3,
+                getTranslated(context, "did_not_receive"),
+                style: TextStyle(
+                    color: accent,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.normal),
               ),
               Spacer(flex: 1),
               InkWell(
                 onTap: () {},
                 child: Text(
-                  getTranslated(context,"resend"),
+                  getTranslated(context, "resend"),
                   style: TextStyle(
                       color: grey1,
                       fontSize: 12.sp,
-                      fontFamily: "NeoSansArabic",
                       fontWeight: FontWeight.normal),
                 ),
               ),
@@ -115,37 +125,22 @@ class _PhoneVerifyState extends State<PhoneVerify> {
               Text(
                 "01:00",
                 style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "NeoSansArabic"),
-              ),
+                  color: black,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
             ],
           ),
           SizedBox(height: 50),
-          _verifyButton(),
+          AppButton(
+            title: 'verify',
+            onPressed: () {
+              // if (_formKey.currentState.validate()) {
+              //   //todo: verify the phone
+              // } else {}
+            },
+          ),
         ],
-      ),
-    );
-  }
-
-  Widget _verifyButton() {
-    return SizedBox(
-      height: 50,
-      width: MediaQuery.of(context).size.width,
-      child: FlatButton(
-        onPressed: () {
-          // if (_formKey.currentState.validate()) {
-          //   //todo: verify the phone
-          // } else {}
-        },
-        color: Theme.of(context).primaryColor,
-        child: Text(
-          getTranslated(context,"verify"),
-          style: TextStyle(color: Colors.white, fontFamily: "NeoSansArabic"),
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
       ),
     );
   }

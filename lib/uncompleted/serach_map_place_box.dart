@@ -172,7 +172,7 @@
 //               children: <Widget>[
 //                 Padding(
 //                   padding: const EdgeInsets.only(
-//                       left: 12.0, right: 12.0, top: 4),
+//                       left: 12.0.w, right: 12.0.w, top: 4.h),
 //                   child: child,
 //                 ),
 //                 if (_placePredictions.length > 0)
@@ -238,7 +238,7 @@
 //     String place = prediction.description;
 //
 //     return MaterialButton(
-//       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+//       padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
 //       onPressed: () => _selectPlace(prediction: prediction),
 //       child: ListTile(
 //         title: Text(
@@ -254,7 +254,7 @@
 //           maxLines: 1,
 //         ),
 //         contentPadding: EdgeInsets.symmetric(
-//           horizontal: 10,
+//           horizontal: 10.w,
 //           vertical: 0,
 //         ),
 //       ),
@@ -278,7 +278,7 @@
 //   BoxDecoration _containerDecoration() {
 //     return BoxDecoration(
 //       color: widget.darkMode ? Colors.grey[800] : Colors.white,
-//       borderRadius: BorderRadius.all(Radius.circular(6.0)),
+//       borderRadius: BorderRadius.all(Radius.circular(6.0.r)),
 //       boxShadow: [
 //         BoxShadow(color: Colors.black12, blurRadius: 20, spreadRadius: 10)
 //       ],

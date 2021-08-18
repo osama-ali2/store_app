@@ -1,11 +1,11 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/models/purchase.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OrderTracking extends StatelessWidget {
   final Purchase purchase;
@@ -22,7 +22,7 @@ class OrderTracking extends StatelessWidget {
 
   Widget _appBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: transparent,
       title: Text(getTranslated(context, "order_tracking")),
       centerTitle: true,
       leading: IconButton(
@@ -31,7 +31,7 @@ class OrderTracking extends StatelessWidget {
         },
         icon: Icon(
           Icons.arrow_back,
-          color: Colors.black,
+          color: black,
         ),
       ),
     );
@@ -45,7 +45,7 @@ class OrderTracking extends StatelessWidget {
         _productCard(context),
         Spacer(flex: 1),
         Padding(
-          padding: const EdgeInsetsDirectional.only(start:30),
+          padding:  EdgeInsetsDirectional.only(start:30.w),
           child: Text(
             getTranslated(context, "date"),
             style: _titleStyle,
@@ -53,7 +53,7 @@ class OrderTracking extends StatelessWidget {
         ),
         Spacer(flex: 1),
         Padding(
-          padding: const EdgeInsetsDirectional.only(start:30),
+          padding:  EdgeInsetsDirectional.only(start:30.w),
           child: SizedBox(
             height: 320,
             child: Stack(
@@ -63,7 +63,7 @@ class OrderTracking extends StatelessWidget {
                   child: DottedLine(
                     lineLength: 320,
                     lineThickness: 1,
-                    dashColor: Color(0xFF9EA1AF),
+                    dashColor: grey6,
                     dashLength: 7,
                     dashGapLength: 4,
                     direction: Axis.vertical,
@@ -97,19 +97,19 @@ class OrderTracking extends StatelessWidget {
     return Container(
       height: 120,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Color(0xFFF1F3F6), width: 1),
+        color: white,
+        borderRadius: BorderRadius.circular(8.r),
+        border: Border.all(color: white4, width: 1),
         boxShadow: [
           BoxShadow(
-            color: Color(0xFF00041D).withOpacity(.06),
+            color: accent.withOpacity(.06),
             spreadRadius: 2,
             offset: Offset(0, 3),
             blurRadius: 6,
           ),
         ],
       ),
-      margin: EdgeInsets.symmetric(horizontal: 15),
+      margin: EdgeInsets.symmetric(horizontal: 15.w),
       padding:
           EdgeInsetsDirectional.only(start: 15, end: 24, bottom: 20, top: 20),
       child: Row(
@@ -153,7 +153,7 @@ class OrderTracking extends StatelessWidget {
   }
 
   final TextStyle _dateStyle = TextStyle(
-      fontSize: 12.sp, color: Color(0xFF595B67), fontWeight: FontWeight.w100);
+      fontSize: 12.sp, color: grey2, fontWeight: FontWeight.w100);
   final TextStyle _titleStyle = TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600);
 
   Widget _statusRow(
@@ -166,13 +166,13 @@ class OrderTracking extends StatelessWidget {
             height: 50,
             width: 50,
             decoration: BoxDecoration(
-              color: Color(0xFFECF3FF),
+              color: white1,
               shape: BoxShape.circle,
             ),
-            padding: EdgeInsets.all(12),
+            padding: EdgeInsets.all(12.r),
             child: SvgPicture.asset(
               iconPath,
-              color: Theme.of(context).primaryColor,
+              color: primary,
             ),
           ),
           SizedBox(width: 30),

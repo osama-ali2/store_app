@@ -1,19 +1,16 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 // import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/lang/app_locale.dart';
-import 'package:yagot_app/singleton/AppSP.dart';
-import 'package:yagot_app/singleton/dio.dart';
-import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:provider/provider.dart';
 import 'package:yagot_app/providers/general_provider.dart';
-import 'screens/main/splash_screen.dart';
-import 'package:yagot_app/singleton/dio.dart' as dio;
 import 'package:yagot_app/providers/language_provider.dart';
+import 'package:yagot_app/singleton/dio.dart' as dio;
+
+import 'screens/main/splash_screen.dart';
 
 //Sentry is for detect and track all the bugs and errors that arrived when it is in live mode and is used by customers
 // final sentry = SentryClient(SentryOptions(
@@ -25,8 +22,7 @@ void main() async {
   dio.init();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => GeneralProvider()),
-    ChangeNotifierProvider(
-        create: (_) => LanguageProvider()),
+    ChangeNotifierProvider(create: (_) => LanguageProvider()),
   ], child: YagotApp()));
   // runZonedGuarded(
   //     () => runApp(MultiProvider(
@@ -61,7 +57,7 @@ class _YagotAppState extends State<YagotApp> {
       builder: () {
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
+            statusBarColor: transparent,
           ),
           child: Consumer<LanguageProvider>(
             builder: (context, provider, child) {
@@ -72,7 +68,7 @@ class _YagotAppState extends State<YagotApp> {
                   primaryColor: primary,
                   primaryColorLight: primary,
                   primaryColorDark: primary,
-                  hintColor: blue1.withOpacity(.5),
+                  hintColor: accent.withOpacity(.5),
                   scaffoldBackgroundColor: white,
                   appBarTheme: AppBarTheme(
                     color: white,
@@ -106,8 +102,8 @@ class _YagotAppState extends State<YagotApp> {
                   return supportedLocales.first;
                 },
                 locale: (provider.getLanguageCode() != null)
-                  ? Locale(provider.getLanguageCode(), "")
-                  : null,
+                    ? Locale(provider.getLanguageCode(), "")
+                    : null,
               );
             },
           ),
@@ -119,7 +115,7 @@ class _YagotAppState extends State<YagotApp> {
   TextTheme _appBarTextTheme() {
     return TextTheme(
       headline6: TextStyle(
-        color: blue1,
+        color: accent,
         fontSize: 18.sp,
         fontFamily: "NeoSansArabic",
         fontWeight: FontWeight.w600,
@@ -130,26 +126,18 @@ class _YagotAppState extends State<YagotApp> {
   TextTheme _appTextTheme() {
     return TextTheme(
         headline1: TextStyle(
-          color: blue1,
-          fontFamily: "NeoSansArabic",
+          color: accent,
           fontWeight: FontWeight.bold,
           fontSize: 16.sp,
         ),
         headline2: TextStyle(
           color: grey2,
           fontSize: 12.sp,
-          fontFamily: "NeoSansArabic",
           fontWeight: FontWeight.normal,
         ),
         headline3: TextStyle(
-            color: blue1,
-            fontSize: 14.sp,
-            fontFamily: "NeoSansArabic",
-            fontWeight: FontWeight.normal),
+            color: accent, fontSize: 14.sp, fontWeight: FontWeight.normal),
         bodyText1: TextStyle(
-            color: grey1,
-            fontSize: 12.sp,
-            fontFamily: "NeoSansArabic",
-            fontWeight: FontWeight.normal));
+            color: grey1, fontSize: 12.sp, fontWeight: FontWeight.normal));
   }
 }

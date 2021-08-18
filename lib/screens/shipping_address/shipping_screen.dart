@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:yagot_app/constants/colors.dart';
 
-import 'package:yagot_app/models/product/product.dart';
-import 'package:yagot_app/models/shipping_company.dart';
-import 'package:yagot_app/screens/shared/app_button.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
 import 'package:yagot_app/screens/shipping_address/addresses.dart';
 import 'package:yagot_app/utilities/custom_icons.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
@@ -43,7 +41,11 @@ class _ShippingScreenState extends State<ShippingScreen>
         brightness: Brightness.light,
         title: Text(
           getTranslated(context, "shipping_companies"),
-          style: Theme.of(context).textTheme.headline1,
+          style: TextStyle(
+            color: accent,
+            fontWeight: FontWeight.bold,
+            fontSize: 16.sp,
+          ),
         ),
         centerTitle: true,
         leading: IconButton(
@@ -89,12 +91,12 @@ class _ShippingScreenState extends State<ShippingScreen>
             unselectedLabelColor: grey2,
             indicatorSize: TabBarIndicatorSize.label,
             indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(6), color: primary),
+                borderRadius: BorderRadius.circular(6.r), color: primary),
             tabs: [
               Tab(
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(6.r),
                     border: Border.all(color: grey2, width: 1),
                   ),
                   child: Align(
@@ -116,7 +118,7 @@ class _ShippingScreenState extends State<ShippingScreen>
               Tab(
                 child: Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(6.r),
                       border: Border.all(color: grey2, width: 1)),
                   child: Align(
                     alignment: Alignment.center,
@@ -147,7 +149,7 @@ class _ShippingScreenState extends State<ShippingScreen>
       margin: EdgeInsets.symmetric(vertical: 8.h),
       decoration: BoxDecoration(
         color: white,
-        borderRadius: BorderRadius.circular(12.w),
+        borderRadius: BorderRadius.circular(12.r),
         border:
             Border.all(color: primary, width: _sPosition == position ? 1 : 0),
         boxShadow: [

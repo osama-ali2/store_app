@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:yagot_app/models/product/product.dart';
+import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/screens/add_product/add_company.dart';
 import 'package:yagot_app/screens/add_product/add_product.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UsingPolicy extends StatefulWidget {
   final bool isCompany;
@@ -18,7 +19,6 @@ class UsingPolicy extends StatefulWidget {
 }
 
 class _UsingPolicyState extends State<UsingPolicy> {
-
   bool isAccept = false;
 
   @override
@@ -31,7 +31,7 @@ class _UsingPolicyState extends State<UsingPolicy> {
 
   Widget _appBar() {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: white,
       title: Text(getTranslated(
         context,
         widget.isCompany ? "companies_use_policy" : "hobbyist_use_policy",
@@ -43,7 +43,7 @@ class _UsingPolicyState extends State<UsingPolicy> {
         },
         icon: Icon(
           Icons.arrow_back,
-          color: Color(0xFF00041D),
+          color: accent,
         ),
       ),
     );
@@ -51,7 +51,7 @@ class _UsingPolicyState extends State<UsingPolicy> {
 
   _bodyContent() {
     return Padding(
-      padding: const EdgeInsets.all(30),
+      padding: EdgeInsets.all(30.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -61,7 +61,22 @@ class _UsingPolicyState extends State<UsingPolicy> {
           SizedBox(height: 20),
           _acceptRow(),
           SizedBox(height: 30),
-          _acceptButton()
+          AppButton(
+            title: 'accept',
+            onPressed: !isAccept
+                ? null
+                : () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return (widget.isCompany)
+                              ? AddCompany()
+                              : AddProduct();
+                        },
+                      ),
+                    );
+                  },
+          )
         ],
       ),
     );
@@ -113,53 +128,12 @@ class _UsingPolicyState extends State<UsingPolicy> {
       child: Container(
         height: 20,
         width: 20,
-        padding: EdgeInsets.all(4),
+        padding: EdgeInsets.all(4.r),
         child: SvgPicture.asset("assets/icons/correct.svg"),
         decoration: BoxDecoration(
-          color: isAccept ? Theme.of(context).primaryColor : Colors.transparent,
-          borderRadius: BorderRadius.circular(4),
-          border: Border.all(color: Color(0xFF9EA1AF), width: isAccept ? 0 : 1),
-        ),
-      ),
-    );
-  }
-
-  Widget _acceptButton() {
-    return Container(
-      height: 50,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xFF00041D).withOpacity(.16),
-            offset: Offset(0, 3),
-            blurRadius: 6,
-          )
-        ],
-      ),
-      child: RaisedButton(
-        onPressed: !isAccept
-            ? null
-            : () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return (widget.isCompany) ? AddCompany() : AddProduct();
-                    },
-                  ),
-                );
-              },
-        disabledColor: Colors.grey.shade700,
-        child: Text(
-          getTranslated(context, "accept"),
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        color: Theme.of(context).primaryColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          color: isAccept ? primary : transparent,
+          borderRadius: BorderRadius.circular(4.r),
+          border: Border.all(color: grey6, width: isAccept ? 0 : 1),
         ),
       ),
     );

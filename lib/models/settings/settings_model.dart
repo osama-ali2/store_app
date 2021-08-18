@@ -4,7 +4,7 @@ import 'package:yagot_app/models/settings/product_status.dart';
 import 'package:yagot_app/models/home/category_model.dart';
 import 'package:yagot_app/models/settings/bank.dart';
 import 'package:yagot_app/models/settings/country.dart';
-import 'package:yagot_app/models/settings/subscription.dart';
+import 'package:yagot_app/models/settings/subscription_info.dart';
 import 'package:yagot_app/models/settings/zone.dart';
 import 'package:yagot_app/models/settings/currency.dart';
 import 'package:yagot_app/models/settings/social.dart';

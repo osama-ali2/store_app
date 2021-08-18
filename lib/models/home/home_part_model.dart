@@ -1,7 +1,6 @@
-import 'package:yagot_app/models/home/slider_model.dart';
-import 'package:yagot_app/models/product/product.dart';
-import 'package:yagot_app/models/product/product_details.dart';
 import 'package:yagot_app/models/home/category_model.dart';
+import 'package:yagot_app/models/home/slider_model.dart';
+import 'package:yagot_app/models/product/product_details.dart';
 
 class HomePartModel {
   int type;

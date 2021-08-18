@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yagot_app/singleton/AppSP.dart';
-import 'package:yagot_app/singleton/dio.dart';
 
 class LanguageProvider extends ChangeNotifier {
   String _langCode;

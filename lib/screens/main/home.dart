@@ -14,7 +14,7 @@ import 'package:yagot_app/providers/general_provider.dart';
 import 'package:yagot_app/screens/main/categories.dart';
 import 'package:yagot_app/screens/main/single_section.dart';
 import 'package:yagot_app/screens/search/search.dart';
-import 'package:yagot_app/screens/shared/product_card.dart';
+import 'package:yagot_app/screens/common/widgets/product_card.dart';
 import 'package:yagot_app/utilities/custom_icons.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 
@@ -41,11 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _carouselController = CarouselController();
-
-    if (Provider.of<GeneralProvider>(context, listen: false).homeSections ==
-        null)
-      Provider.of<GeneralProvider>(context, listen: false)
-          .getHomeSections(context);
+    print('home initState');
+    context.read<GeneralProvider>().getHomeSections(context);
   }
 
   @override
@@ -200,8 +197,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         }));
                       },
                       child: Card(
-                        shadowColor: Color(0xFF1F4282),
-                        color: Color(0xFFECF3FF),
+                        shadowColor: primary,
+                        color: white1,
                         child: Padding(
                           padding: EdgeInsets.only(left: 40.w, right: 16.w),
                           child: Row(
@@ -216,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     category.name,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      color: Color(0xFF0E2756),
+                                      color: blue8,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   )),
@@ -224,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderRadius: BorderRadius.all(Radius.circular(8.r)),
                         ),
                       ),
                     );
@@ -254,7 +251,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   itemCount: part.products.length,
                   scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.only(right: 10, left: 10, bottom: 10),
+                  padding:
+                      EdgeInsets.only(right: 10.w, left: 10.w, bottom: 10.h),
                 ),
               ),
             ],
@@ -271,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Text(
             title,
             style: TextStyle(
-                color: blue1, fontWeight: FontWeight.bold, fontSize: 16.sp),
+                color: accent, fontWeight: FontWeight.bold, fontSize: 16.sp),
           ),
           InkWell(
             onTap: () {
@@ -286,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0.r),
               child: Text(
                 getTranslated(context, "show_all"),
                 style: TextStyle(
@@ -319,12 +317,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onRefresh() async {
-    await Future.delayed(Duration(milliseconds: 1500));
+    await Future.delayed(Duration(milliseconds: 500));
 
-    Provider.of<GeneralProvider>(context, listen: false).clear();
     _clearData();
-    Provider.of<GeneralProvider>(context, listen: false)
-        .getHomeSections(context);
+    context.read<GeneralProvider>().getHomeSections(context, refresh: true);
 
     _refreshController.refreshCompleted();
   }

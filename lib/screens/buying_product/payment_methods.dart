@@ -1,19 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/screens/buying_product/add_credit_card.dart';
-import 'package:yagot_app/screens/buying_product/bank_transfer.dart';
 import 'package:yagot_app/screens/buying_product/pay_cash.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PaymentMethodsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: transparent,
         title: Text(
           getTranslated(context, "payment_methods"),
         ),
@@ -72,7 +71,7 @@ class PaymentMethodsScreen extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
               color: blue6.withOpacity(.1),

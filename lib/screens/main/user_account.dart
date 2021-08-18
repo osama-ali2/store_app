@@ -1,23 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yagot_app/main.dart';
+import 'package:provider/provider.dart';
+import 'package:yagot_app/constants/colors.dart';
+import 'package:yagot_app/constants/constants.dart';
+import 'package:yagot_app/providers/general_provider.dart';
+import 'package:yagot_app/screens/auth/login.dart';
+import 'package:yagot_app/screens/common/widgets/option_list_tile.dart';
 import 'package:yagot_app/screens/favourite/favourite.dart';
 import 'package:yagot_app/screens/others/edit_profile.dart';
 import 'package:yagot_app/screens/others/info_page.dart';
 import 'package:yagot_app/screens/purchases/purchases.dart';
 import 'package:yagot_app/screens/shipping_address/addresses.dart';
-import 'package:yagot_app/screens/auth/login.dart';
-import 'package:yagot_app/screens/user_ads/empty.dart';
 import 'package:yagot_app/screens/user_ads/user_ads.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
-import 'package:provider/provider.dart';
-import 'package:yagot_app/providers/general_provider.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yagot_app/constants/colors.dart';
-import 'package:yagot_app/providers/language_provider.dart';
 
 class UserAccount extends StatelessWidget {
   @override
@@ -34,33 +32,37 @@ class UserAccount extends StatelessWidget {
                 SliverList(
                   delegate: SliverChildListDelegate(
                     [
-                      // if (provider.isLogin) _buildAuthOptions(context),
-                      _optionCard(
-                          context, "assets/icons/global.svg", "language", null),
-                      _optionCard(
-                          context,
-                          "assets/icons/information.svg",
-                          "about_app",
-                          InfoPage(
+                      if (provider.isAuth) ..._buildAuthOptions(context),
+                      OptionListTile(
+                        type: LANG_OPTION,
+                        iconKey: 'global.svg',
+                        titleKey: 'language',
+                      ),
+                      OptionListTile(
+                          iconKey: 'information.svg',
+                          titleKey: 'about_app',
+                          page: InfoPage(
                               info: (provider.settingsModel != null)
                                   ? provider.settingsModel.aboutUs
                                   : null)),
-                      _optionCard(context, "assets/icons/phone_call.svg",
-                          "call_us", EditProfile()),
-                      _optionCard(
-                          context,
-                          "assets/icons/shield.svg",
-                          "privacy_policy",
-                          InfoPage(
+                      OptionListTile(
+                        iconKey: 'phone_call.svg',
+                        titleKey: 'call_us',
+                        page: EditProfile(),
+                      ),
+                      OptionListTile(
+                          iconKey: 'shield.svg',
+                          titleKey: 'privacy_policy',
+                          page: InfoPage(
                               info: (provider.settingsModel != null)
                                   ? provider.settingsModel.policyPrivacy
                                   : null)),
                       SizedBox(height: 50.h),
-                      _optionCard(
-                        context,
-                        "assets/icons/logout.svg",
-                        provider.isLogin ? "logout" : "login",
-                        LoginScreen(),
+                      OptionListTile(
+                        iconKey: 'logout.svg',
+                        titleKey: provider.isAuth ? "logout" : "login",
+                        type: provider.isAuth ? LOGOUT_OPTION : NORMAL_OPTION,
+                        page: LoginScreen(),
                       ),
                       SizedBox(height: 60.h),
                     ],
@@ -76,16 +78,24 @@ class UserAccount extends StatelessWidget {
 
   _buildAuthOptions(BuildContext context) {
     return [
-      _optionCard(context, "assets/icons/mic.svg", "my_ads", UserAds()),
-      _optionCard(
-          context, "assets/icons/cart.svg", "my_purchases", PurchasesScreen()),
-      _optionCard(context, "assets/icons/favourite.svg", "favourite",
-          FavouriteScreen()),
-      _optionCard(
-          context, "assets/icons/pin.svg", "addresses", AddressesScreen()),
+      OptionListTile(
+        iconKey: 'mic.svg',
+        titleKey: 'my_ads',
+        page: UserAds(),
+      ),
+      OptionListTile(
+          iconKey: "cart.svg",
+          titleKey: "my_purchases",
+          page: PurchasesScreen()),
+      OptionListTile(
+          iconKey: "favourite.svg",
+          titleKey: "favourite",
+          page: FavouriteScreen()),
+      OptionListTile(
+          iconKey: "pin.svg", titleKey: "addresses", page: AddressesScreen()),
       divider(context),
-      _optionCard(
-          context, "assets/icons/user.svg", "edit_profile", EditProfile()),
+      OptionListTile(
+          iconKey: "user.svg", titleKey: "edit_profile", page: EditProfile()),
     ];
   }
 
@@ -97,7 +107,6 @@ class UserAccount extends StatelessWidget {
         style: TextStyle(
           color: white,
           fontSize: 18.sp,
-          fontFamily: "NeoSansArabic",
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -136,8 +145,8 @@ class UserAccount extends StatelessWidget {
         decoration: BoxDecoration(
           color: white,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30.w),
-            topRight: Radius.circular(30.w),
+            topLeft: Radius.circular(30.r),
+            topRight: Radius.circular(30.r),
           ),
         ),
       ),
@@ -145,42 +154,60 @@ class UserAccount extends StatelessWidget {
   }
 
   Widget _aboutOwnerRow() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Stack(
-          alignment: AlignmentDirectional.bottomStart,
+    return Consumer<GeneralProvider>(
+      builder: (context, provider, child) {
+        var image = '';
+        var certified = true;
+        var username = 'guest';
+        var email = '';
+        if (provider.profileData != null &&
+            provider.profileData.client != null) {
+          var client = provider.profileData.client;
+          image = client.image;
+          certified = client.certified;
+          username = client.name;
+          email = client.email;
+        }
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _userImage(),
-            SvgPicture.asset("assets/icons/white_check_in.svg")
-          ],
-        ),
-        SizedBox(width: 20.w),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'username',
-              style: TextStyle(
-                color: white,
-                fontWeight: FontWeight.w600,
-                decoration: TextDecoration.none,
-              ),
+            Stack(
+              alignment: AlignmentDirectional.bottomStart,
+              children: [
+                _userImage(image),
+                if (certified)
+                  SvgPicture.asset("assets/icons/white_check_in.svg")
+              ],
             ),
-            Text('user email',
-                style: TextStyle(
-                  color: white,
-                  fontWeight: FontWeight.w600,
-                  decoration: TextDecoration.none,
-                )),
+            SizedBox(width: 20.w),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  username,
+                  style: TextStyle(
+                    color: white,
+                    fontWeight: FontWeight.w600,
+                    decoration: TextDecoration.none,
+                  ),
+                ),
+                Text(email,
+                    textDirection: TextDirection.ltr,
+                    style: TextStyle(
+                      color: white,
+                      fontWeight: FontWeight.w600,
+                      decoration: TextDecoration.none,
+                    )),
+              ],
+            ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 
-  Widget _userImage() {
+  Widget _userImage(String image) {
     return Container(
       width: 70.h,
       height: 70.h,
@@ -191,63 +218,11 @@ class UserAccount extends StatelessWidget {
       child: ClipOval(
         child: FadeInImage.assetNetwork(
           placeholder: 'assets/images/place_holder.png',
-          image: 'http/www.google.com',
-          fit: BoxFit.cover,
           imageErrorBuilder: (context, error, stackTrace) =>
               Image.asset('assets/images/place_holder.png'),
+          image: image,
+          fit: BoxFit.cover,
         ),
-      ),
-    );
-  }
-
-  Widget _optionCard(
-      BuildContext context, String iconKey, String titleKey, Widget route,
-      {bool logout = false}) {
-    return ListTile(
-      onTap: () {
-        if (route != null) {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return route;
-              },
-            ),
-          );
-        } else if (logout) {
-          Provider.of<GeneralProvider>(context, listen: false).logout();
-        } else {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return LangDialog();
-            },
-          );
-        }
-      },
-      leading: _icon(iconKey),
-      trailing: Icon(
-        CupertinoIcons.forward,
-        color: accent,
-      ),
-      title: Text(getTranslated(context, titleKey)),
-      contentPadding: EdgeInsetsDirectional.only(
-          start: 30.w, end: 40.w, top: 5.h, bottom: 5.h),
-    );
-  }
-
-  Widget _icon(String iconKey) {
-    return Container(
-      height: 40.h,
-      width: 40.w,
-      decoration: BoxDecoration(
-        color: white1,
-        borderRadius: BorderRadius.circular(10.w),
-      ),
-      padding: EdgeInsets.all(5.w),
-      child: SvgPicture.asset(
-        iconKey,
-        color: primary,
-        alignment: Alignment.center,
       ),
     );
   }
@@ -258,130 +233,6 @@ class UserAccount extends StatelessWidget {
       width: MediaQuery.of(context).size.width * .9,
       margin: EdgeInsets.symmetric(vertical: 20.h, horizontal: 30.w),
       color: grey3.withOpacity(.7),
-    );
-  }
-}
-
-class LangDialog extends StatefulWidget {
-  @override
-  _LangDialogState createState() => _LangDialogState();
-}
-
-class _LangDialogState extends State<LangDialog> {
-  int _selectedLangId;
-
-  List<Language> languages;
-
-  Locale currentLocal;
-
-  @override
-  void initState() {
-    super.initState();
-    languages = [
-      Language(id: 0, name: "العربية", code: "ar"),
-      Language(id: 1, name: "English", code: "en"),
-    ];
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    currentLocal = Localizations.localeOf(context);
-    _selectedLangId = languages.firstWhere((language) {
-      return language.code == currentLocal.languageCode;
-    }).id;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      child: Container(
-        height: languages.length * 50.0 + 120.h,
-        width: 280.w,
-        padding:
-            EdgeInsets.only(bottom: 20.h, right: 30.w, left: 30.w, top: 30.h),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              getTranslated(context, "change_language"),
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20.h),
-            ...languages.map((language) {
-              return _langChoice(context, language.name, language.id);
-            }).toList(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FlatButton(
-                  onPressed: () {
-                    String langCode = languages.firstWhere((language) {
-                      return language.id == _selectedLangId;
-                    }).code;
-                    Provider.of<LanguageProvider>(context, listen: false)
-                        .setLanguageCode(langCode);
-                    Navigator.pop(context);
-                  },
-                  child: Text(getTranslated(context, "yes")),
-                  color: white,
-                ),
-                FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    SharedPreferences.getInstance()
-                        .then((value) => print(value.getString('language')));
-                  },
-                  child: Text(getTranslated(context, "cancel")),
-                  color: white,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Row _langChoice(BuildContext context, String name, int id) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.alphabetic,
-      children: [
-        _selectCircle(context, id),
-        SizedBox(width: 14.w),
-        Text(name),
-      ],
-    );
-  }
-
-  _selectCircle(BuildContext context, int id) {
-    bool isSelected = _selectedLangId == id;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedLangId = id;
-        });
-      },
-      child: Container(
-        height: 20.h,
-        width: 20.w,
-        margin: EdgeInsets.only(bottom: 20.h),
-        decoration: BoxDecoration(
-          color: isSelected ? primary : white,
-          border: !isSelected ? Border.all(color: grey4, width: 2) : null,
-          shape: BoxShape.circle,
-        ),
-        child: Align(
-          child: SvgPicture.asset(
-            "assets/icons/correct_2.svg",
-            fit: BoxFit.cover,
-            height: 8.h,
-            width: 8.h,
-            alignment: Alignment.center,
-          ),
-        ),
-      ),
     );
   }
 }

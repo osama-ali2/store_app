@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:yagot_app/constants/colors.dart';
-import 'package:yagot_app/utilities/helper_functions.dart';
+
 import 'main_page_view.dart';
 
 class SplashScreen extends StatefulWidget {

@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:search_map_place/search_map_place.dart';
+import 'package:yagot_app/constants/colors.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
 import 'package:yagot_app/utilities/custom_icons.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EditAddress extends StatefulWidget {
   @override
@@ -63,7 +66,7 @@ class _EditAddressState extends State<EditAddress> {
                 placeType: PlaceType.address,
                 placeholder: getTranslated(context ,"look_for_your_location"),
                 icon: CustomIcons.search,
-                iconColor: Color(0xFF00041D),
+                iconColor: accent,
                 apiKey: 'AIzaSyBUILBxCa5yyQZawAAOpD6HII48R3haimM',
                 onSelected: (Place place) async {
                   Geolocation geolocation = await place.geolocation;
@@ -84,10 +87,10 @@ class _EditAddressState extends State<EditAddress> {
                   width: 48,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white,
+                      color: white,
                       boxShadow: [
                         BoxShadow(
-                            color: Colors.black.withOpacity(.16),
+                            color: black.withOpacity(.16),
                             offset: Offset(0, 3),
                             blurRadius: 6,
                             spreadRadius: 2)
@@ -97,7 +100,7 @@ class _EditAddressState extends State<EditAddress> {
                     children: [
                       Icon(
                         Icons.location_searching_rounded,
-                        color: Color(0xFF00041D),
+                        color: accent,
                         size: 30,
                       ),
                       Container(
@@ -105,7 +108,7 @@ class _EditAddressState extends State<EditAddress> {
                         width: 6,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Theme.of(context).primaryColor,
+                          color: primary,
                         ),
                       ),
                     ],
@@ -113,24 +116,10 @@ class _EditAddressState extends State<EditAddress> {
                 ),
               ),
               SizedBox(height: 30),
-              Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width * .9,
-                child: RaisedButton(
-                  onPressed: () {},
-                  child: Text(
-                    getTranslated(context ,"confirm_address"),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  color: Theme.of(context).primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                  ),
-                ),
-
+              AppButton(
+                title: 'confirm_address',
+                onPressed: (){},
+                width: 0.9.sw,
               ),
               SizedBox(height: 65),
             ],
@@ -141,7 +130,7 @@ class _EditAddressState extends State<EditAddress> {
   }
   Widget _appBar(){
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: white,
       title: Text(
           getTranslated(context,"edit_address")),
       centerTitle: true,
@@ -151,7 +140,7 @@ class _EditAddressState extends State<EditAddress> {
         },
         icon: Icon(
           Icons.arrow_back,
-          color: Color(0xFF00041D),
+          color: accent,
         ),
       ),
     );

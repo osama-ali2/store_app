@@ -1,46 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:yagot_app/constants/colors.dart';
-import 'package:yagot_app/screens/auth/register.dart';
-import 'package:yagot_app/utilities/helper_functions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/providers/general_provider.dart';
-import 'package:yagot_app/models/LoginRegister/login_details_model.dart';
+import 'package:yagot_app/screens/auth/register.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
+import 'package:yagot_app/screens/common/widgets/app_text_field.dart';
 import 'package:yagot_app/screens/main/main_page_view.dart';
-import 'package:yagot_app/singleton/dio.dart';
-import 'package:yagot_app/singleton/AppSP.dart';
-import 'package:yagot_app/screens/main/home.dart';
+import 'package:yagot_app/utilities/enums.dart';
+import 'package:yagot_app/utilities/helper_functions.dart';
 
 class LoginScreen extends StatefulWidget {
+  final Pages page;
+
+  LoginScreen({this.page});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _userNameTextController;
-  TextEditingController _passwordTextController;
-  String userName;
-  String password;
+  TextEditingController _username;
+  TextEditingController _password;
   bool _obscurePassword = true;
   FocusNode _node1;
+  FocusNode _node2;
+  bool loading = false;
 
   @override
   void initState() {
     super.initState();
-    _userNameTextController = TextEditingController();
-    _passwordTextController = TextEditingController();
+    _username = TextEditingController();
+    _password = TextEditingController();
     _node1 = FocusNode();
+    _node2 = FocusNode();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _userNameTextController.dispose();
-    _passwordTextController.dispose();
+    _username.dispose();
+    _password.dispose();
   }
 
   @override
@@ -51,8 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
         title: Text(
           getTranslated(context, "login"),
           style: TextStyle(
-            color: blue1,
-            fontFamily: "NeoSansArabic",
+            color: accent,
             fontWeight: FontWeight.bold,
             fontSize: 16.sp,
           ),
@@ -73,33 +75,46 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _bodyContent(BuildContext context) {
-    return Consumer<GeneralProvider>(
-      builder: (context, value, child) {
-        LoginDataModel _loginData = value.loginData;
-        if (_loginData != null && _loginData.token != null && _loginData.token.isNotEmpty) {
-          SchedulerBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => MainPages()),
+    return ListView(
+      padding: EdgeInsets.only(top: 70.h, right: 30.w, left: 30.w),
+      children: [
+        _topImage(),
+        SizedBox(height: 40.h),
+        _loginForm(),
+        SizedBox(height: 16.h),
+        _forgetPasswordText(),
+        SizedBox(height: 25.h),
+        AppButton(
+          title: 'login',
+          loading: loading,
+          onPressed: () {
+            if (_formKey.currentState.validate()) {
+              final data = {
+                'mobile': _username.text,
+                'password': _password.text
+              };
+              setState(() {
+                loading = true;
+              });
+              context.read<GeneralProvider>().login(context, data, () {
+                setState(() {
+                  loading = false;
+                });
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => MainPages()),
                     (route) => false);
-          });
-        }
-        return ListView(
-          padding: EdgeInsets.only(top: 70.h, right: 30.w, left: 30.w),
-          physics: BouncingScrollPhysics(),
-          children: [
-            _topImage(),
-            SizedBox(height: 40.h),
-            _loginForm(),
-            SizedBox(height: 16.h),
-            _forgetPasswordText(),
-            SizedBox(height: 25.h),
-            _loginButton(),
-            SizedBox(height: 30.h),
-            _createAccountText(),
-          ],
-        );
-      },
+              }, () {
+                setState(() {
+                  loading = false;
+                });
+              });
+            }
+          },
+        ),
+        SizedBox(height: 30.h),
+        _createAccountText(),
+      ],
     );
   }
 
@@ -119,11 +134,24 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           _fieldTitleText(getTranslated(context, "user_name")),
           SizedBox(height: 8.h),
-          _userNameField(),
+          AppTextField(
+            hintKey: 'user_name',
+            errorKey: 'user_name_error_message',
+            controller: _username,
+            node: _node1,
+            nextNode: _node2,
+          ),
           SizedBox(height: 20.h),
           _fieldTitleText(getTranslated(context, "password")),
           SizedBox(height: 8.h),
-          _passwordField(),
+          AppTextField(
+            hintKey: 'password',
+            errorKey: 'password_error_message',
+            controller: _password,
+            node: _node2,
+            nextNode: null,
+            isObscured: _obscurePassword,
+          ),
         ],
       ),
     );
@@ -133,71 +161,16 @@ class _LoginScreenState extends State<LoginScreen> {
     return Text(
       title,
       style: TextStyle(
-          color: blue1,
-          fontSize: 14.sp,
-          fontFamily: "NeoSansArabic",
-          fontWeight: FontWeight.normal),
+          color: accent, fontSize: 14.sp, fontWeight: FontWeight.normal),
     );
   }
 
   InputDecoration _fieldDecoration(String hint) {
     return InputDecoration(
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
       hintText: hint,
       hintStyle: TextStyle(
           color: grey1, fontSize: 12.sp, fontWeight: FontWeight.normal),
-    );
-  }
-
-  Widget _userNameField() {
-    return TextFormField(
-      controller: _userNameTextController,
-      validator: (input) {
-        if (input.isEmpty) {
-          return getTranslated(context, "user_name_error_message");
-        }
-        return null;
-      },
-      decoration: _fieldDecoration(getTranslated(context, "user_name")),
-      textInputAction: TextInputAction.next,
-      onFieldSubmitted: (input) {
-        FocusScope.of(context).requestFocus(_node1);
-      },
-    );
-  }
-
-  Widget _passwordField() {
-    return Stack(
-      alignment: AlignmentDirectional.topEnd,
-      children: [
-        TextFormField(
-          obscureText: _obscurePassword,
-          controller: _passwordTextController,
-          validator: (input) {
-            if (input.isEmpty) {
-              return getTranslated(context, "password_error_message");
-            }
-            return null;
-          },
-          decoration: _fieldDecoration(getTranslated(context, "password")),
-          textInputAction: TextInputAction.done,
-          focusNode: _node1,
-          onFieldSubmitted: (input) {
-            FocusScope.of(context).unfocus();
-          },
-        ),
-        IconButton(
-          splashRadius: 20.w,
-          onPressed: () {
-            // setState(() {
-            //   _obscurePassword = !_obscurePassword;
-            // });
-          },
-          icon: Icon(
-              (_obscurePassword) ? Icons.visibility : Icons.visibility_off),
-          padding: EdgeInsets.symmetric(vertical: 15.h),
-        ),
-      ],
     );
   }
 
@@ -214,31 +187,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _loginButton() {
-    return SizedBox(
-      height: 50.h,
-      child: FlatButton(
-        onPressed: () {
-          if (_formKey.currentState.validate()) {
-            final data = {
-              'mobile': _userNameTextController.text,
-              'password': _passwordTextController.text
-            };
-            Provider.of<GeneralProvider>(context, listen: false).login(data);
-          }
-        },
-        color: primary,
-        child: Text(
-          getTranslated(context, "login"),
-          style: TextStyle(color: white, fontFamily: "NeoSansArabic"),
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.w),
-        ),
-      ),
-    );
-  }
-
   Widget _createAccountText() {
     return Align(
       child: InkWell(
@@ -251,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         },
         child: Padding(
-          padding: EdgeInsets.all(8.h),
+          padding: EdgeInsets.all(8.r),
           child: Text(
             getTranslated(context, "create_new_account"),
           ),

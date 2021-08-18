@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:search_map_place/search_map_place.dart';
+import 'package:yagot_app/constants/colors.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
 import 'package:yagot_app/utilities/custom_icons.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddNewAddress extends StatefulWidget {
   @override
@@ -15,15 +18,16 @@ class AddNewAddress extends StatefulWidget {
 
 class _AddNewAddressState extends State<AddNewAddress> {
   Completer<GoogleMapController> _mapController = Completer();
-  final  markers = <Marker>{};
-  BitmapDescriptor markerIcon ;
+  final markers = <Marker>{};
+  BitmapDescriptor markerIcon;
 
   @override
   Widget build(BuildContext context) {
-    BitmapDescriptor.fromAssetImage(createLocalImageConfiguration(context)
-        , "assets/images/location_on1.png",
+    BitmapDescriptor.fromAssetImage(
+      createLocalImageConfiguration(context),
+      "assets/images/location_on1.png",
     ).then((icon) {
-      markerIcon = icon ;
+      markerIcon = icon;
     });
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -32,15 +36,15 @@ class _AddNewAddressState extends State<AddNewAddress> {
         alignment: AlignmentDirectional.topCenter,
         children: [
           GoogleMap(
-
             onMapCreated: (GoogleMapController googleMapController) {
-                _mapController.complete(googleMapController);
+              _mapController.complete(googleMapController);
             },
             onTap: (latLng) async {
-              GoogleMapController mapController = await _mapController.future ;
-              mapController.animateCamera(CameraUpdate.newLatLngZoom(latLng, 18));
+              GoogleMapController mapController = await _mapController.future;
+              mapController
+                  .animateCamera(CameraUpdate.newLatLngZoom(latLng, 18));
               setState(() {
-                _createMarker(mapController, latLng );
+                _createMarker(mapController, latLng);
               });
             },
             initialCameraPosition:
@@ -61,13 +65,14 @@ class _AddNewAddressState extends State<AddNewAddress> {
               SearchMapPlaceWidget(
                 hasClearButton: true,
                 placeType: PlaceType.address,
-                placeholder: getTranslated(context,"look_for_your_location"),
+                placeholder: getTranslated(context, "look_for_your_location"),
                 icon: CustomIcons.search,
-                iconColor: Color(0xFF00041D),
+                iconColor: accent,
                 apiKey: 'AIzaSyBUILBxCa5yyQZawAAOpD6HII48R3haimM',
                 onSelected: (Place place) async {
                   Geolocation geolocation = await place.geolocation;
-                  GoogleMapController mapController = await _mapController.future ;
+                  GoogleMapController mapController =
+                      await _mapController.future;
                   mapController.animateCamera(
                       CameraUpdate.newLatLng(geolocation.coordinates));
                   mapController.animateCamera(
@@ -76,7 +81,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
               ),
               Spacer(),
               InkWell(
-                onTap: (){
+                onTap: () {
                   _currentLocation();
                 },
                 child: Container(
@@ -84,10 +89,10 @@ class _AddNewAddressState extends State<AddNewAddress> {
                   width: 48,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white,
+                      color: white,
                       boxShadow: [
                         BoxShadow(
-                            color: Colors.black.withOpacity(.16),
+                            color: black.withOpacity(.16),
                             offset: Offset(0, 3),
                             blurRadius: 6,
                             spreadRadius: 2)
@@ -97,7 +102,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                     children: [
                       Icon(
                         Icons.location_searching_rounded,
-                        color: Color(0xFF00041D),
+                        color: accent,
                         size: 30,
                       ),
                       Container(
@@ -105,7 +110,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         width: 6,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Theme.of(context).primaryColor,
+                          color: primary,
                         ),
                       ),
                     ],
@@ -113,24 +118,10 @@ class _AddNewAddressState extends State<AddNewAddress> {
                 ),
               ),
               SizedBox(height: 30),
-              Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width * .9,
-                child: RaisedButton(
-                  onPressed: () {},
-                  child: Text(
-                    getTranslated(context,"submit_address"),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  color: Theme.of(context).primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                  ),
-                ),
-
+              AppButton(
+                title: 'submit_address',
+                width: 0.9.sw,
+                onPressed: () {},
               ),
               SizedBox(height: 65),
             ],
@@ -139,11 +130,11 @@ class _AddNewAddressState extends State<AddNewAddress> {
       ),
     );
   }
-  Widget _appBar(){
+
+  Widget _appBar() {
     return AppBar(
-      backgroundColor: Colors.white,
-      title: Text(
-          getTranslated(context,"add_new_address")),
+      backgroundColor: white,
+      title: Text(getTranslated(context, "add_new_address")),
       centerTitle: true,
       leading: IconButton(
         onPressed: () {
@@ -151,26 +142,26 @@ class _AddNewAddressState extends State<AddNewAddress> {
         },
         icon: Icon(
           Icons.arrow_back,
-          color: Color(0xFF00041D),
+          color: accent,
         ),
       ),
     );
   }
 
-   _createMarker(GoogleMapController controller ,LatLng latLng ){
-    LatLng markerLatLng = latLng ;
+  _createMarker(GoogleMapController controller, LatLng latLng) {
+    LatLng markerLatLng = latLng;
     markers.add(Marker(
       markerId: MarkerId("0"),
       position: markerLatLng,
       icon: markerIcon,
-      onTap: (){
-          controller.showMarkerInfoWindow(MarkerId("0"));
-     },
-     infoWindow: InfoWindow(title: markerLatLng.toString()),
-     draggable: true ,
-     onDragEnd: (endLatLang){
+      onTap: () {
+        controller.showMarkerInfoWindow(MarkerId("0"));
+      },
+      infoWindow: InfoWindow(title: markerLatLng.toString()),
+      draggable: true,
+      onDragEnd: (endLatLang) {
         setState(() {
-          markerLatLng = endLatLang ;
+          markerLatLng = endLatLang;
         });
       },
     ));

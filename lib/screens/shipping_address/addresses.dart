@@ -7,11 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:yagot_app/constants/colors.dart';
 import 'package:yagot_app/models/address.dart';
-import 'package:yagot_app/models/product/product.dart';
-import 'package:yagot_app/models/user.dart';
 import 'package:yagot_app/screens/buying_product/buying_screen.dart';
-import 'package:yagot_app/screens/buying_product/pay_cash.dart';
-import 'package:yagot_app/screens/shared/remove_sheet.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
+import 'package:yagot_app/screens/common/widgets/remove_sheet.dart';
 import 'package:yagot_app/screens/shipping_address/add_new_address.dart';
 import 'package:yagot_app/screens/shipping_address/edit_address.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
@@ -158,7 +156,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
       width: MediaQuery.of(context).size.width * .85,
       decoration: BoxDecoration(
           color: white,
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(6.r),
           boxShadow: [
             BoxShadow(
               color: blue2.withOpacity(.1),
@@ -166,7 +164,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
               blurRadius: 6,
             )
           ]),
-      padding: EdgeInsets.all(20.h),
+      padding: EdgeInsets.all(20.r),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -263,7 +261,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
         height: 130.h,
         decoration: BoxDecoration(
             color: red1,
-            borderRadius: BorderRadius.horizontal(right: Radius.circular(8))),
+            borderRadius: BorderRadius.horizontal(right: Radius.circular(8.r))),
         child: Align(
           child: SvgPicture.asset(
             "assets/icons/remove.svg",
@@ -355,49 +353,22 @@ class EmptyAddresses extends StatelessWidget {
           ),
         ),
         Spacer(flex: 1),
-        _addAddressButton(context),
+        AppButton(
+          title: 'add_new_address',
+            onPressed:() {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return AddNewAddress();
+                  },
+                ),
+              );
+            },
+          width: 0.9.sw,
+        ),
         Spacer(flex: 4),
       ],
-    );
-  }
-
-  Widget _addAddressButton(BuildContext context) {
-    return Container(
-      height: 50.h,
-      width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.symmetric(horizontal: 30.w),
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: accent.withOpacity(.16),
-            offset: Offset(0, 3),
-            blurRadius: 6,
-          )
-        ],
-      ),
-      child: RaisedButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return AddNewAddress();
-              },
-            ),
-          );
-        },
-        child: Text(
-          getTranslated(context, "add_new_address"),
-          style: TextStyle(
-            color: white,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        color: primary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
-      ),
     );
   }
 }

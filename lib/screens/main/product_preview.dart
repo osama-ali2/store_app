@@ -1,26 +1,27 @@
+import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:yagot_app/models/product/product.dart';
 import 'package:yagot_app/constants/colors.dart';
+import 'package:yagot_app/models/home/client.dart';
+import 'package:yagot_app/models/product/product.dart';
+import 'package:yagot_app/models/product/product_details.dart';
+import 'package:yagot_app/providers/general_provider.dart';
+import 'package:yagot_app/screens/common/widgets/contact_button.dart';
 import 'package:yagot_app/screens/conversations/single_conversation.dart';
-import 'package:yagot_app/screens/shared/app_button.dart';
-import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
-import 'package:yagot_app/utilities/helper_functions.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
+import 'package:yagot_app/screens/common/widgets/product_card.dart';
 import 'package:yagot_app/screens/shipping_address/shipping_screen.dart';
 import 'package:yagot_app/screens/show_product/profile_preview.dart';
-import 'package:yagot_app/providers/general_provider.dart';
-import 'package:provider/provider.dart';
-import 'package:yagot_app/models/product/product_details.dart';
-import 'package:yagot_app/screens/shared/product_card.dart';
-import 'package:yagot_app/models/home/client.dart';
-import 'package:dots_indicator/dots_indicator.dart';
-import 'package:carousel_slider/carousel_controller.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:yagot_app/utilities/helper_functions.dart';
+import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
 
 class ProductPreview extends StatefulWidget {
   final int id;
@@ -97,8 +98,7 @@ class _ProductPreviewState extends State<ProductPreview> {
                       Text(
                         details.title,
                         style: TextStyle(
-                          color: blue1,
-                          fontFamily: "NeoSansArabic",
+                          color: accent,
                           fontWeight: FontWeight.bold,
                           fontSize: 20.sp,
                         ),
@@ -152,13 +152,25 @@ class _ProductPreviewState extends State<ProductPreview> {
                   Row(
                     children: [
                       Spacer(),
-                      _contactButton(getTranslated(context, "send_message"),
-                          "assets/icons/message.svg", _goToMessage),
+                      ContactButton(
+                        titleKey: 'send_message',
+                        iconPath: 'message.svg',
+                        color: white1,
+                        borderColor: primary,
+                        textColor: primary,
+                        onPressed: _goToMessage,
+                      ),
                       SizedBox(width: 20.w),
-                      _contactButton(getTranslated(context, "call"),
-                          "assets/icons/phone_call.svg", () async {
-                        await _goToPhoneApp(product.client.fullMobile);
-                      }),
+                      ContactButton(
+                        titleKey: 'call',
+                        iconPath: 'phone_call.svg',
+                        color: white1,
+                        borderColor: primary,
+                        textColor: primary,
+                        onPressed: (){
+                          _goToPhoneApp(product.client.fullMobile);
+                        },
+                      ),
                       Spacer(),
                     ],
                   ),
@@ -209,7 +221,7 @@ class _ProductPreviewState extends State<ProductPreview> {
       brightness: Brightness.dark,
       pinned: true,
       elevation: 0,
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: primary,
       expandedHeight: MediaQuery.of(context).size.height * .4,
       actions: [
         IconButton(
@@ -240,10 +252,10 @@ class _ProductPreviewState extends State<ProductPreview> {
           height: 50.h,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: white,
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30.w),
-              topRight: Radius.circular(30.w),
+              topLeft: Radius.circular(30.r),
+              topRight: Radius.circular(30.r),
             ),
           ),
         ),
@@ -331,8 +343,7 @@ class _ProductPreviewState extends State<ProductPreview> {
     return Text(
       subtitle,
       style: TextStyle(
-        color: blue1,
-        fontFamily: "NeoSansArabic",
+        color: accent,
         fontWeight: FontWeight.bold,
         fontSize: 16.sp,
       ),
@@ -343,14 +354,14 @@ class _ProductPreviewState extends State<ProductPreview> {
     return GestureDetector(
       onTap: () {
         print(client.image);
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) {
-        //       return ProfilePreview(client: client);
-        //     },
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return ProfilePreview(client: client);
+            },
+          ),
+        );
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -369,7 +380,6 @@ class _ProductPreviewState extends State<ProductPreview> {
                       client.name,
                       style: TextStyle(
                         color: accent,
-                        fontFamily: "NeoSansArabic",
                         fontWeight: FontWeight.w600,
                         fontSize: 14.sp,
                         decoration: TextDecoration.none,
@@ -388,7 +398,6 @@ class _ProductPreviewState extends State<ProductPreview> {
                   client.clientType ?? '',
                   style: TextStyle(
                     color: grey2,
-                    fontFamily: "NeoSansArabic",
                     fontWeight: FontWeight.w100,
                     fontSize: 12.sp,
                     decoration: TextDecoration.none,
@@ -416,7 +425,8 @@ class _ProductPreviewState extends State<ProductPreview> {
           image: imageUrl,
           fit: BoxFit.cover,
           alignment: Alignment.center,
-          imageErrorBuilder: (context, error, stackTrace) => Image.asset('assets/images/place_holder.png'),
+          imageErrorBuilder: (context, error, stackTrace) =>
+              Image.asset('assets/images/place_holder.png'),
         ),
       ),
     );
@@ -430,7 +440,7 @@ class _ProductPreviewState extends State<ProductPreview> {
       color: white1,
       shape: RoundedRectangleBorder(
         side: BorderSide(color: primary, width: 1),
-        borderRadius: BorderRadius.circular(25.w),
+        borderRadius: BorderRadius.circular(25.r),
       ),
       onPressed: onPressed,
       child: Row(
@@ -474,7 +484,7 @@ class _ProductPreviewState extends State<ProductPreview> {
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: blue1,
+            color: accent,
             blurRadius: 6,
             spreadRadius: 0,
           ),
@@ -488,7 +498,7 @@ class _ProductPreviewState extends State<ProductPreview> {
           },
           icon: Icon(
             isFav ? Icons.favorite_rounded : Icons.favorite_border,
-            color: blue1,
+            color: accent,
             size: 20,
           )),
     );

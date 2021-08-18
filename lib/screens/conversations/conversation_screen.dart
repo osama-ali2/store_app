@@ -1,13 +1,11 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:yagot_app/constants/colors.dart';
-import 'package:yagot_app/models/conversation.dart';
-import 'package:yagot_app/models/product/product.dart';
 import 'package:yagot_app/screens/conversations/single_conversation.dart';
 import 'package:yagot_app/utilities/custom_icons.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ConversationsScreen extends StatefulWidget {
   @override
@@ -75,7 +73,6 @@ class _ConversationsScreenState extends State<ConversationsScreen>
                   },
                   itemCount: 5,
                   padding: EdgeInsets.symmetric(vertical: 20.h),
-                  physics: BouncingScrollPhysics(),
                 ),
                 ListView.builder(
                   itemBuilder: (context, position) {
@@ -83,7 +80,6 @@ class _ConversationsScreenState extends State<ConversationsScreen>
                   },
                   itemCount: 5,
                   padding: EdgeInsets.symmetric(vertical: 20.h),
-                  physics: BouncingScrollPhysics(),
                 ),
               ],
             ),
@@ -108,7 +104,7 @@ class _ConversationsScreenState extends State<ConversationsScreen>
       width: 315.w,
       height: 50.h,
       decoration: BoxDecoration(
-          color: Color(0xFFD6DCE9), borderRadius: BorderRadius.circular(25.w)),
+          color: grey8, borderRadius: BorderRadius.circular(25.r)),
     );
   }
 
@@ -121,7 +117,7 @@ class _ConversationsScreenState extends State<ConversationsScreen>
             color: white,
             fontWeight: FontWeight.bold),
         unselectedLabelStyle: TextStyle(
-            color: blue1),
+            color: accent),
         unselectedLabelColor: accent,
         tabs: List.generate(tabs.length, (index) {
           return Text(getTranslated(context, tabs[index]));
@@ -218,12 +214,12 @@ class _ConversationsScreenState extends State<ConversationsScreen>
               height: 20.h,
               width: 20.w,
               decoration: BoxDecoration(
-                  color: Colors.red, shape: BoxShape.circle),
+                  color: red2, shape: BoxShape.circle),
               child: Center(
                 child: Text(
                   "2",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: white,
                     fontSize: 12.sp,
                   ),
                 ),

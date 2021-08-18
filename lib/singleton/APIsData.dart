@@ -1,28 +1,23 @@
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:yagot_app/models/auth/login_data_model.dart';
+import 'package:yagot_app/models/base_response_model.dart';
 import 'package:yagot_app/models/home/category_model.dart';
 import 'package:yagot_app/models/home/home_part_model.dart';
-import 'package:yagot_app/models/LoginRegister/login_details_model.dart';
 import 'package:yagot_app/models/product/product.dart';
 import 'package:yagot_app/models/product/product_details.dart';
-import 'package:yagot_app/singleton/AppSP.dart';
-import 'package:yagot_app/singleton/dio.dart';
+import 'package:yagot_app/models/profile/profile_data.dart';
 import 'package:yagot_app/models/settings/settings_model.dart';
+import 'package:yagot_app/utilities/custom_exceptions.dart';
 
 class APIsData {
   String url = "https://yagot.tejaratek.com/";
-
   Dio client;
 
   APIsData({@required this.client});
-  
-  _setAuthorizationHeader(String token){
-    client.options.headers.addAll({'Authorization' : token}) ;
-  }
-  _removeAuthorizationHeader(){
-    client.options.headers.remove('Authorization') ;
-  }
+
   // ignore: missing_return
   // Future<List<SliderModel>> getBanners() async {
   //   final response = await client.get('$url/api/home');
@@ -96,63 +91,86 @@ class APIsData {
     }
   }
 
-  createNewAccount(Map data) async {
-    final response = await client.post('$url/api/auth/signup', data: FormData.fromMap({}));
-    if (response != null && response.data != null) {
+  login(Map<String, String> data) async {
+    final response =
+        await client.post('$url/api/auth/login', data: FormData.fromMap(data));
+    if (response != null) {
       Map<String, dynamic> jsonData = jsonDecode(response.toString());
-      if (jsonData['data'] != null) {
-        return ProductModel.fromJson(jsonData['data']);
-      }
-    }
-  }
-  // ignore: missing_return
-  Future<LoginDataModel> login(Map<String,String> data) async {
-    final response = await client.post('$url/api/auth/login', data: FormData.fromMap(data));
-    if (response != null && response.data != null && response.statusCode == 200) {
-      Map<String, dynamic> jsonData = jsonDecode(response.toString());
-      if (jsonData['data'] != null) {
-        print(response);
-        getIt<AppSharedPreferences>().setToken(jsonData['data']['token']);
-        getIt<AppSharedPreferences>().preferences.reload();
-        _setAuthorizationHeader(jsonData['data']['token']);
+      print(jsonData);
+      if (response.data != null && response.statusCode == 200) {
         return LoginDataModel.fromJson(jsonData['data']);
-      }
-    }
-  }
-  // ignore: missing_return
-  Future<LoginDataModel> signUp(Map<String,String> data) async {
-    final response = await client.post('$url/api/auth/signup', data: FormData.fromMap(data));
-    if (response != null && response.data != null && response.statusCode == 200) {
-      Map<String, dynamic> jsonData = jsonDecode(response.toString());
-      if (jsonData['status'] && jsonData['data'] != null) {
-        print(response);
-        getIt<AppSharedPreferences>().setToken(jsonData['data']['token']);
-        getIt<AppSharedPreferences>().preferences.reload();
-        _setAuthorizationHeader(jsonData['data']['token']);
-        return LoginDataModel.fromJson(jsonData['data']);
-      }
-    }
-  }
-  logout()async{
-    print(client.options.headers);
-    final response = await client.post('$url/api/auth/logout');
-    if (response != null && response.data != null) {
-      Map<String, dynamic> jsonData = jsonDecode(response.toString());
-      if (jsonData['message'] != null) {
-        getIt<AppSharedPreferences>().setToken('');
-        getIt<AppSharedPreferences>().preferences.reload();
-        _removeAuthorizationHeader();
-        return jsonData['message'] ;
+      } else {
+        throw ResponseException(
+            BaseResponseModel.fromJson(jsonData), response.statusCode);
       }
     }
   }
 
-  getSettings() async {
-    final response = await client.get('$url/api/getSetting');
-    if (response != null && response.data != null) {
+  signUp(Map<String, String> data) async {
+    final response =
+        await client.post('$url/api/auth/signup', data: FormData.fromMap(data));
+    if (response != null) {
       Map<String, dynamic> jsonData = jsonDecode(response.toString());
-      if (jsonData['status']) {
+      if (response.data != null && response.statusCode == 200) {
+        return LoginDataModel.fromJson(jsonData['data']);
+      }else {
+        throw ResponseException(
+            BaseResponseModel.fromJson(jsonData), response.statusCode);
+      }
+    }
+  }
+
+  logout() async {
+    print(client.options.headers);
+    final response = await client.post('$url/api/auth/logout');
+    if (response != null) {
+      Map<String, dynamic> jsonData = jsonDecode(response.toString());
+      if (response.data != null && response.statusCode == 200) {
+        return BaseResponseModel.fromJson(jsonData);
+      } else {
+        throw ResponseException(
+            BaseResponseModel.fromJson(jsonData), response.statusCode);
+      }
+    }
+  }
+
+   fetchSettings() async {
+    final response = await client.get('$url/api/getSetting');
+    if (response != null) {
+      Map<String, dynamic> jsonData = jsonDecode(response.toString());
+      if (response.data != null && response.statusCode == 200) {
         return SettingsModel.fromJson(jsonData['data']);
+      }else{
+        throw ResponseException(BaseResponseModel.fromJson(jsonData), response.statusCode);
+      }
+    }
+  }
+
+// ignore: missing_return
+  fetchProfile() async {
+    final response = await client.get('$url/api/profile');
+    if (response != null) {
+      Map<String, dynamic> jsonData = jsonDecode(response.toString());
+      if (response.data != null && response.statusCode == 200) {
+        return ProfileDataModel.fromJson(jsonData['data']);
+      } else {
+        throw ResponseException(
+            BaseResponseModel.fromJson(jsonData), response.statusCode);
+      }
+    }
+  }
+
+  postProduct(Map<String, dynamic> data) async {
+    final response = await client.post('$url/api/products/addProduct',
+        data: FormData.fromMap(data));
+    print(response.toString() + "response");
+    if (response != null) {
+      if (response.data != null && response.statusCode == 200) {
+        Map<String, dynamic> jsonData = jsonDecode(response.toString());
+        if (jsonData['status'] && jsonData['data'] != null) {
+          print(response);
+          return jsonData['data'];
+        }
       }
     }
   }

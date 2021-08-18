@@ -102,7 +102,7 @@ class _SearchScreenState extends State<SearchScreen> {
             margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
             decoration: BoxDecoration(
               color: white,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(8.r),
               boxShadow: [
                 BoxShadow(
                   color: accent.withOpacity(.06),
@@ -127,7 +127,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       currentProduct.details.title,
                       style: TextStyle(
                         color: accent,
-                        fontFamily: "NeoSansArabic",
                         fontWeight: FontWeight.bold,
                         fontSize: 14.sp,
                       ),
@@ -135,7 +134,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     SizedBox(height: 12.h),
                     Text(
                       currentProduct.details.dateTime,
-                      style: Theme.of(context).textTheme.headline2,
+                      style: TextStyle(
+                        color: grey2,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.normal,
+                      ),
                     ),
                   ],
                 ),
@@ -144,7 +147,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   currentProduct.details.price,
                   style: TextStyle(
                     color: grey2,
-                    fontFamily: "NeoSansArabic",
                     fontWeight: FontWeight.w500,
                     fontSize: 14.sp,
                   ),
@@ -155,7 +157,6 @@ class _SearchScreenState extends State<SearchScreen> {
           );
         },
         itemCount: products.length,
-        physics: BouncingScrollPhysics(),
         padding: EdgeInsets.only(bottom: 60.h),
       ),
     );
@@ -165,7 +166,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return TextField(
       decoration: InputDecoration(
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.r),
           borderSide: BorderSide(
             color: accent.withOpacity(.20),
             width: 1,

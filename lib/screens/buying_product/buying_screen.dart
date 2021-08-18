@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yagot_app/constants/colors.dart';
-
-import 'package:yagot_app/models/product/product.dart';
 import 'package:yagot_app/screens/buying_product/payment_methods.dart';
-import 'package:yagot_app/screens/shared/app_button.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
 import 'package:yagot_app/screens/shipping_address/edit_address.dart';
 import 'package:yagot_app/screens/shipping_address/shipping_screen.dart';
 import 'package:yagot_app/utilities/custom_icons.dart';
 import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BuyingScreen extends StatelessWidget {
   @override
@@ -17,7 +14,7 @@ class BuyingScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: transparent,
         title: Text(
           getTranslated(context, "payment"),
         ),
@@ -53,7 +50,7 @@ class BuyingScreen extends StatelessWidget {
               ],
             ),
             child: Padding(
-              padding: EdgeInsets.all(30.h),
+              padding: EdgeInsets.all(30.r),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -152,7 +149,7 @@ class BuyingScreen extends StatelessWidget {
               image: DecorationImage(
                   image: ExactAssetImage('assets/images/product1.png'),
                   fit: BoxFit.cover),
-              borderRadius: BorderRadius.circular(6),
+              borderRadius: BorderRadius.circular(6.r),
             ),
           ),
           SizedBox(width: 10.w),

@@ -1,20 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:yagot_app/models/product/product.dart';
-import 'package:yagot_app/models/settings/InformationModel.dart';
-import 'package:yagot_app/models/settings/settings_model.dart';
-import 'package:yagot_app/screens/shared/app_button.dart';
-import 'package:yagot_app/screens/auth/phone_verify.dart';
-import 'package:yagot_app/screens/others/info_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yagot_app/utilities/helper_functions.dart';
-import 'package:yagot_app/constants/colors.dart';
-import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
-import 'package:yagot_app/providers/general_provider.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:provider/provider.dart';
-import 'package:email_validator/email_validator.dart';
-import 'package:yagot_app/models/LoginRegister/login_details_model.dart';
+import 'package:yagot_app/constants/colors.dart';
+import 'package:yagot_app/models/settings/InformationModel.dart';
+import 'package:yagot_app/providers/general_provider.dart';
+import 'package:yagot_app/screens/common/widgets/app_button.dart';
+import 'package:yagot_app/screens/common/widgets/app_text_field.dart';
+import 'package:yagot_app/screens/others/info_page.dart';
+import 'package:yagot_app/utilities/field_decoration.dart';
+import 'package:yagot_app/utilities/helper_functions.dart';
+import 'package:yagot_app/utilities/none_glow_scroll_behavior.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -22,26 +19,22 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  TextEditingController userNameCtr,
-      emailCtr,
-      phoneCtr,
-      passwordCtr,
-      confirmPasswordCtr;
-  String userName, email, phone, password, confirmPassword;
+  TextEditingController _username, _email, _phone, _password, _cPassword;
   FocusNode node1, node2, node3, node4, node5, node6, node7;
   bool obscurePassword = true;
-  bool obscureConPassword = true;
+  bool obscureCPassword = true;
   final _formKey = GlobalKey<FormState>();
   int countryValue, zoneValue;
+  bool loading = false;
 
   @override
   void initState() {
     super.initState();
-    userNameCtr = TextEditingController();
-    emailCtr = TextEditingController();
-    phoneCtr = TextEditingController();
-    passwordCtr = TextEditingController();
-    confirmPasswordCtr = TextEditingController();
+    _username = TextEditingController();
+    _email = TextEditingController();
+    _phone = TextEditingController();
+    _password = TextEditingController();
+    _cPassword = TextEditingController();
     node1 = FocusNode();
     node2 = FocusNode();
     node3 = FocusNode();
@@ -49,16 +42,17 @@ class _RegisterState extends State<Register> {
     node5 = FocusNode();
     node6 = FocusNode();
     node7 = FocusNode();
+    context.read<GeneralProvider>().getSettings(context, () {}, () {});
   }
 
   @override
   void dispose() {
     super.dispose();
-    userNameCtr.dispose();
-    emailCtr.dispose();
-    phoneCtr.dispose();
-    passwordCtr.dispose();
-    confirmPasswordCtr.dispose();
+    _username.dispose();
+    _email.dispose();
+    _phone.dispose();
+    _password.dispose();
+    _cPassword.dispose();
   }
 
   @override
@@ -95,82 +89,115 @@ class _RegisterState extends State<Register> {
         key: _formKey,
         child: Consumer<GeneralProvider>(
           builder: (context, provider, child) {
-            return ListView(
-              children: [
-                _subtitle('user_name'),
-                SizedBox(height: 10.h),
-                _textField("user_name", "user_name_error_message", userNameCtr,
-                    Fields.USER_NAME, node1, node2),
-                SizedBox(height: 20.h),
-                _subtitle('email'),
-                SizedBox(height: 10.h),
-                _textField("email", "empty_email_error_message", emailCtr,
-                    Fields.EMAIL, node2, node3),
-                SizedBox(height: 20.h),
-                _subtitle('phone'),
-                SizedBox(height: 10.h),
-                _phoneField(),
-                SizedBox(height: 20.h),
-                _subtitle("country"),
-                SizedBox(height: 10.h),
-                _dropDownButton("choose_country", true, node4, node5, provider),
-                SizedBox(height: 20.h),
-                _subtitle("city"),
-                SizedBox(height: 10.h),
-                _dropDownButton("choose_city", false, node5, node6, provider),
-                SizedBox(height: 20.h),
-                _subtitle('password'),
-                SizedBox(height: 10.h),
-                _textField("password", "password_error_message", passwordCtr,
-                    Fields.PASSWORD, node6, node7),
-                SizedBox(height: 20.h),
-                _subtitle('confirm_password'),
-                SizedBox(height: 10.h),
-                _textField("confirm_password", "password_error_message",
-                    confirmPasswordCtr, Fields.CONFIRM_PASSWORD, node7, null),
-                SizedBox(height: 40.h),
-                _text(context),
-                _pressedText(context, provider.settingsModel.policyPrivacy),
-                SizedBox(height: 40.h),
-                AppButton(
-                  title: "create_new_account",
-                  onPressed: () {
-                    userName = userNameCtr.text;
-                    email = emailCtr.text;
-                    phone = phoneCtr.text.trim();
-                    password = passwordCtr.text;
-                    confirmPassword = confirmPasswordCtr.text;
-                    int countryId =
-                        provider.settingsModel.countries[countryValue].id;
-                    String countryCode = provider
-                        .settingsModel.countries[countryValue].countryCode;
-                    int zoneId = provider.settingsModel.zones[zoneValue].id;
-                    String fcmToken = '';
-                    if (_formKey.currentState.validate()) {
-                      Map<String, String> data = {
-                        'name': userName,
-                        'country_id': countryId.toString(),
-                        'zone_id': zoneId.toString(),
-                        'mobile': phone,
-                        'password': password,
-                        'cpassword': confirmPassword,
-                        'country_code': countryCode,
-                        'fcm_token': fcmToken,
-                        'email': email
-                      };
-                      print(data);
-                      LoginDataModel loginData = provider.singUp(data);
-                      if (loginData != null) {
-                        print(loginData.token);
-                      }
-                    }
-                  },
+            return SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.only(
+                    top: 40.h, bottom: 120.h, right: 30.w, left: 30.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _subtitle('user_name'),
+                    SizedBox(height: 10.h),
+                    AppTextField(
+                      hintKey: 'user_name',
+                      errorKey: 'user_name_error_message',
+                      controller: _username,
+                      node: node1,
+                      nextNode: node2,
+                    ),
+                    SizedBox(height: 20.h),
+                    _subtitle('email'),
+                    SizedBox(height: 10.h),
+                    AppTextField(
+                      hintKey: 'email',
+                      errorKey: 'empty_email_error_message',
+                      controller: _email,
+                      node: node2,
+                      nextNode: node3,
+                    ),
+                    SizedBox(height: 20.h),
+                    _subtitle('phone'),
+                    SizedBox(height: 10.h),
+                    _phoneField(),
+                    SizedBox(height: 20.h),
+                    _subtitle("country"),
+                    SizedBox(height: 10.h),
+                    _dropDownButton(
+                        "choose_country", true, node4, node5, provider),
+                    SizedBox(height: 20.h),
+                    _subtitle("city"),
+                    SizedBox(height: 10.h),
+                    _dropDownButton(
+                        "choose_city", false, node5, node6, provider),
+                    SizedBox(height: 20.h),
+                    _subtitle('password'),
+                    SizedBox(height: 10.h),
+                    AppTextField(
+                      hintKey: 'password',
+                      errorKey: 'password_error_message',
+                      controller: _password,
+                      node: node6,
+                      nextNode: node7,
+                      isObscured: obscurePassword,
+                    ),
+                    SizedBox(height: 20.h),
+                    _subtitle('confirm_password'),
+                    SizedBox(height: 10.h),
+                    AppTextField(
+                      hintKey: 'confirm_password',
+                      errorKey: 'password_error_message',
+                      controller: _cPassword,
+                      node: node7,
+                      nextNode: null,
+                      isObscured: obscureCPassword,
+                    ),
+                    SizedBox(height: 40.h),
+                    _text(context),
+                    _pressedText(context, provider.policyPrivacy),
+                    SizedBox(height: 40.h),
+                    AppButton(
+                      title: "create_new_account",
+                      loading: loading,
+                      onPressed: () {
+
+                        if (_formKey.currentState.validate()) {
+                          int countryId = provider.countries[countryValue].id;
+                          String countryCode =
+                              provider.countries[countryValue].countryCode;
+                          int zoneId = provider.zones[zoneValue].id;
+                          String fcmToken = '';
+                          Map<String, String> data = {
+                            'name': _username.text,
+                            'country_id': countryId.toString(),
+                            'zone_id': zoneId.toString(),
+                            'mobile': _phone.text,
+                            'password': _password.text,
+                            'cpassword': _cPassword.text,
+                            'country_code': countryCode,
+                            'fcm_token': fcmToken,
+                            'email': _email.text,
+                          };
+                          print(data);
+                          setState(() {
+                            loading = true;
+                          });
+                          provider.singUp(context, data, () {
+                            setState(() {
+                              loading = false;
+                            });
+                          }, () {
+                            setState(() {
+                              loading = false;
+                            });
+                          });
+                        }
+                      },
+                    ),
+                    SizedBox(height: 40.h),
+                    _loginText(),
+                  ],
                 ),
-                SizedBox(height: 40.h),
-                _loginText(),
-              ],
-              padding: EdgeInsets.only(
-                  top: 40.h, bottom: 120.h, right: 30.w, left: 30.w),
+              ),
             );
           },
         ),
@@ -181,7 +208,7 @@ class _RegisterState extends State<Register> {
   InternationalPhoneNumberInput _phoneField() {
     return InternationalPhoneNumberInput(
       onInputChanged: null,
-      textFieldController: phoneCtr,
+      textFieldController: _phone,
       validator: (input) {
         int n = int.tryParse(input);
         if (input.isEmpty || input.trim().length < 9 || n == null) {
@@ -196,7 +223,7 @@ class _RegisterState extends State<Register> {
       focusNode: node3,
       formatInput: true,
       ignoreBlank: true,
-      inputDecoration: _decoration("phone_hint"),
+      inputDecoration: FieldDecoration(hint: getTranslated(context, 'phone_hint')),
       maxLength: 11,
       countries: ["SA"],
     );
@@ -206,89 +233,13 @@ class _RegisterState extends State<Register> {
     return Text(getTranslated(context, textKey));
   }
 
-  InputDecoration _decoration(String hintKey) {
-    return InputDecoration(
-      hintText: getTranslated(context, hintKey),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.h),
-        borderSide: BorderSide(color: accent.withOpacity(.2), width: 1),
-      ),
-    );
-  }
-
-  _textField(String hintKey, String errorKey, TextEditingController controller,
-      Fields field, FocusNode node, FocusNode nextNode) {
-    return Stack(
-      alignment: AlignmentDirectional.topEnd,
-      children: [
-        TextFormField(
-          controller: controller,
-          obscureText: (field == Fields.PASSWORD)
-              ? obscurePassword
-              : (field == Fields.CONFIRM_PASSWORD)
-                  ? obscureConPassword
-                  : false,
-          decoration: _decoration(hintKey),
-          focusNode: node,
-          onFieldSubmitted: (input) {
-            if (field == Fields.CONFIRM_PASSWORD) {
-              FocusScope.of(context).unfocus();
-            } else {
-              FocusScope.of(context).requestFocus(nextNode);
-            }
-          },
-          textInputAction: (field == Fields.CONFIRM_PASSWORD)
-              ? TextInputAction.done
-              : TextInputAction.next,
-          keyboardType: (field == Fields.EMAIL)
-              ? TextInputType.emailAddress
-              : TextInputType.text,
-          validator: (input) {
-            if (input.isEmpty) {
-              return getTranslated(context, errorKey);
-            }
-            if (field == Fields.EMAIL && !EmailValidator.validate(input)) {
-              return getTranslated(context, "invalid_email_error_message");
-            }
-            if (field == Fields.CONFIRM_PASSWORD &&
-                password != confirmPassword) {
-              return getTranslated(context, "password_is_not_identical");
-            }
-            return null;
-          },
-        ),
-        (field == Fields.PASSWORD || field == Fields.CONFIRM_PASSWORD)
-            ? IconButton(
-                splashRadius: 20,
-                onPressed: () {
-                  setState(() {
-                    field == Fields.PASSWORD
-                        ? obscurePassword = !obscurePassword
-                        : obscureConPassword = !obscureConPassword;
-                  });
-                },
-                icon: Icon(
-                  field == Fields.PASSWORD
-                      ? (obscurePassword)
-                          ? Icons.visibility
-                          : Icons.visibility_off
-                      : (obscureConPassword)
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                ),
-                padding: EdgeInsets.symmetric(vertical: 15.h),
-              )
-            : Container(),
-      ],
-    );
-  }
-
   Widget _dropDownButton(String hintKey, bool isCountry, FocusNode node,
       FocusNode nextNode, GeneralProvider provider) {
     return DropdownButtonFormField(
       items:
           _buildDropDownItems(isCountry ? provider.countries : provider.zones),
       focusNode: node,
+
       onChanged: (value) {
         FocusScope.of(context).requestFocus(nextNode);
 
@@ -297,7 +248,7 @@ class _RegisterState extends State<Register> {
       iconEnabledColor: primary,
       value: isCountry ? countryValue : zoneValue,
       isExpanded: true,
-      decoration: _decoration(hintKey),
+      decoration: FieldDecoration(hint: getTranslated(context, hintKey)),
       validator: (value) {
         if (value == null) {
           return getTranslated(context, hintKey);
@@ -307,10 +258,10 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  List<DropdownMenuItem> _buildDropDownItems(List<String> choices) {
+  List<DropdownMenuItem> _buildDropDownItems(List choices) {
     return choices.map((choice) {
       return DropdownMenuItem(
-        child: Text(choice),
+        child: Text(choice.name),
         value: choices.indexOf(choice),
       );
     }).toList();
@@ -343,7 +294,6 @@ class _RegisterState extends State<Register> {
           style: TextStyle(
               color: blue5,
               fontSize: 11.sp,
-              fontFamily: "NeoSansArabic",
               decoration: TextDecoration.underline),
         ),
       ),
@@ -367,11 +317,4 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
-}
-
-enum Fields {
-  USER_NAME,
-  EMAIL,
-  PASSWORD,
-  CONFIRM_PASSWORD,
 }

@@ -214,6 +214,11 @@
   "date": "التاريخ",
   "invalid_email_error_message": "أدخل بريد الكتروني صحيح",
   "click_again_to_continue" : "اضغط مرة أخرى للمتابعة",
-  "unsupported" : "غير مدعوم"
-
+  "unsupported" : "غير مدعوم",
+  "add_main_image": "أدخل الصورة الرئيسية للاكمال",
+  "product_added_successfully": "تم إضافة المنتج بنجاح",
+  "close": "إغلاق",
+  "enter_other_details": "أدخل التفاصيل",
+  "general_error_message": "حدث خطأ ما. حاول مجددا",
+  "no_connection" : "لا يوجد اتصال بالشبكة"
 }
